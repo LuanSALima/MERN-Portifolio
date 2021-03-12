@@ -1,0 +1,32 @@
+{
+  "name": "Node.JS-Portifolio",
+  "version": "1.0.0",
+  "description": "Projeto criado utilizando MERN Stack - MongoDB Atlas, Express.JS, React.JS e Node.JS",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "start": "node server.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently -n 'server,client' -c 'red,green'  \"nodemon server.js\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuanSALima/Node.JS-Portifolio.git"
+  },
+  "keywords": [],
+  "author": "LuanSALima",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuanSALima/Node.JS-Portifolio/issues"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.0",
+    "nodemon": "^2.0.7"
+  }
+}
