@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path');
 
 require('dotenv').config();
 
@@ -22,6 +23,8 @@ connection.once('open', () => {
 
 const usersRouter = require('./routes/users.js');
 app.use('/api/users', usersRouter);
+
+app.use(express.static('client/build'));
 
 
 app.listen(port, () => {
