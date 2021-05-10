@@ -20,12 +20,15 @@ connection.once('open', () => {
 	console.log("MongoDB database connection established successfully");
 });
 
-
 const usersRouter = require('./routes/users.js');
 app.use('/api/users', usersRouter);
 
-app.use(express.static('client/build'));
+const authRouter = require('./routes/auth.js');
+app.use('/api/auth', authRouter);
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+}
 
 app.listen(port, () => {
 	console.log(`Server is running on port: ${port}`);
