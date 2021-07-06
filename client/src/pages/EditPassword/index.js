@@ -12,7 +12,6 @@ function EditAccount(props){
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
     const [errorMessage, setErrorMessage] = useState("");
-    const [errorActualPassword, setErrorActualPassword] = useState("");
     const [errorNewPassword, setErrorNewPassword] = useState("");
     const [errorConfirmNewPassword, setErrorConfirmNewPassword] = useState("");
 
@@ -65,7 +64,6 @@ function EditAccount(props){
                                 value={actualPassword}
                                 onChange={e => setActualPassword(e.target.value)}
                                 />
-                        <span className="text-danger">{errorActualPassword}</span>
                     </div>
 
                     <div className="form-group">

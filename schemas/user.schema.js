@@ -40,6 +40,11 @@ const userSchema = new Schema(
 	        message: "Senha muito fraca"
 	      }
 	    },
+	    role: {
+	    	type: String,
+			enum: ['Admin', 'User'],
+			required: [true, 'É necessário informar o tipo de usuário']
+	    },
 	    emailIsConfirmed: {
 			type: String,
 			default: "false"

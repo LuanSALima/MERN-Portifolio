@@ -1,31 +1,31 @@
-const jwt = require("jsonwebtoken"); /*Método para geração do token de autenticação*/
+const jwt = require('../helpers/jwt');
 
-module.exports = (request, response, next) => {
+module.exports = (roles = []) => {
   try {
-    //Primeiro fazer pequenas verificações com if porque elas consomem menos recurso do servidor e a função verify() pode acabar consumindo muito do servidor se for usadas muitas vezes
-
-    //Busca o token nos headers da requisição
-    const authHeader = request.headers.authorization;
-
-    //Se não possuir o token no header
-    if (!authHeader) {
-      throw new Error("No token provided");
+    // roles param can be a single role string (e.g. Role.User or 'User') 
+    // or an array of roles (e.g. [Role.Admin, Role.User] or ['Admin', 'User'])
+    if (typeof roles === 'string') {
+        roles = [roles];
     }
 
-    //Caso todas as verificações acima estiverem corretas, executa a função do jsonwebtoken
-    jwt.verify(authHeader, process.env.JWT_HASH, (err, decoded) => {
-      if (err) throw new Error("Token invalid");
-
-      //Adicionando o userId na requisição
-      request.userId = decoded.id;
-
-      //Indica que é possível avançar na requisição, ou seja, este middleware permite que a requisição acesse o controller
-      return next();
-    });
+    return [
+      (request, response, next) => {
+        if(jwt.checkToken(request)) {
+          if(roles.length && !roles.includes(request.user.role)) {
+            // user's role is not authorized
+            return response.status(401).json({ success: false, message: 'Não possui permissão para acessar esta função' });
+          }
+          // authentication and authorization successful
+          next();
+        } else {
+          return response.status(401).json({success: false, message: "É necessário estar logado para acessar esta função"});
+        }
+      }
+    ];
   } catch (error) {
-    return response.status(401).json({
+    return response.status(400).json({
       success: false,
-      message: error.message
-    });
+      message: "Erro de middleware: "+error.message
+    })
   }
 };

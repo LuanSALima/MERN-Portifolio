@@ -2,21 +2,16 @@ const router = require('express').Router();
 let User = require('../schemas/user.schema.js');
 
 const bcrypt = require("bcryptjs"); /*Método de encriptamento da senha*/
-const jwt = require("jsonwebtoken"); /*Método para geração do token de autenticação*/
+const jwtHelper = require("../helpers/jwt"); /*Método para geração do token de autenticação*/
 
-//Middleware criado para verificar se no header da requisição possui o token de autenticação
-const authMiddleware = require('../middlewares/auth.middleware');
+//Middleware criado para verificar se no header da requisição possui o token de autenticação e possui o tipo de usuário permitido
+const authorized = require('../middlewares/auth.middleware');
 
 const crypto = require('crypto');
 
 const handleError = require('../helpers/validation');
 
-//Método para gerar o token jwt, necessário passar o id
-function generateToken(id) {
-  return jwt.sign({ id: id }, process.env.JWT_HASH, {
-      expiresIn: 86400, /*(1 dia)Tempo em segundo para o expiramento do token*/
-    });
-}
+const Role = require('../helpers/roles');
 
 //Função Async pois é necessário esperar a pesquisa no BCD retornar.
 async function generateEmailToken() {
@@ -54,7 +49,7 @@ router.route('/authenticate').post( async (request, response) => {
       .json({
         success: true,
         user,
-        token: generateToken(user._id)
+        token: jwtHelper.generateToken(user._id, user.role)
       });
   } catch (error) {
     response
@@ -72,6 +67,7 @@ router.route('/signUp').post( async (request, response) => {
         username,
         email,
         password,
+        role: Role.User,
         emailConfirmToken: await generateEmailToken()
       });
 
@@ -104,7 +100,7 @@ router.route('/signUp').post( async (request, response) => {
 
 router.route('/testAuthMiddleware')
   .get(
-    authMiddleware, 
+    authorized(), 
     (request, response) => {
       response.status(200).json({
         success: true,
