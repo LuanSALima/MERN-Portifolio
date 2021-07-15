@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 import Navbar from "../../components/navbar.component";
 
@@ -19,6 +19,7 @@ class Dashboard extends Component {
 
 		this.state = {
 			error: "",
+			dataType: "",
 			tableColumns: [],
 			tableData: []
 		}
@@ -46,6 +47,7 @@ class Dashboard extends Component {
 
                 		this.setState({tableColumns: uniqueColumns});
                 	}
+                	this.setState({dataType: 'users'});
                     this.setState({tableData: response.data.users});
                 } else {
                     this.setState({error: response.data.message});
@@ -63,7 +65,7 @@ class Dashboard extends Component {
 
 	mountTable() {
 		return (
-			<Table striped bordered hover>
+			<Table striped bordered hover responsive>
 				<thead>
 					<tr>
 						{this.state.tableColumns.map((column, index) => {
@@ -73,11 +75,51 @@ class Dashboard extends Component {
 				</thead>
 				<tbody>
 					{this.state.tableData.map((data, index) => {
+
+						const removeItem = async e => {
+							e.preventDefault();
+
+							api.delete("api/" + this.state.dataType + "/" + data['_id'])
+								.then(response => {
+									if (response.data.success) {
+										let array = this.state.tableData; //Array com todos os itens da tabela
+
+										//Procurando o índice que possui o item que foi excluido para remover da váriavel 'array'
+										for(let contentIndex=0 ; contentIndex < array.length ; contentIndex++) {
+											if (array[contentIndex]._id === data['_id']) {
+											  array.splice(contentIndex, 1);
+
+											  this.setState({tableData: []}); //Utilizo isto para limpar o state e depois popular o state com a array atualizada
+											  this.setState({tableData: array}); //Alterando o State para a matriz que agora não possui o item que foi excluído
+											  break;
+											}
+										}
+									}
+								})
+								.catch(error => {
+									if(error.response.data.message) {
+					                    this.setState({error: error.response.data.message});
+					                } else {
+					                    alert("Ocorreu um erro Inesperado :(");
+					                }
+								});
+						}
+
 						return (
 							<tr key={index}>
 								{this.state.tableColumns.map((column, index) => {
 									return <td key={index}>{data[column]}</td>
 								})}
+								<td>
+									<Link to={this.state.dataType + "/editar/" + data['_id']} style={{ color: "green" }}>
+						            	Editar
+						            </Link>
+								</td>
+								<td>
+									<a href="#remover" onClick={removeItem} style={{ color: "red" }}>
+						            	Remover
+						            </a>
+								</td>
 							</tr>
 						);
 					})}

@@ -4,6 +4,14 @@ export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getUser = () => JSON.parse(localStorage.getItem(USER_KEY));
 
+export const isAdmin = () => {
+	if(getUser()) {
+		if(getUser().role === "Admin") {
+			return true;
+		}
+	}
+}
+
 export const updateUser = (username, email) => {
 	const user = getUser();
 	user.username = username;

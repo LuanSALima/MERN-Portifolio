@@ -21,7 +21,7 @@ export default class Header extends Component {
 					{isAuthenticated() 
 					?
 						<Nav>
-							<NavDropdown title={getUser() ? getUser().username : "Conta"} id="collasible-nav-dropdown">
+							<NavDropdown alignRight title={getUser() ? getUser().username : "Conta"} id="collasible-nav-dropdown">
 								<Link to="/editar-conta" className="dropdown-item">Editar Conta</Link>
 								<Link to="/alterar-senha" className="dropdown-item">Alterar Senha</Link>
 							</NavDropdown>

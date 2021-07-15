@@ -52,7 +52,7 @@ class SignIn extends Component {
 
 				if(response.data.success) {
 					login(response.data.token, response.data.user);
-					this.props.history.push("/dashboard");
+					this.props.history.push("/");
 				} else {
 					if(response.data.message) {
 						this.setState({error: response.data.message});

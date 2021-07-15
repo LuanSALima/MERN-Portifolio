@@ -56,11 +56,11 @@ router.route('/addAdmin').post( async (request, response) => {
     }
 });
 
-router.route('/update/:id').post(authorized(), async (request, response) => {
+router.route('/account/update').post(authorized(), async (request, response) => {
 	try {
 		const { username, email } = request.body;
 
-		const user = await User.findByIdAndUpdate(request.params.id, { username, email }, {
+		const user = await User.findByIdAndUpdate(request.user.id, { username, email }, {
 	        new: false,
 	        runValidators: true,
 	    }); // {new: false} Para retornar a versão antiga do bcd, {runValidators: true} Para validar os campos antes do update
@@ -124,7 +124,7 @@ router.route('/account').get(authorized(), async (request, response) => {
 	}
 });
 
-router.route('/:id').delete(authorized(), async (request, response) => {
+router.route('/:id').delete(authorized(Role.Admin), async (request, response) => {
 	try {
 		const user = await User.findByIdAndDelete(request.params.id);
 		
@@ -135,6 +135,47 @@ router.route('/:id').delete(authorized(), async (request, response) => {
 		return response.json({
 			'success': true,
 			'message': 'Usuário deletado!'
+		});
+
+	} catch (error) {
+		return response.status(400).json(handleError(error));
+	}
+});
+
+router.route('/:id').get(authorized(Role.Admin), async (request, response) => {
+	try {
+		const user = await User.findById(request.params.id);
+		
+		if (!user) {
+	        throw new Error("Usuário Não encontrado!");
+	    }
+
+		return response.json({
+			'success': true,
+			user
+		});
+
+	} catch (error) {
+		return response.status(400).json(handleError(error));
+	}
+});
+
+router.route('/update/:id').post(authorized(Role.Admin), async (request, response) => {
+	try {
+		const { username, email } = request.body;
+
+		const user = await User.findByIdAndUpdate(request.params.id, { username, email }, {
+	        new: false,
+	        runValidators: true,
+	    });
+
+		if (!user) {
+			throw new Error("Usuário não encontrado");
+		}
+			
+		return response.json({
+			'success': true,
+			'message': 'Usuário atualizado!'
 		});
 
 	} catch (error) {

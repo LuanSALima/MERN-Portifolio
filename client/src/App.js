@@ -5,7 +5,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { isAuthenticated, logout } from "./services/auth";
+import { isAuthenticated, isAdmin, logout } from "./services/auth";
 
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -14,6 +14,8 @@ import Dashboard from "./pages/Dashboard";
 import EditAccount from "./pages/EditAccount";
 import EditPassword from "./pages/EditPassword";
 import NotFound from "./pages/NotFound";
+import EditUser from './pages/EditUser';
+import Unauthorized from './pages/Unauthorized';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -23,6 +25,19 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
+      )
+    }
+  />
+);
+
+const AdminRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {... rest}
+    render={props =>
+      isAdmin() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/unauthorized", state: { from: props.location } }} />
       )
     }
   />
@@ -41,10 +56,14 @@ function App() {
           return <Redirect to={{ pathname: "/", state: { from: props.location } }} />
         }} 
         />
-        <PrivateRoute path="/dashboard" component={Dashboard} />
+        <AdminRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/editar-conta" component={EditAccount} />
         <PrivateRoute path="/alterar-senha" component={EditPassword} />
+        <AdminRoute path="/users/editar/:id" component={EditUser} />
+
+        <Route path="/unauthorized" component={Unauthorized}/>
         <Route path="*" component={NotFound} />
+        
       </Switch>
     </BrowserRouter>
   );

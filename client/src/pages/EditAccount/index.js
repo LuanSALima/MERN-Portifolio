@@ -9,7 +9,6 @@ import { updateUser } from "../../services/auth";
 
 function EditAccount(props){
 
-    const [userID, setUserId] = useState("");
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -18,9 +17,8 @@ function EditAccount(props){
 
     const handleEditAccount = e => {
         e.preventDefault();
-        
 
-        api.post("/api/users/update/"+userID, {username, email})
+        api.post("/api/users/account/update", {username, email})
             .then(response => {
                 if(response.data.success) {
                     updateUser(username, email);
@@ -53,7 +51,6 @@ function EditAccount(props){
         api.get("/api/users/account")
             .then(response => {
                 if (response.data.success) {
-                    setUserId(response.data.user._id);
                     setUsername(response.data.user.username);
                     setEmail(response.data.user.email);
                 } else {

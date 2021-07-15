@@ -61,7 +61,7 @@ class SignUp extends Component {
 				console.log(response.data);
 				
 				if(response.data.success) {
-					this.props.history.push("/");
+					this.props.history.push("/login");
 				} else {
 					if(response.data.message) {
 						this.setState({error: response.data.message});
