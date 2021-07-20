@@ -12,8 +12,12 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true})
-	.catch(err => console.log('Erro ao Conectar ao MongoDB: ' + err));
+mongoose.connect(uri, {
+	useNewUrlParser: true,
+	useCreateIndex: true,
+	useUnifiedTopology: true,
+	useFindAndModify: false, //Ao utilizar o método findByIdAndUpdate e findByIdAndDelete gerava um warning, isso remove o warning
+}).catch(err => console.log('Erro ao Conectar ao MongoDB: ' + err));
 
 const connection = mongoose.connection;
 connection.once('open', () => {

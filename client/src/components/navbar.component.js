@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
-import { isAuthenticated, getUser } from "../services/auth";
+import { isAuthenticated, getUser, isEmailConfirmed } from "../services/auth";
+
+import SendEmailToken from './sendEmailToken.component';
 
 export default class Header extends Component {
 
 	render() {
 		return (
+			<>
 			<Navbar expand="lg" bg="dark" variant="dark">
 				<Navbar.Brand>
 					<Link to="/" className="navbar-brand">Home</Link>
@@ -35,6 +38,8 @@ export default class Header extends Component {
 					}
 				</Navbar.Collapse>
 			</Navbar>
+			{(isAuthenticated() && !isEmailConfirmed()) && <SendEmailToken />}
+			</>
 		);
 	}
 

@@ -11,7 +11,7 @@ const handleError = (error) => {
 
     */
     if(error.kind === "ObjectId") {
-      message = "Não foi possível encontrar em nosso banco de dados";
+      message = "Não foi possível encontrar este usuário em nosso banco de dados";
     }
   }
 

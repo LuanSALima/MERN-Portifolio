@@ -67,27 +67,10 @@ router.route('/signUp').post( async (request, response) => {
         username,
         email,
         password,
-        role: Role.User,
-        emailConfirmToken: await generateEmailToken()
+        role: Role.User
       });
-
-      //Enviando e-mail com o token de confirmação de email
-      /*
-      mailer.sendMail({
-        to: user.email,
-        from: 'nodejsportifolio@gmail.com',
-        subject: 'Email Confirm',
-        template: 'confirm_email',
-        context: {
-          userName: user.name,
-          emailToken: user.emailConfirmToken,
-          link: process.env.CLIENT_URL
-        }
-      });
-      */
 
       user.password = undefined;
-      user.emailConfirmToken = undefined;
 
       return response.status(200).json({
         success: true,

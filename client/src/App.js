@@ -16,6 +16,7 @@ import EditPassword from "./pages/EditPassword";
 import NotFound from "./pages/NotFound";
 import EditUser from './pages/EditUser';
 import Unauthorized from './pages/Unauthorized';
+import ConfirmEmail from './pages/ConfirmEmail';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -56,6 +57,8 @@ function App() {
           return <Redirect to={{ pathname: "/", state: { from: props.location } }} />
         }} 
         />
+        <Route path='/confirmar-email/:emailToken' exact component={ConfirmEmail} />
+
         <AdminRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/editar-conta" component={EditAccount} />
         <PrivateRoute path="/alterar-senha" component={EditPassword} />

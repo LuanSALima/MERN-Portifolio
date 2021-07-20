@@ -12,6 +12,22 @@ export const isAdmin = () => {
 	}
 }
 
+export const isEmailConfirmed = () => {
+	if(getUser()) {
+		if(getUser().emailIsConfirmed === "true") {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+export const emailConfirmed = () => {
+	const user = getUser();
+	user.emailIsConfirmed = "true";
+	localStorage.setItem(USER_KEY, JSON.stringify(user));
+}
+
 export const updateUser = (username, email) => {
 	const user = getUser();
 	user.username = username;
