@@ -57,8 +57,6 @@ class SignUp extends Component {
 		} else {
 			try {
 				const response = await api.post("/api/auth/signUp", {username, email, password});
-
-				console.log(response.data);
 				
 				if(response.data.success) {
 					this.props.history.push("/login");
@@ -79,7 +77,6 @@ class SignUp extends Component {
 					}
 				}
 			} catch (err) {
-				console.log(err);
 				this.setState({error: err.message});
 			}
 		}

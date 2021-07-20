@@ -9,7 +9,7 @@ function SendEmailToken() {
 	const sendEmail = async (e) => {
 		e.preventDefault();
 
-		api.get('/api/users/send-email-token')
+		api.get('/api/auth/send-email-token')
 			.then(response => {
 				if (response.data.success) {
                 	if(response.data.message) {

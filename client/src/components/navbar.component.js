@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
-import { isAuthenticated, getUser, isEmailConfirmed } from "../services/auth";
+import { isAuthenticated, getUser, isEmailConfirmed, isAuthorized } from "../services/auth";
 
 import SendEmailToken from './sendEmailToken.component';
 
@@ -19,7 +19,9 @@ export default class Header extends Component {
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav className="mr-auto">
+						{isAuthorized() &&
 						<Link to="/dashboard" className="nav-link">Dashboard</Link>
+						}
 					</Nav>
 					{isAuthenticated() 
 					?

@@ -5,7 +5,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { isAuthenticated, isAdmin, logout } from "./services/auth";
+import { isAuthenticated, isAdmin, isAuthorized, logout } from "./services/auth";
 
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -18,7 +18,7 @@ import EditUser from './pages/EditUser';
 import Unauthorized from './pages/Unauthorized';
 import ConfirmEmail from './pages/ConfirmEmail';
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const AuthenticatedRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
@@ -31,6 +31,19 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
+const AuthorizedRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {... rest}
+    render={props =>
+      isAuthorized() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/unauthorized", state: { from: props.location } }} />
+      )
+    }
+  />
+);
+/*
 const AdminRoute = ({ component: Component, ...rest }) => (
   <Route
     {... rest}
@@ -43,7 +56,7 @@ const AdminRoute = ({ component: Component, ...rest }) => (
     }
   />
 );
-
+*/
 function App() {
 
   return (
@@ -59,10 +72,10 @@ function App() {
         />
         <Route path='/confirmar-email/:emailToken' exact component={ConfirmEmail} />
 
-        <AdminRoute path="/dashboard" component={Dashboard} />
-        <PrivateRoute path="/editar-conta" component={EditAccount} />
-        <PrivateRoute path="/alterar-senha" component={EditPassword} />
-        <AdminRoute path="/users/editar/:id" component={EditUser} />
+        <AuthorizedRoute path="/dashboard" component={Dashboard} />
+        <AuthenticatedRoute path="/editar-conta" component={EditAccount} />
+        <AuthenticatedRoute path="/alterar-senha" component={EditPassword} />
+        <AuthorizedRoute path="/users/editar/:id" component={EditUser} />
 
         <Route path="/unauthorized" component={Unauthorized}/>
         <Route path="*" component={NotFound} />

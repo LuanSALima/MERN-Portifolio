@@ -9,6 +9,8 @@ const authorized = require('../middlewares/auth.middleware');
 
 const crypto = require('crypto');
 
+const mailer = require('../modules/mailer'); /*Modulo criado que possui toda a biblioteca de envio de email configurada*/
+
 const handleError = require('../helpers/validation');
 
 const Role = require('../helpers/roles');
@@ -67,7 +69,7 @@ router.route('/signUp').post( async (request, response) => {
         username,
         email,
         password,
-        role: Role.User
+        role: Role.Guest
       });
 
       user.password = undefined;
@@ -79,6 +81,69 @@ router.route('/signUp').post( async (request, response) => {
     } catch (error) {
       return response.status(200).json(handleError(error));
     }
+});
+
+router.route('/send-email-token').get(authorized(), async (request, response) => {
+  try {
+    const user = await User.findByIdAndUpdate(request.user.id, { emailConfirmToken: await generateEmailToken() }, {
+          new: true,
+          runValidators: true
+      }).select('+emailConfirmToken');
+
+    if(!user) {
+      throw new Error("Usuário não encontrado!");
+    }
+
+    //Enviando e-mail com o token de confirmação de email
+    await mailer.sendMail({
+      to: user.email,
+      from: 'nodeportifolio@gmail.com',
+      subject: 'Email Confirm',
+      template: 'confirm_email',
+      context: {
+        userName: user.username,
+        emailToken: user.emailConfirmToken,
+        link: process.env.CLIENT_URL
+      }
+    });
+    
+    return response.json({
+      'success': true,
+      'message': 'E-mail enviado!'
+    });
+  } catch (error) {
+    return response.status(400).json(handleError(error));
+  }
+});
+
+router.route('/confirm-email').post(async (request, response) => {
+  try {
+    const { emailConfirmToken } = request.body;
+
+    const user = await User.findOneAndUpdate({emailConfirmToken}, {
+      "emailIsConfirmed": "true",
+      "emailConfirmToken": null,
+      "role": Role.User
+    }).select('+emailConfirmToken');
+
+    if (!user) {
+      throw new Error('Token inválido!');
+    }
+
+    let token = undefined;
+    if(jwtHelper.checkToken(request)) {
+      token = jwtHelper.generateToken(request.user.id, Role.User);
+    }
+      
+    return response.json({
+      'success': true,
+      'message': 'Email Confirmado com sucesso!',
+      'token': token
+    });
+
+  } catch (error) {
+    return response.status(400).json(handleError(error));
+  }
 });
 
 router.route('/testAuthMiddleware')

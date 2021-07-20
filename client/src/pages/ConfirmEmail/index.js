@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/navbar.component";
 
-import { emailConfirmed } from "../../services/auth";
+import { emailConfirmed, isAuthenticated, updateRole } from "../../services/auth";
 
 class ConfirmEmail extends Component {
 
@@ -22,13 +22,18 @@ class ConfirmEmail extends Component {
 
 	componentDidMount() {
 
-		api.post("/api/users/confirm-email", {emailConfirmToken: this.state.emailToken})
+		api.post("/api/auth/confirm-email", {emailConfirmToken: this.state.emailToken})
 			.then(response => {
 				if(response.data.success) {
 					this.setState({
 						message: response.data.message
 					});
-					emailConfirmed();
+
+					if(isAuthenticated()) {
+						emailConfirmed();
+						updateRole(response.data.token);
+					}
+					
 				} else {
                     this.setState({error: response.data.message});
                 }

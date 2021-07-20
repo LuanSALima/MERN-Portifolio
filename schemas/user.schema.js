@@ -42,7 +42,7 @@ const userSchema = new Schema(
 	    },
 	    role: {
 	    	type: String,
-			enum: ['Admin', 'User'],
+			enum: ['Admin', 'User', 'Guest'],
 			required: [true, 'É necessário informar o tipo de usuário']
 	    },
 	    emailIsConfirmed: {

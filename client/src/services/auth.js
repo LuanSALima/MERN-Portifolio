@@ -12,6 +12,14 @@ export const isAdmin = () => {
 	}
 }
 
+export const isAuthorized = () => {
+	if(getUser()) {
+		if(getUser().role === "User" || getUser().role === "Admin") {
+			return true;
+		}
+	}
+}
+
 export const isEmailConfirmed = () => {
 	if(getUser()) {
 		if(getUser().emailIsConfirmed === "true") {
@@ -42,4 +50,11 @@ export const login = (token, user) => {
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
+};
+
+export const updateRole = (token) => {
+  const user = getUser();
+  user.role = 'User';
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
+  localStorage.setItem(TOKEN_KEY, token);
 };

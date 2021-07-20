@@ -10,31 +10,13 @@ const Role = require('../helpers/roles');
 
 const handleError = require('../helpers/validation');
 
-const crypto = require('crypto');
-
-const mailer = require('../modules/mailer'); /*Modulo criado que possui toda a biblioteca de envio de email configurada*/
-
-//Função Async pois é necessário esperar a pesquisa no BCD retornar.
-async function generateEmailToken() {
-
-  //Criação de um token de 20 caracteres hexadecimais
-  var emailToken = crypto.randomBytes(20).toString('hex');
-
-  //Verifica se este token já foi gerado para algum usuário
-  while(await User.exists({ 'emailConfirmToken': emailToken })) {
-    emailToken = crypto.randomBytes(20).toString('hex');
-  }
-
-  return emailToken;
-}
-
 router.route('/test').get((request, response) => {
 	response.json({
 		message: "Hello World"
 	});
 });
 
-router.route('/list').get(authorized(Role.Admin), async (request, response) => {
+router.route('/list').get(authorized([Role.User, Role.Admin]), async (request, response) => {
 	try {
       const users = await User.find();
       if (users.length === 0) {
@@ -50,7 +32,7 @@ router.route('/list').get(authorized(Role.Admin), async (request, response) => {
     }
 });
 
-router.route('/addAdmin').post( async (request, response) => {
+router.route('/addAdmin').post(async (request, response) => {
 
   try {
       const { username, email, password } = request.body;
@@ -63,7 +45,6 @@ router.route('/addAdmin').post( async (request, response) => {
       });
 
       user.password = undefined;
-      user.emailConfirmToken = undefined;
 
       return response.status(200).json({
         success: true,
@@ -142,69 +123,31 @@ router.route('/account').get(authorized(), async (request, response) => {
 	}
 });
 
-router.route('/send-email-token').get(authorized(), async (request, response) => {
+router.route('/:id').delete(authorized([Role.User, Role.Admin]), async (request, response) => {
 	try {
-		const user = await User.findByIdAndUpdate(request.user.id, { emailConfirmToken: await generateEmailToken() }, {
-	        new: true,
-	        runValidators: true
-	    }).select('+emailConfirmToken');
+		if(request.user.role === Role.Admin) {
+			const user = await User.findByIdAndDelete(request.params.id);
 
-		if(!user) {
-			throw new Error("Usuário não encontrado!");
-		}
+			if (!user) {
+		        throw new Error("Usuário Não Existe!");
+		    }
+		} else {
+			const user = await User.findById(request.params.id);
 
-		//Enviando e-mail com o token de confirmação de email
-		await mailer.sendMail({
-			to: user.email,
-			from: 'nodeportifolio@gmail.com',
-			subject: 'Email Confirm',
-			template: 'confirm_email',
-			context: {
-			  userName: user.username,
-			  emailToken: user.emailConfirmToken,
-			  link: process.env.CLIENT_URL
+			if (!user) {
+		        throw new Error("Usuário Não Existe!");
+		    }
+
+		    if(user.role === Role.Admin) {
+		    	throw new Error("Não é possível excluir um usuário administrador");
+		    }
+
+			if(user.role === Role.User) {
+				throw new Error("Não é possível excluir um usuário que possui o e-mail confirmado");
 			}
-		});
-		
-		return response.json({
-			'success': true,
-			'message': 'E-mail enviado!'
-		});
-	} catch (error) {
-		return response.status(400).json(handleError(error));
-	}
-});
 
-router.route('/confirm-email').post(async (request, response) => {
-	try {
-		const { emailConfirmToken } = request.body;
-
-		const user = await User.findOneAndUpdate({emailConfirmToken}, {
-			"emailIsConfirmed": "true",
-			"emailConfirmToken": null
-		}).select('+emailConfirmToken');
-
-		if (!user) {
-			throw new Error('Token inválido!');
+			user.remove();
 		}
-			
-		return response.json({
-			'success': true,
-			'message': 'Email Confirmado com sucesso!'
-		});
-
-	} catch (error) {
-		return response.status(400).json(handleError(error));
-	}
-});
-
-router.route('/:id').delete(authorized(Role.Admin), async (request, response) => {
-	try {
-		const user = await User.findByIdAndDelete(request.params.id);
-		
-		if (!user) {
-	        throw new Error("Usuário Não Existe!");
-	    }
 
 		return response.json({
 			'success': true,
@@ -216,7 +159,7 @@ router.route('/:id').delete(authorized(Role.Admin), async (request, response) =>
 	}
 });
 
-router.route('/:id').get(authorized(Role.Admin), async (request, response) => {
+router.route('/:id').get(authorized([Role.User, Role.Admin]), async (request, response) => {
 	try {
 		const user = await User.findById(request.params.id);
 		
@@ -234,17 +177,38 @@ router.route('/:id').get(authorized(Role.Admin), async (request, response) => {
 	}
 });
 
-router.route('/update/:id').post(authorized(Role.Admin), async (request, response) => {
+router.route('/update/:id').post(authorized([Role.User, Role.Admin]), async (request, response) => {
 	try {
 		const { username, email } = request.body;
 
-		const user = await User.findByIdAndUpdate(request.params.id, { username, email }, {
-	        new: false,
-	        runValidators: true,
-	    });
+		if(request.user.role === Role.Admin) {
+			const user = await User.findByIdAndUpdate(request.params.id, { username, email }, {
+		        new: false,
+		        runValidators: true,
+		    });
 
-		if (!user) {
-			throw new Error("Usuário não encontrado");
+			if (!user) {
+		        throw new Error("Usuário Não Existe!");
+		    }
+		} else {
+			const user = await User.findById(request.params.id);
+
+			if (!user) {
+		        throw new Error("Usuário Não Existe!");
+		    }
+
+		    if(user.role === Role.Admin) {
+		    	throw new Error("Não é possível editar um usuário administrador");
+		    }
+
+			if(user.role === Role.User) {
+				throw new Error("Não é possível editar um usuário que possui o e-mail confirmado");
+			}
+
+			await User.findByIdAndUpdate(request.params.id, { username, email }, {
+		        new: false,
+		        runValidators: true,
+		    });
 		}
 			
 		return response.json({
