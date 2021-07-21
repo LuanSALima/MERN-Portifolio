@@ -3,7 +3,7 @@ export const USER_KEY = "@nodePortifolio-User";
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getUser = () => JSON.parse(localStorage.getItem(USER_KEY));
-
+/*
 export const isAdmin = () => {
 	if(getUser()) {
 		if(getUser().role === "Admin") {
@@ -11,7 +11,7 @@ export const isAdmin = () => {
 		}
 	}
 }
-
+*/
 export const isAuthorized = () => {
 	if(getUser()) {
 		if(getUser().role === "User" || getUser().role === "Admin") {

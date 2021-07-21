@@ -22,6 +22,8 @@ export default class Header extends Component {
 						{isAuthorized() &&
 						<Link to="/dashboard" className="nav-link">Dashboard</Link>
 						}
+						<Link to="/sobre-projeto" className="nav-link">Sobre o Projeto</Link>
+						<Link to="/planos-projeto" className="nav-link">Planos para o Projeto</Link>
 					</Nav>
 					{isAuthenticated() 
 					?

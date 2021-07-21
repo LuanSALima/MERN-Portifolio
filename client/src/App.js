@@ -5,7 +5,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { isAuthenticated, isAdmin, isAuthorized, logout } from "./services/auth";
+import { isAuthenticated, isAuthorized, logout } from "./services/auth";
 
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -17,6 +17,8 @@ import NotFound from "./pages/NotFound";
 import EditUser from './pages/EditUser';
 import Unauthorized from './pages/Unauthorized';
 import ConfirmEmail from './pages/ConfirmEmail';
+import AboutProject from './pages/AboutProject';
+import PlansProject from './pages/PlansProject';
 
 const AuthenticatedRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -71,6 +73,8 @@ function App() {
         }} 
         />
         <Route path='/confirmar-email/:emailToken' exact component={ConfirmEmail} />
+        <Route path='/sobre-projeto' exact component={AboutProject} />
+        <Route path='/planos-projeto' exact component={PlansProject} />
 
         <AuthorizedRoute path="/dashboard" component={Dashboard} />
         <AuthenticatedRoute path="/editar-conta" component={EditAccount} />
