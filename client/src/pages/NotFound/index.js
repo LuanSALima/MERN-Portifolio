@@ -4,16 +4,18 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/navbar.component";
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 class NotFound extends Component {
 
 	render() {
 		return (
-			<div>
+			<Page>
 			    <Navbar />
-				<div className="container">
-					<h1>Página não encontrada :(</h1>
-				</div>
-			</div>
+				<CenterContent>
+					<Title>Página não encontrada :(</Title>
+				</CenterContent>
+			</Page>
 		);
 	}
 }

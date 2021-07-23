@@ -5,7 +5,7 @@ import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 import { isAuthenticated, getUser, isEmailConfirmed, isAuthorized } from "../services/auth";
 
-import SendEmailToken from './sendEmailToken.component';
+import SendEmailToken from './SendEmailToken';
 
 export default class Header extends Component {
 

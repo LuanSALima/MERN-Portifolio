@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
 
-import api from "../services/api";
+import api from "../../services/api";
+
+import { Container, Text, Button, SucessMessage, ErrorMessage, ProgressBar } from './styles';
 
 function SendEmailToken() {
 
 	const [message, setMessage] = useState("");
+	const [isSuccess, setIsSuccess] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	const sendEmail = async (e) => {
 		e.preventDefault();
 
-		api.get('/api/auth/send-email-token')
+		setLoading(true);
+
+		await api.get('/api/auth/send-email-token')
 			.then(response => {
 				if (response.data.success) {
+					setIsSuccess(true);
+
                 	if(response.data.message) {
                 		setMessage(response.data.message);
                 	}
                 } else {
+                	setIsSuccess(false);
+
                     if(response.data.message) {
                 		setMessage(response.data.message);
                 	} else {
@@ -24,22 +34,34 @@ function SendEmailToken() {
                 }
 			})
 			.catch(error => {
+				setIsSuccess(false);
+
 				if(error.response.data.message) {
                     setMessage(error.response.data.message);
                 } else {
-                    alert("Ocorreu um erro Inesperado :(");
+                    setMessage("Ocorreu um erro Inesperado :(");
                 }
 			});
+
+		setLoading(false);
 	}
 
 	return (
-		<div>
-			<span>Confirme seu e-mail para receber acesso as funcionalidades de Admin</span>
-			<button onClick={sendEmail}>Enviar E-mail</button>
+		<Container>
+			<Text>Confirme seu e-mail para receber acesso as funcionalidades de Admin</Text>
+			<Button onClick={sendEmail}>Enviar E-mail</Button>
 
-			<br/>
-			<span>{message}</span>
-		</div>
+			{(isSuccess === true)
+			?
+				<SucessMessage>{message}</SucessMessage>
+			:
+				<ErrorMessage>{message}</ErrorMessage>
+			}
+
+			{(loading === true) && 
+				<ProgressBar />
+			}
+		</Container>
 	);
 }
 

@@ -4,16 +4,18 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/navbar.component";
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 class Unauthorized extends Component {
 
 	render() {
 		return (
-			<div>
+			<Page>
 			    <Navbar />
-				<div className="container">
-					<h1>Você não tem permissão para acessar</h1>
-				</div>
-			</div>
+				<CenterContent>
+					<Title>Você não tem permissão para acessar</Title>
+				</CenterContent>
+			</Page>
 		);
 	}
 }

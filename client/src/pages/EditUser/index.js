@@ -6,6 +6,8 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/navbar.component";
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 class EditUser extends Component {
 
 	constructor(props) {
@@ -106,10 +108,10 @@ class EditUser extends Component {
 
 	render() {
 		return (
-			<div>
+			<Page>
 			    <Navbar />
-				<div className="container">
-					<h3>Editar Usuário</h3>
+				<CenterContent>
+					<Title>Editar Usuário</Title>
 					<h5 className="text-danger">{this.state.error}</h5>
 					<form onSubmit={this.handleEditUser}>
 						<div className="form-group">
@@ -136,8 +138,8 @@ class EditUser extends Component {
 							<input type="submit" value="Editar" className="btn btn-primary" />
 						</div>
 					</form>
-				</div>
-			</div>
+				</CenterContent>
+			</Page>
 		);
 	}
 }

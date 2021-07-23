@@ -7,6 +7,8 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/navbar.component";
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 class SignIn extends Component {
 
 	constructor(props) {
@@ -74,10 +76,10 @@ class SignIn extends Component {
 
 	render() {
 		return (
-			<div>
+			<Page>
 			    <Navbar />
-				<div className="container">
-					<h3>Login</h3>
+				<CenterContent>
+					<Title>Login</Title>
 					<h5 className="text-danger">{this.state.error}</h5>
 					<form onSubmit={this.handleSignIn}>
 						<div className="form-group">
@@ -104,8 +106,8 @@ class SignIn extends Component {
 							<input type="submit" value="Login" className="btn btn-primary" />
 						</div>
 					</form>
-				</div>
-			</div>
+				</CenterContent>
+			</Page>
 		);
 	}
 }

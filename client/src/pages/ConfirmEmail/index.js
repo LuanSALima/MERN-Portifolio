@@ -8,6 +8,8 @@ import Navbar from "../../components/navbar.component";
 
 import { emailConfirmed, isAuthenticated, updateRole } from "../../services/auth";
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 class ConfirmEmail extends Component {
 
 	constructor(props) {
@@ -53,15 +55,15 @@ class ConfirmEmail extends Component {
 
 	render() {
 		return (
-			<div>
+			<Page>
 			    <Navbar />
-				<div className="container">
-					<h3>Confirmar Email</h3>
+				<CenterContent>
+					<Title>Confirmar Email</Title>
 					<h5 className="text-danger">{this.state.error}</h5>
 
 					<h2>{this.state.message}</h2>
-				</div>
-			</div>
+				</CenterContent>
+			</Page>
 		);
 	}
 }

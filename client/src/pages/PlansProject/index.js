@@ -4,6 +4,8 @@ import Navbar from "../../components/navbar.component";
 
 import { Card } from 'react-bootstrap';
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 const OkCheckMark = () => {
 	/*https://icons.getbootstrap.com/icons/check-lg/*/
 	return (
@@ -25,10 +27,10 @@ export default class PlansProject extends Component {
 
 	render() {
 		return (
-			<div>
+			<Page>
 			    <Navbar />
-				<div className="container text-center p-4">
-					<h3>Planos para o Projeto</h3>
+				<CenterContent>
+					<Title>Planos para o Projeto</Title>
 					
 					<Card>
 						<Card.Body>
@@ -54,8 +56,8 @@ export default class PlansProject extends Component {
 
 						</Card.Body>
 					</Card>
-				</div>
-			</div>
+				</CenterContent>
+			</Page>
 		)
 	}
 }

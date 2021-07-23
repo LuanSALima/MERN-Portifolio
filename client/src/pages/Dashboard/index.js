@@ -8,6 +8,8 @@ import api from "../../services/api";
 
 import { Table } from "react-bootstrap";
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 class Dashboard extends Component {
 
 	constructor(props) {
@@ -130,9 +132,11 @@ class Dashboard extends Component {
 
 	render() {
 		return (
-			<div>
+			<Page>
 			    <Navbar />
-				<div className="container-fluid">
+				<CenterContent>
+					<Title>Dashboard</Title>
+
 					<div className="row mt-3">
 						<div className="sidebar-sticky p-4">
 							<h5 className="sidebar-heading justify-content-center align-items-center">Menu</h5>
@@ -143,8 +147,6 @@ class Dashboard extends Component {
 							</ul>
 						</div>
 						<div className="container">
-							<h1>Dashboard</h1>
-
 							{this.state.error.length > 0 && 
 								<span className="alert-danger text-center">{this.state.error}</span>
 							}
@@ -154,8 +156,8 @@ class Dashboard extends Component {
 							}
 						</div>
 					</div>
-				</div>
-			</div>
+				</CenterContent>
+			</Page>
 		);
 	}
 }

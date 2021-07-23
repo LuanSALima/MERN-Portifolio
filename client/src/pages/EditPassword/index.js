@@ -5,6 +5,8 @@ import Navbar from "../../components/navbar.component";
 
 import api from "../../services/api";
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 function EditAccount(props){
 
     const [actualPassword, setActualPassword] = useState("");
@@ -48,10 +50,10 @@ function EditAccount(props){
     }
 
 	return (
-		<div>
+		<Page>
 		    <Navbar />
-			<div className="container">
-                <h3>Alterar Senha</h3>
+			<CenterContent>
+                <Title>Alterar Senha</Title>
 
 				<span className="alert-danger text-center">{errorMessage}</span>
 
@@ -92,8 +94,8 @@ function EditAccount(props){
                         <input type="submit" value="Alterar" className="btn btn-primary" />
                     </div>
                 </form>
-			</div>
-		</div>
+			</CenterContent>
+		</Page>
 	);
 }
 

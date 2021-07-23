@@ -5,6 +5,8 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/navbar.component";
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 class SignUp extends Component {
 
 	constructor(props) {
@@ -84,10 +86,10 @@ class SignUp extends Component {
 
 	render() {
 		return (
-			<div>
+			<Page>
 			    <Navbar />
-				<div className="container">
-					<h3>Criar Conta</h3>
+				<CenterContent>
+					<Title>Criar Conta</Title>
 					<h5 className="text-danger">{this.state.error}</h5>
 					<form onSubmit={this.handleSignUp}>
 						<div className="form-group">
@@ -127,8 +129,8 @@ class SignUp extends Component {
 							<input type="submit" value="Cadastrar" className="btn btn-primary" />
 						</div>
 					</form>
-				</div>
-			</div>
+				</CenterContent>
+			</Page>
 		);
 	}
 }

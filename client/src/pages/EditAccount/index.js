@@ -7,6 +7,8 @@ import api from "../../services/api";
 
 import { updateUser } from "../../services/auth";
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 function EditAccount(props){
 
     const [email, setEmail] = useState("");
@@ -67,10 +69,10 @@ function EditAccount(props){
     }, [])
 
 	return (
-		<div>
+		<Page>
 		    <Navbar />
-			<div className="container">
-                <h3>Editar Conta</h3>
+			<CenterContent>
+                <Title>Editar Conta</Title>
 
 				<span className="alert-danger text-center">{errorMessage}</span>
 
@@ -101,8 +103,8 @@ function EditAccount(props){
                         <input type="submit" value="Alterar" className="btn btn-primary" />
                     </div>
                 </form>
-			</div>
-		</div>
+			</CenterContent>
+		</Page>
 	);
 }
 

@@ -4,14 +4,16 @@ import Navbar from "../../components/navbar.component";
 
 import { Accordion, Card } from 'react-bootstrap';
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 export default class AboutProject extends Component {
 
 	render() {
 		return (
-			<div>
+			<Page>
 			    <Navbar />
-				<div className="container text-center p-4">
-					<h3>Sobre o Projeto</h3>
+				<CenterContent>
+					<Title>Sobre o Projeto</Title>
 
 					<Accordion>
 						<Card>
@@ -68,6 +70,11 @@ export default class AboutProject extends Component {
 			                                		<h5>Bootstrap</h5>
 			                                		<a href="https://www.npmjs.com/package/bootstrap" target="_blank" rel="noreferrer">Página no npmjs.com</a> - <a href="https://getbootstrap.com/docs/5.0/getting-started/introduction/" target="_blank" rel="noreferrer">Documentação</a>
 			                                	</div>
+			                                	<br />
+			                                	<div className="container">
+			                                		<h5>Styled Components</h5>
+			                                		<a href="https://www.npmjs.com/package/styled-components" target="_blank" rel="noreferrer">Página no npmjs.com</a> - <a href="https://styled-components.com/docs" target="_blank" rel="noreferrer">Documentação</a>
+			                                	</div>
 			                                </Card.Body>
 			                            </Accordion.Collapse>
 			                        </Card>
@@ -121,8 +128,8 @@ export default class AboutProject extends Component {
                             </Accordion.Collapse>
 						</Card>
                     </Accordion>
-				</div>
-			</div>
+				</CenterContent>
+			</Page>
 		)
 	}
 }

@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 
 import Navbar from "../../components/navbar.component";
 
+import { Page, CenterContent, Title } from '../../styles/default';
+
 export default class Home extends Component {
 
 	render() {
 		return (
-			<div>
+			<Page>
 			    <Navbar />
-				<div className="container">
-					<h3>Página Home</h3>
-				</div>
-			</div>
+				<CenterContent>
+					<Title>Página Home</Title>
+				</CenterContent>
+			</Page>
 		)
 	}
 }
