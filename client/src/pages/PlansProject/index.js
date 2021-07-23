@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import Navbar from "../../components/navbar.component";
+import Navbar from "../../components/Navbar";
 
 import { Card } from 'react-bootstrap';
 
-import { Page, CenterContent, Title } from '../../styles/default';
+import { Page, CenterContent, Title, SucessMessage, ErrorMessage } from '../../styles/default';
 
 const OkCheckMark = () => {
 	/*https://icons.getbootstrap.com/icons/check-lg/*/
@@ -34,25 +34,25 @@ export default class PlansProject extends Component {
 					
 					<Card>
 						<Card.Body>
-							<div className="container text-success">
+							<SucessMessage>
 								<h4><OkCheckMark /> Sistema de Autenticação de Usuário</h4>
-							</div>
+							</SucessMessage>
 							<br />
-							<div className="container text-success">
+							<SucessMessage>
 								<h4><OkCheckMark /> Sistema de Permissão de Usuário</h4>
-							</div>
+							</SucessMessage>
 							<br />
-							<div className="container text-success">
+							<SucessMessage>
 								<h4><OkCheckMark /> Envio de E-mail e Confirmação de E-mail</h4>
-							</div>
+							</SucessMessage>
 							<br />
-							<div className="container text-danger">
+							<ErrorMessage>
 								<h4><FalseCheckMark /> Criação de Estilo Próprio</h4>
-							</div>
+							</ErrorMessage>
 							<br />
-							<div className="container text-danger">
+							<ErrorMessage>
 								<h4><FalseCheckMark /> Tradução do Site para Inglês</h4>
-							</div>
+							</ErrorMessage>
 
 						</Card.Body>
 					</Card>

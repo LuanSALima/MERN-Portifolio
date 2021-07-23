@@ -4,11 +4,11 @@ import api from "../../services/api";
 
 import { withRouter } from "react-router-dom";
 
-import Navbar from "../../components/navbar.component";
+import Navbar from "../../components/Navbar";
 
 import { emailConfirmed, isAuthenticated, updateRole } from "../../services/auth";
 
-import { Page, CenterContent, Title } from '../../styles/default';
+import { Page, CenterContent, Title, ErrorMessage, ProgressBar } from '../../styles/default';
 
 class ConfirmEmail extends Component {
 
@@ -18,11 +18,14 @@ class ConfirmEmail extends Component {
 		this.state = {
 			emailToken: props.match.params.emailToken,
 			message: '',
-			error: ''
+			error: '',
+			loading: false
 		}
 	}
 
 	componentDidMount() {
+
+		this.setState({loading: true});
 
 		api.post("/api/auth/confirm-email", {emailConfirmToken: this.state.emailToken})
 			.then(response => {
@@ -51,6 +54,7 @@ class ConfirmEmail extends Component {
                 }
             });
 
+        this.setState({loading: false});
 	}
 
 	render() {
@@ -58,8 +62,13 @@ class ConfirmEmail extends Component {
 			<Page>
 			    <Navbar />
 				<CenterContent>
+
+					{(this.state.loading === true) && 
+                        <ProgressBar />
+                    }
+
 					<Title>Confirmar Email</Title>
-					<h5 className="text-danger">{this.state.error}</h5>
+					<ErrorMessage>{this.state.error}</ErrorMessage>
 
 					<h2>{this.state.message}</h2>
 				</CenterContent>

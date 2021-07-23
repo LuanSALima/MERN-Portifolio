@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 import { withRouter, Link } from "react-router-dom";
 
-import Navbar from "../../components/navbar.component";
+import Navbar from "../../components/Navbar";
 
 import api from "../../services/api";
 
 import { Table } from "react-bootstrap";
 
-import { Page, CenterContent, Title } from '../../styles/default';
+import { Page, CenterContent, Title, ErrorMessage, ProgressBar } from '../../styles/default';
 
 class Dashboard extends Component {
 
@@ -23,11 +23,14 @@ class Dashboard extends Component {
 			error: "",
 			dataType: "",
 			tableColumns: [],
-			tableData: []
+			tableData: [],
+			loading: false
 		}
 	}
 
 	handleUserList = async => {
+
+		this.setState({loading: true});
 
 		api.get("/api/users/list")
             .then(response => {
@@ -63,6 +66,7 @@ class Dashboard extends Component {
                 }
             });
 		
+		this.setState({loading: false});
 	}
 
 	mountTable() {
@@ -147,8 +151,13 @@ class Dashboard extends Component {
 							</ul>
 						</div>
 						<div className="container">
+
+							{(this.state.loading === true) && 
+		                        <ProgressBar />
+		                    }
+
 							{this.state.error.length > 0 && 
-								<span className="alert-danger text-center">{this.state.error}</span>
+								<ErrorMessage>{this.state.error}</ErrorMessage>
 							}
 
 							{(this.state.tableColumns && this.state.tableData) && 

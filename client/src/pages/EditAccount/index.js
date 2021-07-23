@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import Navbar from "../../components/navbar.component";
+import Navbar from "../../components/Navbar";
 
 import api from "../../services/api";
 
 import { updateUser } from "../../services/auth";
 
-import { Page, CenterContent, Title } from '../../styles/default';
+import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
 function EditAccount(props){
 
@@ -17,8 +17,12 @@ function EditAccount(props){
     const [errorUsername, setErrorUsername] = useState("");
     const [errorEmail, setErrorEmail] = useState("");
 
+    const [loading, setLoading] = useState(false);
+
     const handleEditAccount = e => {
         e.preventDefault();
+
+        setLoading(true);
 
         api.post("/api/users/account/update", {username, email})
             .then(response => {
@@ -31,7 +35,7 @@ function EditAccount(props){
             })
             .catch(error => {
                 if(error.response.data) {
-                     if(error.response.data.message) {
+                    if(error.response.data.message) {
                         setErrorMessage(error.response.data.message);
                     }
                     if (error.response.data.errors) {
@@ -47,6 +51,8 @@ function EditAccount(props){
                     setErrorMessage("Houve uma resposta inesperada do servidor");
                 }
             });
+
+        setLoading(false);
     }
 
 	useEffect(() => {
@@ -74,35 +80,36 @@ function EditAccount(props){
 			<CenterContent>
                 <Title>Editar Conta</Title>
 
-				<span className="alert-danger text-center">{errorMessage}</span>
+				<ErrorMessage>{errorMessage}</ErrorMessage>
 
-                <form onSubmit={handleEditAccount}>
-                    <div className="form-group">
+                <Form onSubmit={handleEditAccount}>
+
+                    {(loading === true) && 
+                        <ProgressBar />
+                    }
+                    
+                    <FormGroup>
                         <label>Nome: </label>
                         <input  type="text"
                                 required
-                                className="form-control"
                                 value={username}
                                 onChange={e => setUsername(e.target.value)}
                                 />
-                        <span className="text-danger">{errorUsername}</span>
-                    </div>
+                        <ErrorMessage>{errorUsername}</ErrorMessage>
+                    </FormGroup>
 
-                    <div className="form-group">
+                    <FormGroup>
                         <label>Email: </label>
                         <input  type="email"
                                 required
-                                className="form-control"
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
                                 />
-                        <span className="text-danger">{errorEmail}</span>
-                    </div>
+                        <ErrorMessage>{errorEmail}</ErrorMessage>
+                    </FormGroup>
 
-                    <div className="form-group">
-                        <input type="submit" value="Alterar" className="btn btn-primary" />
-                    </div>
-                </form>
+                    <input type="submit" value="Alterar"/>
+                </Form>
 			</CenterContent>
 		</Page>
 	);

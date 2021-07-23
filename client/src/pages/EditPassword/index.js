@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import Navbar from "../../components/navbar.component";
+import Navbar from "../../components/Navbar";
 
 import api from "../../services/api";
 
-import { Page, CenterContent, Title } from '../../styles/default';
+import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
 function EditAccount(props){
 
@@ -17,8 +17,12 @@ function EditAccount(props){
     const [errorNewPassword, setErrorNewPassword] = useState("");
     const [errorConfirmNewPassword, setErrorConfirmNewPassword] = useState("");
 
+    const [loading, setLoading] = useState(false);
+
     const handleEditPassword = e => {
         e.preventDefault();
+
+        setLoading(true);
         
         if(newPassword !== confirmNewPassword) {
             setErrorConfirmNewPassword("As senhas não coincidem");
@@ -47,6 +51,8 @@ function EditAccount(props){
                     }
                 });
         }
+
+        setLoading(false);
     }
 
 	return (
@@ -55,45 +61,45 @@ function EditAccount(props){
 			<CenterContent>
                 <Title>Alterar Senha</Title>
 
-				<span className="alert-danger text-center">{errorMessage}</span>
+				<ErrorMessage>{errorMessage}</ErrorMessage>
 
-                <form onSubmit={handleEditPassword}>
-                    <div className="form-group">
+                <Form onSubmit={handleEditPassword}>
+
+                    {(loading === true) && 
+                        <ProgressBar />
+                    }
+
+                    <FormGroup>
                         <label>Senha Atual: </label>
                         <input  type="password"
                                 required
-                                className="form-control"
                                 value={actualPassword}
                                 onChange={e => setActualPassword(e.target.value)}
                                 />
-                    </div>
+                    </FormGroup>
 
-                    <div className="form-group">
+                    <FormGroup>
                         <label>Nova Senha: </label>
                         <input  type="password"
                                 required
-                                className="form-control"
                                 value={newPassword}
                                 onChange={e => setNewPassword(e.target.value)}
                                 />
-                        <span className="text-danger">{errorNewPassword}</span>
-                    </div>
+                        <ErrorMessage>{errorNewPassword}</ErrorMessage>
+                    </FormGroup>
 
-                    <div className="form-group">
+                    <FormGroup>
                         <label>Confirmar Nova Senha: </label>
                         <input  type="password"
                                 required
-                                className="form-control"
                                 value={confirmNewPassword}
                                 onChange={e => setConfirmNewPassword(e.target.value)}
                                 />
-                        <span className="text-danger">{errorConfirmNewPassword}</span>
-                    </div>
+                        <ErrorMessage>{errorConfirmNewPassword}</ErrorMessage>
+                    </FormGroup>
 
-                    <div className="form-group">
-                        <input type="submit" value="Alterar" className="btn btn-primary" />
-                    </div>
-                </form>
+                    <input type="submit" value="Alterar" />
+                </Form>
 			</CenterContent>
 		</Page>
 	);

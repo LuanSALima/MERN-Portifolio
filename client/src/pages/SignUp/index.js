@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import api from "../../services/api";
 import { withRouter } from "react-router-dom";
 
-import Navbar from "../../components/navbar.component";
+import Navbar from "../../components/Navbar";
 
-import { Page, CenterContent, Title } from '../../styles/default';
+import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
 class SignUp extends Component {
 
@@ -26,7 +26,8 @@ class SignUp extends Component {
 		    error: "",
 		    errorUsername: "",
 		    errorEmail: "",
-		    errorPassword: ""
+		    errorPassword: "",
+		    loading: false
 		}
 	}
 
@@ -51,6 +52,8 @@ class SignUp extends Component {
 	handleSignUp = async e => {
 
 		e.preventDefault();
+
+		this.setState({loading: true});
 
 		const { username, email, password } = this.state;
 
@@ -82,6 +85,8 @@ class SignUp extends Component {
 				this.setState({error: err.message});
 			}
 		}
+
+		this.setState({loading: false});
 	}
 
 	render() {
@@ -90,45 +95,46 @@ class SignUp extends Component {
 			    <Navbar />
 				<CenterContent>
 					<Title>Criar Conta</Title>
-					<h5 className="text-danger">{this.state.error}</h5>
-					<form onSubmit={this.handleSignUp}>
-						<div className="form-group">
+					<ErrorMessage>{this.state.error}</ErrorMessage>
+					<Form onSubmit={this.handleSignUp}>
+
+						{(this.state.loading === true) && 
+	                        <ProgressBar />
+	                    }
+	                    
+						<FormGroup>
 							<label>Nome: </label>
 							<input	type="text"
 									required
 									id="usernameField"
-									className="form-control"
 									value={this.state.username}
 									onChange={this.onChangeUsername}
 									/>
-							<span className="text-danger">{this.state.errorUsername}</span>
-						</div>
-						<div className="form-group">
+							<ErrorMessage>{this.state.errorUsername}</ErrorMessage>
+						</FormGroup>
+						<FormGroup>
 							<label>Email: </label>
 							<input	type="email"
 									required
 									id="emailField"
-									className="form-control"
 									value={this.state.email}
 									onChange={this.onChangeEmail}
 									/>
-							<span className="text-danger">{this.state.errorEmail}</span>
-						</div>
-						<div className="form-group">
+							<ErrorMessage>{this.state.errorEmail}</ErrorMessage>
+						</FormGroup>
+						<FormGroup>
 							<label>Senha: </label>
 							<input	type="password"
 									required
 									id="passwordField"
-									className="form-control"
 									value={this.state.password}
 									onChange={this.onChangePassword}
 									/>
-							<span className="text-danger">{this.state.errorPassword}</span>
-						</div>
-						<div className="form-group">
-							<input type="submit" value="Cadastrar" className="btn btn-primary" />
-						</div>
-					</form>
+							<ErrorMessage>{this.state.errorPassword}</ErrorMessage>
+						</FormGroup>
+
+						<input type="submit" value="Cadastrar" />
+					</Form>
 				</CenterContent>
 			</Page>
 		);

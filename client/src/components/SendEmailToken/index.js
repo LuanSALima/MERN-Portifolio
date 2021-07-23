@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 
 import api from "../../services/api";
 
-import { Container, Text, Button, SucessMessage, ErrorMessage, ProgressBar } from './styles';
+import { Container, Text, Button  } from './styles';
+
+import { SucessMessage, ErrorMessage, ProgressBar } from '../../styles/default';
 
 function SendEmailToken() {
 

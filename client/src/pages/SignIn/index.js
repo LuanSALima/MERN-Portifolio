@@ -5,9 +5,9 @@ import { login } from "../../services/auth";
 
 import { withRouter } from "react-router-dom";
 
-import Navbar from "../../components/navbar.component";
+import Navbar from "../../components/Navbar";
 
-import { Page, CenterContent, Title } from '../../styles/default';
+import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
 class SignIn extends Component {
 
@@ -24,7 +24,8 @@ class SignIn extends Component {
 			password: "",
 			error: "",
 		    errorEmail: "",
-		    errorPassword: ""
+		    errorPassword: "",
+		    loading: false
 		}
 	}
 
@@ -43,6 +44,8 @@ class SignIn extends Component {
 	handleSignIn = async e => {
 
 		e.preventDefault();
+
+		this.setState({loading: true});
 
 		const { username, email, password } = this.state;
 
@@ -72,6 +75,8 @@ class SignIn extends Component {
 				this.setState({error: err.message});
 			}
 		}
+
+		this.setState({loading: false});
 	}
 
 	render() {
@@ -80,32 +85,34 @@ class SignIn extends Component {
 			    <Navbar />
 				<CenterContent>
 					<Title>Login</Title>
-					<h5 className="text-danger">{this.state.error}</h5>
-					<form onSubmit={this.handleSignIn}>
-						<div className="form-group">
+					<ErrorMessage>{this.state.error}</ErrorMessage>
+					<Form onSubmit={this.handleSignIn}>
+
+						{(this.state.loading === true) && 
+	                        <ProgressBar />
+	                    }
+
+						<FormGroup>
 							<label>Email: </label>
 							<input	type="email"
 									required
-									className="form-control"
 									value={this.state.email}
 									onChange={this.onChangeEmail}
 									/>
-							<span className="text-danger">{this.state.errorEmail}</span>
-						</div>
-						<div className="form-group">
+							<ErrorMessage>{this.state.errorEmail}</ErrorMessage>
+						</FormGroup>
+						<FormGroup>
 							<label>Senha: </label>
 							<input	type="password"
 									required
-									className="form-control"
 									value={this.state.password}
 									onChange={this.onChangePassword}
 									/>
-							<span className="text-danger">{this.state.errorPassword}</span>
-						</div>
-						<div className="form-group">
-							<input type="submit" value="Login" className="btn btn-primary" />
-						</div>
-					</form>
+							<ErrorMessage>{this.state.errorPassword}</ErrorMessage>
+						</FormGroup>
+
+						<input type="submit" value="Login" />
+					</Form>
 				</CenterContent>
 			</Page>
 		);

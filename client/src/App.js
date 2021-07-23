@@ -5,6 +5,8 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { GlobalStyles } from "./styles/global";
+
 import { isAuthenticated, isAuthorized, logout } from "./services/auth";
 
 import Home from "./pages/Home";
@@ -62,30 +64,33 @@ const AdminRoute = ({ component: Component, ...rest }) => (
 function App() {
 
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/login" exact component={SignIn} />
-        <Route path="/registrar" exact component={SignUp} />
-        <Route path="/logout" exact render={props => {
-          logout(); 
-          return <Redirect to={{ pathname: "/", state: { from: props.location } }} />
-        }} 
-        />
-        <Route path='/confirmar-email/:emailToken' exact component={ConfirmEmail} />
-        <Route path='/sobre-projeto' exact component={AboutProject} />
-        <Route path='/planos-projeto' exact component={PlansProject} />
+    <>
+      <GlobalStyles/>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/login" exact component={SignIn} />
+          <Route path="/registrar" exact component={SignUp} />
+          <Route path="/logout" exact render={props => {
+            logout(); 
+            return <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+          }} 
+          />
+          <Route path='/confirmar-email/:emailToken' exact component={ConfirmEmail} />
+          <Route path='/sobre-projeto' exact component={AboutProject} />
+          <Route path='/planos-projeto' exact component={PlansProject} />
 
-        <AuthorizedRoute path="/dashboard" component={Dashboard} />
-        <AuthenticatedRoute path="/editar-conta" component={EditAccount} />
-        <AuthenticatedRoute path="/alterar-senha" component={EditPassword} />
-        <AuthorizedRoute path="/users/editar/:id" component={EditUser} />
+          <AuthorizedRoute path="/dashboard" component={Dashboard} />
+          <AuthenticatedRoute path="/editar-conta" component={EditAccount} />
+          <AuthenticatedRoute path="/alterar-senha" component={EditPassword} />
+          <AuthorizedRoute path="/users/editar/:id" component={EditUser} />
 
-        <Route path="/unauthorized" component={Unauthorized}/>
-        <Route path="*" component={NotFound} />
-        
-      </Switch>
-    </BrowserRouter>
+          <Route path="/unauthorized" component={Unauthorized}/>
+          <Route path="*" component={NotFound} />
+          
+        </Switch>
+      </BrowserRouter>
+    </>
   );
 }
 

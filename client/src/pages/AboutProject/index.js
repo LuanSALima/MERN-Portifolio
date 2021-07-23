@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Navbar from "../../components/navbar.component";
+import Navbar from "../../components/Navbar";
 
 import { Accordion, Card } from 'react-bootstrap';
 

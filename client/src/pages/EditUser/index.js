@@ -4,9 +4,9 @@ import api from "../../services/api";
 
 import { withRouter } from "react-router-dom";
 
-import Navbar from "../../components/navbar.component";
+import Navbar from "../../components/Navbar";
 
-import { Page, CenterContent, Title } from '../../styles/default';
+import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
 class EditUser extends Component {
 
@@ -25,6 +25,7 @@ class EditUser extends Component {
 			error: "",
 			errorUsername: "",
 		    errorEmail: "",
+		    loading: false
 		}
 	}
 
@@ -78,6 +79,8 @@ class EditUser extends Component {
 
 		e.preventDefault();
 
+		this.setState({loading: true});
+
 		api.post("/api/users/update/"+this.state.id, {username: this.state.username, email: this.state.email})
             .then(response => {
                 if(response.data.success) {
@@ -104,6 +107,8 @@ class EditUser extends Component {
                     this.setState({error: "Houve uma resposta inesperada do servidor"});
                 }
             });
+
+        this.setState({loading: false});
 	}
 
 	render() {
@@ -112,32 +117,34 @@ class EditUser extends Component {
 			    <Navbar />
 				<CenterContent>
 					<Title>Editar Usuário</Title>
-					<h5 className="text-danger">{this.state.error}</h5>
-					<form onSubmit={this.handleEditUser}>
-						<div className="form-group">
+					<ErrorMessage>{this.state.error}</ErrorMessage>
+					<Form onSubmit={this.handleEditUser}>
+
+						{(this.state.loading === true) && 
+	                        <ProgressBar />
+	                    }
+
+						<FormGroup>
 	                        <label>Nome: </label>
 	                        <input  type="text"
 	                                required
-	                                className="form-control"
 	                                value={this.state.username}
 	                                onChange={this.onChangeUsername}
 	                                />
-	                        <span className="text-danger">{this.state.errorUsername}</span>
-	                    </div>
-						<div className="form-group">
+	                        <ErrorMessage>{this.state.errorUsername}</ErrorMessage>
+	                    </FormGroup>
+						<FormGroup>
 							<label>Email: </label>
 							<input	type="email"
 									required
-									className="form-control"
 									value={this.state.email}
 									onChange={this.onChangeEmail}
 									/>
-							<span className="text-danger">{this.state.errorEmail}</span>
-						</div>
-						<div className="form-group">
-							<input type="submit" value="Editar" className="btn btn-primary" />
-						</div>
-					</form>
+							<ErrorMessage>{this.state.errorEmail}</ErrorMessage>
+						</FormGroup>
+
+						<input type="submit" value="Editar" />
+					</Form>
 				</CenterContent>
 			</Page>
 		);

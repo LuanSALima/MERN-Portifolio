@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
-import { isAuthenticated, getUser, isEmailConfirmed, isAuthorized } from "../services/auth";
+import { isAuthenticated, getUser, isEmailConfirmed, isAuthorized } from "../../services/auth";
 
-import SendEmailToken from './SendEmailToken';
+import SendEmailToken from '../SendEmailToken';
+
+import './styles.css';
 
 export default class Header extends Component {
 
