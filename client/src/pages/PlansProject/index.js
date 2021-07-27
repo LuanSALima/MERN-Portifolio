@@ -46,9 +46,9 @@ export default class PlansProject extends Component {
 								<h4><OkCheckMark /> Envio de E-mail e Confirmação de E-mail</h4>
 							</SucessMessage>
 							<br />
-							<ErrorMessage>
-								<h4><FalseCheckMark /> Criação de Estilo Próprio</h4>
-							</ErrorMessage>
+							<SucessMessage>
+								<h4><OkCheckMark /> Criação de Estilo Próprio</h4>
+							</SucessMessage>
 							<br />
 							<ErrorMessage>
 								<h4><FalseCheckMark /> Tradução do Site para Inglês</h4>

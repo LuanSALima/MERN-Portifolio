@@ -26,17 +26,19 @@
 	margin-right: auto;
 }
 
-.barra-navegacao-items a{
+.barra-navegacao-items a, .barra-navegacao-items span{
 	display: flex;
 	align-items: center;
 
 	height: 60px;
 	padding: 0 20px;
 
+	cursor: pointer;
+
 	transition: all 0.4s;
 }
 
-.barra-navegacao-items a:hover{
+.barra-navegacao-items a:hover, .barra-navegacao-items span:hover{
 	background-color: var(--color-light);
 	color: var(--color-font-secondary);
 
@@ -52,7 +54,7 @@
 		flex-direction: column;
 	}
 
-	.barra-navegacao-items a, .barra-navegacao-items div{
+	.barra-navegacao-items a, .barra-navegacao-items div, .barra-navegacao-items span{
 		width: 100%;
 		justify-content: center;
 		position: static;
