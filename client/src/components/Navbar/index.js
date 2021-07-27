@@ -14,33 +14,33 @@ export default class Header extends Component {
 	render() {
 		return (
 			<>
-			<Navbar expand="lg" bg="dark" variant="dark">
-				<Navbar.Brand>
-					<Link to="/" className="navbar-brand">Home</Link>
-				</Navbar.Brand>
+			<Navbar expand="lg" variant="dark" className="barra-navegacao">
+				<div className="barra-navegacao-items barra-navegacao-marca">
+					<Link to="/">Home</Link>
+				</div>
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
-					<Nav className="mr-auto">
+					<div className="barra-navegacao-items barra-navegacao-items-left">
 						{isAuthorized() &&
-						<Link to="/dashboard" className="nav-link">Dashboard</Link>
+						<Link to="/dashboard">Dashboard</Link>
 						}
-						<Link to="/sobre-projeto" className="nav-link">Sobre o Projeto</Link>
-						<Link to="/planos-projeto" className="nav-link">Planos para o Projeto</Link>
-					</Nav>
+						<Link to="/sobre-projeto">Sobre o Projeto</Link>
+						<Link to="/planos-projeto">Planos para o Projeto</Link>
+					</div>
 					{isAuthenticated() 
 					?
-						<Nav>
+						<div className="barra-navegacao-items">
 							<NavDropdown alignRight title={getUser() ? getUser().username : "Conta"} id="collasible-nav-dropdown">
-								<Link to="/editar-conta" className="dropdown-item">Editar Conta</Link>
-								<Link to="/alterar-senha" className="dropdown-item">Alterar Senha</Link>
+								<Link to="/editar-conta" className="barra-dropdown-item">Editar Conta</Link>
+								<Link to="/alterar-senha" className="barra-dropdown-item">Alterar Senha</Link>
 							</NavDropdown>
-							<Link to="/logout" className="nav-link">Sair</Link>
-						</Nav>
+							<Link to="/logout">Sair</Link>
+						</div>
 					:
-						<Nav>
-							<Link to="/registrar" className="nav-link">Registrar-se</Link>
-							<Link to="/login" className="nav-link">Login</Link>
-						</Nav>
+						<div className="barra-navegacao-items">
+							<Link to="/registrar">Registrar-se</Link>
+							<Link to="/login">Login</Link>
+						</div>
 					}
 				</Navbar.Collapse>
 			</Navbar>
