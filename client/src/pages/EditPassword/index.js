@@ -7,7 +7,9 @@ import api from "../../services/api";
 
 import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
-function EditAccount(props){
+import { useTranslation } from 'react-i18next';
+
+function EditPassword(props){
 
     const [actualPassword, setActualPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -18,6 +20,8 @@ function EditAccount(props){
     const [errorConfirmNewPassword, setErrorConfirmNewPassword] = useState("");
 
     const [loading, setLoading] = useState(false);
+
+    const { t } = useTranslation();
 
     const handleEditPassword = e => {
         e.preventDefault();
@@ -59,7 +63,7 @@ function EditAccount(props){
 		<Page>
 		    <Navbar />
 			<CenterContent>
-                <Title>Alterar Senha</Title>
+                <Title>{t('EditPassword.title')}</Title>
 
 				<ErrorMessage>{errorMessage}</ErrorMessage>
 
@@ -70,7 +74,7 @@ function EditAccount(props){
                     }
 
                     <FormGroup>
-                        <label>Senha Atual: </label>
+                        <label>{t('EditPassword.form_label1')}</label>
                         <input  type="password"
                                 required
                                 value={actualPassword}
@@ -79,7 +83,7 @@ function EditAccount(props){
                     </FormGroup>
 
                     <FormGroup>
-                        <label>Nova Senha: </label>
+                        <label>{t('EditPassword.form_label2')}</label>
                         <input  type="password"
                                 required
                                 value={newPassword}
@@ -89,7 +93,7 @@ function EditAccount(props){
                     </FormGroup>
 
                     <FormGroup>
-                        <label>Confirmar Nova Senha: </label>
+                        <label>{t('EditPassword.form_label3')}</label>
                         <input  type="password"
                                 required
                                 value={confirmNewPassword}
@@ -98,11 +102,11 @@ function EditAccount(props){
                         <ErrorMessage>{errorConfirmNewPassword}</ErrorMessage>
                     </FormGroup>
 
-                    <input type="submit" value="Alterar" />
+                    <input type="submit" value={t('EditPassword.form_submit')} />
                 </Form>
 			</CenterContent>
 		</Page>
 	);
 }
 
-export default withRouter(EditAccount);
+export default withRouter(EditPassword);

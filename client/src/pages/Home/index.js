@@ -4,16 +4,22 @@ import Navbar from "../../components/Navbar";
 
 import { Page, CenterContent, Title } from '../../styles/default';
 
-export default class Home extends Component {
+import { withTranslation } from 'react-i18next';
+
+class Home extends Component {
 
 	render() {
+		const { t } = this.props;
+
 		return (
 			<Page>
 			    <Navbar />
 				<CenterContent>
-					<Title>Página Home</Title>
+					<Title>{t('Home.title')}</Title>
 				</CenterContent>
 			</Page>
 		)
 	}
 }
+
+export default withTranslation()(Home);

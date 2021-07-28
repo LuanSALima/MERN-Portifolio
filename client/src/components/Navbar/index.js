@@ -9,7 +9,7 @@ import SendEmailToken from '../SendEmailToken';
 
 import './styles.css';
 
-import { withTranslation  } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 class Header extends Component {
 

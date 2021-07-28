@@ -10,6 +10,8 @@ import { emailConfirmed, isAuthenticated, updateRole } from "../../services/auth
 
 import { Page, CenterContent, Title, ErrorMessage, ProgressBar } from '../../styles/default';
 
+import { withTranslation } from 'react-i18next';
+
 class ConfirmEmail extends Component {
 
 	constructor(props) {
@@ -58,6 +60,8 @@ class ConfirmEmail extends Component {
 	}
 
 	render() {
+		const { t } = this.props;
+
 		return (
 			<Page>
 			    <Navbar />
@@ -67,7 +71,7 @@ class ConfirmEmail extends Component {
                         <ProgressBar />
                     }
 
-					<Title>Confirmar Email</Title>
+					<Title>{t('ConfirmEmail.title')}</Title>
 					<ErrorMessage>{this.state.error}</ErrorMessage>
 
 					<h2>{this.state.message}</h2>
@@ -77,4 +81,4 @@ class ConfirmEmail extends Component {
 	}
 }
 
-export default withRouter(ConfirmEmail);
+export default withTranslation()(withRouter(ConfirmEmail));

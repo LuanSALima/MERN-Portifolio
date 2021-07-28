@@ -6,11 +6,15 @@ import { Container, Text, Button  } from './styles';
 
 import { SucessMessage, ErrorMessage, ProgressBar } from '../../styles/default';
 
+import { useTranslation } from 'react-i18next';
+
 function SendEmailToken() {
 
 	const [message, setMessage] = useState("");
 	const [isSuccess, setIsSuccess] = useState(null);
 	const [loading, setLoading] = useState(false);
+
+	const { t } = useTranslation();
 
 	const sendEmail = async (e) => {
 		e.preventDefault();
@@ -50,8 +54,8 @@ function SendEmailToken() {
 
 	return (
 		<Container>
-			<Text>Confirme seu e-mail para receber acesso as funcionalidades de Admin</Text>
-			<Button onClick={sendEmail}>Enviar E-mail</Button>
+			<Text>{t('SendEmailToken.message_text')}</Text>
+			<Button onClick={sendEmail}>{t('SendEmailToken.button_text')}</Button>
 
 			{(isSuccess === true)
 			?

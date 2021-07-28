@@ -6,18 +6,22 @@ import Navbar from "../../components/Navbar";
 
 import { Page, CenterContent, Title } from '../../styles/default';
 
+import { withTranslation } from 'react-i18next';
+
 class NotFound extends Component {
 
 	render() {
+		const { t } = this.props;
+
 		return (
 			<Page>
 			    <Navbar />
 				<CenterContent>
-					<Title>Página não encontrada :(</Title>
+					<Title>{t('NotFound.title')}</Title>
 				</CenterContent>
 			</Page>
 		);
 	}
 }
 
-export default withRouter(NotFound);
+export default withTranslation()(withRouter(NotFound));

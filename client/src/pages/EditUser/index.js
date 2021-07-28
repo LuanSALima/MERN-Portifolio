@@ -8,6 +8,8 @@ import Navbar from "../../components/Navbar";
 
 import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
+import { withTranslation } from 'react-i18next';
+
 class EditUser extends Component {
 
 	constructor(props) {
@@ -112,11 +114,13 @@ class EditUser extends Component {
 	}
 
 	render() {
+		const { t } = this.props;
+
 		return (
 			<Page>
 			    <Navbar />
 				<CenterContent>
-					<Title>Editar Usuário</Title>
+					<Title>{t('EditUser.title')}</Title>
 					<ErrorMessage>{this.state.error}</ErrorMessage>
 					<Form onSubmit={this.handleEditUser}>
 
@@ -125,7 +129,7 @@ class EditUser extends Component {
 	                    }
 
 						<FormGroup>
-	                        <label>Nome: </label>
+	                        <label>{t('EditUser.form_label1')}</label>
 	                        <input  type="text"
 	                                required
 	                                value={this.state.username}
@@ -134,7 +138,7 @@ class EditUser extends Component {
 	                        <ErrorMessage>{this.state.errorUsername}</ErrorMessage>
 	                    </FormGroup>
 						<FormGroup>
-							<label>Email: </label>
+							<label>{t('EditUser.form_label2')}</label>
 							<input	type="email"
 									required
 									value={this.state.email}
@@ -143,7 +147,7 @@ class EditUser extends Component {
 							<ErrorMessage>{this.state.errorEmail}</ErrorMessage>
 						</FormGroup>
 
-						<input type="submit" value="Editar" />
+						<input type="submit" value={t('EditUser.form_submit')} />
 					</Form>
 				</CenterContent>
 			</Page>
@@ -151,4 +155,4 @@ class EditUser extends Component {
 	}
 }
 
-export default withRouter(EditUser);
+export default withTranslation()(withRouter(EditUser));

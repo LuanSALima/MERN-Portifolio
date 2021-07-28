@@ -6,6 +6,8 @@ import { Card } from 'react-bootstrap';
 
 import { Page, CenterContent, Title, SucessMessage, ErrorMessage } from '../../styles/default';
 
+import { withTranslation } from 'react-i18next';
+
 const OkCheckMark = () => {
 	/*https://icons.getbootstrap.com/icons/check-lg/*/
 	return (
@@ -23,35 +25,37 @@ const FalseCheckMark = () => {
 	);
 }
 
-export default class PlansProject extends Component {
+class PlansProject extends Component {
 
 	render() {
+		const { t } = this.props;
+
 		return (
 			<Page>
 			    <Navbar />
 				<CenterContent>
-					<Title>Planos para o Projeto</Title>
+					<Title>{t('PlansProject.title')}</Title>
 					
 					<Card>
 						<Card.Body>
 							<SucessMessage>
-								<h4><OkCheckMark /> Sistema de Autenticação de Usuário</h4>
+								<h4><OkCheckMark /> {t('PlansProject.plan1')}</h4>
 							</SucessMessage>
 							<br />
 							<SucessMessage>
-								<h4><OkCheckMark /> Sistema de Permissão de Usuário</h4>
+								<h4><OkCheckMark /> {t('PlansProject.plan2')}</h4>
 							</SucessMessage>
 							<br />
 							<SucessMessage>
-								<h4><OkCheckMark /> Envio de E-mail e Confirmação de E-mail</h4>
+								<h4><OkCheckMark /> {t('PlansProject.plan3')}</h4>
 							</SucessMessage>
 							<br />
 							<SucessMessage>
-								<h4><OkCheckMark /> Criação de Estilo Próprio</h4>
+								<h4><OkCheckMark /> {t('PlansProject.plan4')}</h4>
 							</SucessMessage>
 							<br />
 							<ErrorMessage>
-								<h4><FalseCheckMark /> Tradução do Site para Inglês</h4>
+								<h4><FalseCheckMark /> {t('PlansProject.plan5')}</h4>
 							</ErrorMessage>
 
 						</Card.Body>
@@ -61,3 +65,5 @@ export default class PlansProject extends Component {
 		)
 	}
 }
+
+export default withTranslation()(PlansProject);

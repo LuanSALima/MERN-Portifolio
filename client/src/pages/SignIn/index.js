@@ -9,6 +9,8 @@ import Navbar from "../../components/Navbar";
 
 import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
+import { withTranslation } from 'react-i18next';
+
 class SignIn extends Component {
 
 	constructor(props) {
@@ -80,11 +82,13 @@ class SignIn extends Component {
 	}
 
 	render() {
+		const { t } = this.props;
+
 		return (
 			<Page>
 			    <Navbar />
 				<CenterContent>
-					<Title>Login</Title>
+					<Title>{t('SignIn.title')}</Title>
 					<ErrorMessage>{this.state.error}</ErrorMessage>
 					<Form onSubmit={this.handleSignIn}>
 
@@ -93,7 +97,7 @@ class SignIn extends Component {
 	                    }
 
 						<FormGroup>
-							<label>Email: </label>
+							<label>{t('SignIn.form_label1')}</label>
 							<input	type="email"
 									required
 									value={this.state.email}
@@ -102,7 +106,7 @@ class SignIn extends Component {
 							<ErrorMessage>{this.state.errorEmail}</ErrorMessage>
 						</FormGroup>
 						<FormGroup>
-							<label>Senha: </label>
+							<label>{t('SignIn.form_label2')}</label>
 							<input	type="password"
 									required
 									value={this.state.password}
@@ -111,7 +115,7 @@ class SignIn extends Component {
 							<ErrorMessage>{this.state.errorPassword}</ErrorMessage>
 						</FormGroup>
 
-						<input type="submit" value="Login" />
+						<input type="submit" value={t('SignIn.form_submit')} />
 					</Form>
 				</CenterContent>
 			</Page>
@@ -119,4 +123,4 @@ class SignIn extends Component {
 	}
 }
 
-export default withRouter(SignIn);
+export default withTranslation()(withRouter(SignIn));

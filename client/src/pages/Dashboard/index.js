@@ -10,6 +10,8 @@ import { Table } from "react-bootstrap";
 
 import { Page, CenterContent, Title, ErrorMessage, ProgressBar } from '../../styles/default';
 
+import { withTranslation } from 'react-i18next';
+
 class Dashboard extends Component {
 
 	constructor(props) {
@@ -135,18 +137,20 @@ class Dashboard extends Component {
 	}
 
 	render() {
+		const { t } = this.props;
+
 		return (
 			<Page>
 			    <Navbar />
 				<CenterContent>
-					<Title>Dashboard</Title>
+					<Title>{t('Dashboard.title')}</Title>
 
 					<div className="row mt-3">
 						<div className="sidebar-sticky p-4">
-							<h5 className="sidebar-heading justify-content-center align-items-center">Menu</h5>
+							<h5 className="sidebar-heading justify-content-center align-items-center">{t('Dashboard.menu_title')}</h5>
 							<ul className="nav flex-column justify-content-center align-items-center">
 								<li className="nav-item">
-									<span onClick={this.handleUserList}>Listar Usuários</span>
+									<span onClick={this.handleUserList}>{t('Dashboard.menu_item1')}</span>
 								</li>
 							</ul>
 						</div>
@@ -171,4 +175,4 @@ class Dashboard extends Component {
 	}
 }
 
-export default withRouter(Dashboard);
+export default withTranslation()(withRouter(Dashboard));

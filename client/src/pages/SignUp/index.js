@@ -7,6 +7,8 @@ import Navbar from "../../components/Navbar";
 
 import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
+import { withTranslation } from 'react-i18next';
+
 class SignUp extends Component {
 
 	constructor(props) {
@@ -90,11 +92,13 @@ class SignUp extends Component {
 	}
 
 	render() {
+		const { t } = this.props;
+
 		return (
 			<Page>
 			    <Navbar />
 				<CenterContent>
-					<Title>Criar Conta</Title>
+					<Title>{t('SignUp.title')}</Title>
 					<ErrorMessage>{this.state.error}</ErrorMessage>
 					<Form onSubmit={this.handleSignUp}>
 
@@ -103,7 +107,7 @@ class SignUp extends Component {
 	                    }
 	                    
 						<FormGroup>
-							<label>Nome: </label>
+							<label>{t('SignUp.form_label1')}</label>
 							<input	type="text"
 									required
 									id="usernameField"
@@ -113,7 +117,7 @@ class SignUp extends Component {
 							<ErrorMessage>{this.state.errorUsername}</ErrorMessage>
 						</FormGroup>
 						<FormGroup>
-							<label>Email: </label>
+							<label>{t('SignUp.form_label2')}</label>
 							<input	type="email"
 									required
 									id="emailField"
@@ -123,7 +127,7 @@ class SignUp extends Component {
 							<ErrorMessage>{this.state.errorEmail}</ErrorMessage>
 						</FormGroup>
 						<FormGroup>
-							<label>Senha: </label>
+							<label>{t('SignUp.form_label3')}</label>
 							<input	type="password"
 									required
 									id="passwordField"
@@ -133,7 +137,7 @@ class SignUp extends Component {
 							<ErrorMessage>{this.state.errorPassword}</ErrorMessage>
 						</FormGroup>
 
-						<input type="submit" value="Cadastrar" />
+						<input type="submit" value={t('SignUp.form_submit')} />
 					</Form>
 				</CenterContent>
 			</Page>
@@ -141,4 +145,4 @@ class SignUp extends Component {
 	}
 }
 
-export default withRouter(SignUp);
+export default withTranslation()(withRouter(SignUp));

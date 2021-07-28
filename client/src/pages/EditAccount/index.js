@@ -9,6 +9,8 @@ import { updateUser } from "../../services/auth";
 
 import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
+import { useTranslation } from 'react-i18next';
+
 function EditAccount(props){
 
     const [email, setEmail] = useState("");
@@ -18,6 +20,8 @@ function EditAccount(props){
     const [errorEmail, setErrorEmail] = useState("");
 
     const [loading, setLoading] = useState(false);
+
+    const { t } = useTranslation();
 
     const handleEditAccount = e => {
         e.preventDefault();
@@ -78,7 +82,7 @@ function EditAccount(props){
 		<Page>
 		    <Navbar />
 			<CenterContent>
-                <Title>Editar Conta</Title>
+                <Title>{t('EditAccount.title')}</Title>
 
 				<ErrorMessage>{errorMessage}</ErrorMessage>
 
@@ -89,7 +93,7 @@ function EditAccount(props){
                     }
                     
                     <FormGroup>
-                        <label>Nome: </label>
+                        <label>{t('EditAccount.form_label1')}</label>
                         <input  type="text"
                                 required
                                 value={username}
@@ -99,7 +103,7 @@ function EditAccount(props){
                     </FormGroup>
 
                     <FormGroup>
-                        <label>Email: </label>
+                        <label>{t('EditAccount.form_label2')}</label>
                         <input  type="email"
                                 required
                                 value={email}
@@ -108,7 +112,7 @@ function EditAccount(props){
                         <ErrorMessage>{errorEmail}</ErrorMessage>
                     </FormGroup>
 
-                    <input type="submit" value="Alterar"/>
+                    <input type="submit" value={t('EditAccount.form_submit')}/>
                 </Form>
 			</CenterContent>
 		</Page>
