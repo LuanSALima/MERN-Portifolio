@@ -1,4 +1,4 @@
-const handleError = (error) => {
+const handleError = (error, request) => {
   let message = error.message;
   let errors = {};
 
@@ -11,7 +11,7 @@ const handleError = (error) => {
 
     */
     if(error.kind === "ObjectId") {
-      message = "Não foi possível encontrar este usuário em nosso banco de dados";
+      message = request.t('error_usernotfound');
     }
   }
 
@@ -19,14 +19,14 @@ const handleError = (error) => {
     message = undefined;
 
     Object.keys(error.errors).forEach((key) => {
-      errors[key] = error.errors[key].message;
+      errors[key] = request.t(error.errors[key].message);
     });
   }
 
   if (error.name === "MongoError" && error.code === 11000) {
     message = undefined;
 
-    errors[Object.keys(error.keyValue)] = Object.keys(error.keyValue)+" já cadastrado";
+    errors[Object.keys(error.keyValue)] = Object.keys(error.keyValue)+request.t('error_alreadyregistered');
   }
 
   if (error.name === "Error") {

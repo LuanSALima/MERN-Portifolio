@@ -10,17 +10,22 @@ const Role = require('../helpers/roles');
 
 const handleError = require('../helpers/validation');
 
+const i18next = require("i18next");
+
 router.route('/test').get((request, response) => {
 	response.json({
-		message: "Hello World"
+		message: request.t('hello_world')
 	});
 });
 
 router.route('/list').get(authorized([Role.User, Role.Admin]), async (request, response) => {
 	try {
       const users = await User.find();
+
+      throw new Error(i18next.t('user_empty'));
+
       if (users.length === 0) {
-        throw new Error("Não há Usuários Cadastrados no Banco de Dados!");
+        throw new Error(request.t('user_empty'));
       }
 
       return response.status(200).json({
@@ -28,30 +33,7 @@ router.route('/list').get(authorized([Role.User, Role.Admin]), async (request, r
         users
       });
     } catch (error) {
-      return response.status(400).json(handleError(error));
-    }
-});
-
-router.route('/addAdmin').post(async (request, response) => {
-
-  try {
-      const { username, email, password } = request.body;
-
-      const user = await User.create({
-        username,
-        email,
-        password,
-        role: Role.Admin
-      });
-
-      user.password = undefined;
-
-      return response.status(200).json({
-        success: true,
-        user
-      });
-    } catch (error) {
-      return response.status(200).json(handleError(error));
+      return response.status(400).json(handleError(error, request));
     }
 });
 
@@ -65,16 +47,16 @@ router.route('/account/update').post(authorized(), async (request, response) => 
 	    }); // {new: false} Para retornar a versão antiga do bcd, {runValidators: true} Para validar os campos antes do update
 
 		if (!user) {
-			throw new Error("Usuário não encontrado");
+			throw new Error(request.t('user_notfound'));
 		}
 			
 		return response.json({
 			'success': true,
-			'message': 'Usuário atualizado!'
+			'message': request.t('user_updated')
 		});
 
 	} catch (error) {
-		return response.status(400).json(handleError(error));
+		return response.status(400).json(handleError(error, request));
 	}
 });
 
@@ -85,11 +67,11 @@ router.route('/password-update').post(authorized(), async (request, response) =>
 		const user = await User.findById(request.user.id).select("+password");
 
 		if(!user) {
-			throw new Error("Usuário não encontrado!");
+			throw new Error(request.t('user_notfound'));
 		}
 
 		if (!(await bcrypt.compare(actualPassword, user.password))) {
-	      throw new Error("Senha atual incorreta!");
+	      throw new Error(request.t('user_currentpassincorrect'));
 	    }
 
 		user.password = newPassword;
@@ -98,10 +80,10 @@ router.route('/password-update').post(authorized(), async (request, response) =>
 
 		return response.json({
 			'success': true,
-			'message': 'Senha alterada com sucesso!'
+			'message': request.t('user_passupdated')
 		});
 	} catch (error) {
-		return response.status(404).json(handleError(error));
+		return response.status(404).json(handleError(error, request));
 	}
 });
 
@@ -111,7 +93,7 @@ router.route('/account').get(authorized(), async (request, response) => {
 		const user = await User.findById(request.user.id);
 
 		if(!user) {
-			throw new Error("Usuário não encontrado!");
+			throw new Error(request.t('user_notfound'));
 		}
 
 		return response.json({
@@ -119,7 +101,7 @@ router.route('/account').get(authorized(), async (request, response) => {
 			user
 		});
 	} catch (error) {
-		return response.status(404).json(handleError(error));
+		return response.status(404).json(handleError(error, request));
 	}
 });
 
@@ -129,21 +111,21 @@ router.route('/:id').delete(authorized([Role.User, Role.Admin]), async (request,
 			const user = await User.findByIdAndDelete(request.params.id);
 
 			if (!user) {
-		        throw new Error("Usuário Não Existe!");
+		        throw new Error(request.t('user_notexist'));
 		    }
 		} else {
 			const user = await User.findById(request.params.id);
 
 			if (!user) {
-		        throw new Error("Usuário Não Existe!");
+		        throw new Error(request.t('user_notexist'));
 		    }
 
 		    if(user.role === Role.Admin) {
-		    	throw new Error("Não é possível excluir um usuário administrador");
+		    	throw new Error(request.t('user_admindeleteerror'));
 		    }
 
 			if(user.role === Role.User) {
-				throw new Error("Não é possível excluir um usuário que possui o e-mail confirmado");
+				throw new Error(request.t('user_userdeleteerror'));
 			}
 
 			user.remove();
@@ -151,11 +133,11 @@ router.route('/:id').delete(authorized([Role.User, Role.Admin]), async (request,
 
 		return response.json({
 			'success': true,
-			'message': 'Usuário deletado!'
+			'message': request.t('user_deleted')
 		});
 
 	} catch (error) {
-		return response.status(400).json(handleError(error));
+		return response.status(400).json(handleError(error, request));
 	}
 });
 
@@ -173,7 +155,7 @@ router.route('/:id').get(authorized([Role.User, Role.Admin]), async (request, re
 		});
 
 	} catch (error) {
-		return response.status(400).json(handleError(error));
+		return response.status(400).json(handleError(error, request));
 	}
 });
 
@@ -188,21 +170,21 @@ router.route('/update/:id').post(authorized([Role.User, Role.Admin]), async (req
 		    });
 
 			if (!user) {
-		        throw new Error("Usuário Não Existe!");
+		        throw new Error(request.t('user_notexist'));
 		    }
 		} else {
 			const user = await User.findById(request.params.id);
 
 			if (!user) {
-		        throw new Error("Usuário Não Existe!");
+		        throw new Error(request.t('user_notexist'));
 		    }
 
 		    if(user.role === Role.Admin) {
-		    	throw new Error("Não é possível editar um usuário administrador");
+		    	throw new Error(request.t('user_adminupdateerror'));
 		    }
 
 			if(user.role === Role.User) {
-				throw new Error("Não é possível editar um usuário que possui o e-mail confirmado");
+				throw new Error(request.t('user_userupdateerror'));
 			}
 
 			await User.findByIdAndUpdate(request.params.id, { username, email }, {
@@ -213,11 +195,11 @@ router.route('/update/:id').post(authorized([Role.User, Role.Admin]), async (req
 			
 		return response.json({
 			'success': true,
-			'message': 'Usuário atualizado!'
+			'message': request.t('user_updated')
 		});
 
 	} catch (error) {
-		return response.status(400).json(handleError(error));
+		return response.status(400).json(handleError(error, request));
 	}
 });
 

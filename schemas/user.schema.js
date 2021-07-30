@@ -9,41 +9,41 @@ const userSchema = new Schema(
 	{
 		username: {
 	      type: String,
-	      required: [true, "Nome é obrigatório"],
+	      required: [true, "userschema_username_required"],
 	      unique: true,
 	      trim: true,
-	      minlength: [3, "Nome muito curto"],
-	      maxlength: [35, "Nome muito longo"],
+	      minlength: [3, "userschema_username_minlength"],
+	      maxlength: [35, "userschema_username_maxlength"],
 	    },
 		email: {
 	      type: String,
-	      required: [true, "E-mail é obrigatório"],
+	      required: [true, "userschema_email_required"],
 	      unique: true,
 	      trim: true,
 	      lowercase: true,
 	      validate: {
 	        validator: validator.isEmail,
-	        message: "{VALUE} não é um e-mail válido",
+	        message: "userschema_email_invalid",
 	      },
 	    },
 		password: {
 	      type: String,
-	      required: [true, "Senha é obrigatória"],
-	      minlength: [8, "Senha deve ter pelo menos 8 caracteres"],
-	      maxlength: [40, "Senha muito longa"],
+	      required: [true, "userschema_password_required"],
+	      minlength: [8, "userschema_password_minlength"],
+	      maxlength: [40, "userschema_password_maxlength"],
 	      select: false, /*Password não será retornado nas buscas ao BCD*/
 	      validate: {
 	        validator: (value) => {
 	          //Password possui pelo menos 1 numero, 1 letra minúscula, 1 letra maiúscula, 1 caracter especial e no minimo de 8 caracteres 
 	          return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/.test(value);
 	        },
-	        message: "Senha muito fraca"
+	        message: "userschema_password_weak"
 	      }
 	    },
 	    role: {
 	    	type: String,
 			enum: ['Admin', 'User', 'Guest'],
-			required: [true, 'É necessário informar o tipo de usuário']
+			required: [true, 'userschema_role_required']
 	    },
 	    emailIsConfirmed: {
 			type: String,

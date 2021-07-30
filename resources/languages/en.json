@@ -1,4 +1,40 @@
 {
 	"hello_world": "Hello World!",
-	"user_notfound": "User Not Found!"
+	"controller_acessed": "Controller accessed!",
+
+	"user_updated": "User Updated!",
+	"user_deleted": "User deleted!",
+	"user_passupdated": "Password changed successfully!",
+	"user_emailsent": "Email sent!",
+	"user_emailconfirmed": "Email Confirmed Successfully!",
+	"user_empty": "There are no Registered Users in the Database!",
+	"user_notfound": "User Not Found!",
+	"user_notexist": "User does Not Exist!",
+	"user_passincorrect": "Incorrect password",
+	"user_currentpassincorrect": "Incorrect current password!",
+	"user_admindeleteerror": "Cannot delete an admin user",
+	"user_userdeleteerror": "Cannot delete a user who has the confirmed email",
+	"user_adminupdateerror": "Cannot edit an admin user",
+	"user_userupdateerror": "Cannot edit a user who has confirmed email",
+	"user_invalidtoken": "Invalid token!",
+
+	"email_confirmsubject": "Email Confirm",
+
+	"auth_error": "Middleware error: ",
+	"auth_haventpermission": "You do not have permission to access this function",
+	"auth_notloggedin": "You must be logged in to access this function",
+
+	"error_usernotfound": "We couldn't find this user in our database.",
+	"error_alreadyregistered": " already registered",
+
+	"userschema_username_required": "Name is Required",
+	"userschema_username_minlength": "Name too Short",
+	"userschema_username_maxlength": "Nome too Long",
+	"userschema_email_required": "Email is Required",
+	"userschema_email_invalid": "Email invalid",
+	"userschema_password_required": "Password is Required",
+	"userschema_password_minlength": "Password must be at least 8 characters long.",
+	"userschema_password_maxlength": "Password too Long",
+	"userschema_password_weak": "Password too weak",
+	"userschema_role_required": "It is necessary to inform the role of user"
 }

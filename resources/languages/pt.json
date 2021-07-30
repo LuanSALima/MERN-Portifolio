@@ -1,4 +1,40 @@
 {
 	"hello_world": "Olá Mundo!",
-	"user_notfound": "Usuário não encontrado!"
+	"controller_acessed": "Controller acessado!",
+
+	"user_updated": "Usuário atualizado!",
+	"user_deleted": "Usuário deletado!",
+	"user_passupdated": "Senha alterada com sucesso!",
+	"user_emailsent": "Email enviado!",
+	"user_emailconfirmed": "Email Confirmado com sucesso!",
+	"user_empty": "Não há Usuários Cadastrados no Banco de Dados!",
+	"user_notfound": "Usuário não encontrado!",
+	"user_notexist": "Usuário Não Existe!",
+	"user_passincorrect": "Senha incorreta",
+	"user_currentpassincorrect": "Senha atual incorreta!",
+	"user_admindeleteerror": "Não é possível excluir um usuário administrador",
+	"user_userdeleteerror": "Não é possível excluir um usuário que possui o e-mail confirmado",
+	"user_adminupdateerror": "Não é possível editar um usuário administrador",
+	"user_userupdateerror": "Não é possível editar um usuário que possui o e-mail confirmado",
+	"user_invalidtoken": "Token inválido!",
+
+	"email_confirmsubject": "Confirmação de Email",
+
+	"auth_error": "Erro de middleware: ",
+	"auth_haventpermission": "Não possui permissão para acessar esta função",
+	"auth_notloggedin": "É necessário estar logado para acessar esta função",
+
+	"error_usernotfound": "Não foi possível encontrar este usuário em nosso banco de dados",
+	"error_alreadyregistered": " já cadastrado",
+
+	"userschema_username_required": "Nome é obrigatório",
+	"userschema_username_minlength": "Nome muito curto",
+	"userschema_username_maxlength": "Nome muito longo",
+	"userschema_email_required": "Email é obrigatório",
+	"userschema_email_invalid": "Email inválido",
+	"userschema_password_required": "Senha é obrigatória",
+	"userschema_password_minlength": "Senha deve ter pelo menos 8 caracteres",
+	"userschema_password_maxlength": "Senha muito longa",
+	"userschema_password_weak": "Senha muito fraca",
+	"userschema_role_required": "É necessário informar o tipo de usuário"
 }

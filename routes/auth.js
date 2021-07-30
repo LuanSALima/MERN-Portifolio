@@ -37,11 +37,11 @@ router.route('/authenticate').post( async (request, response) => {
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
-      throw new Error("Usuário não encontrado");
+      throw new Error(request.t('user_notfound'));
     }
 
     if (!(await bcrypt.compare(password, user.password))) {
-      throw new Error("Senha incorreta");
+      throw new Error(request.t('user_passincorrect'));
     }
 
     user.password = undefined;
@@ -56,7 +56,7 @@ router.route('/authenticate').post( async (request, response) => {
   } catch (error) {
     response
       .status(200)
-      .json(handleError(error));
+      .json(handleError(error, request));
   }
 });
 
@@ -79,7 +79,7 @@ router.route('/signUp').post( async (request, response) => {
         user
       });
     } catch (error) {
-      return response.status(200).json(handleError(error));
+      return response.status(200).json(handleError(error, request));
     }
 });
 
@@ -91,14 +91,14 @@ router.route('/send-email-token').get(authorized(), async (request, response) =>
       }).select('+emailConfirmToken');
 
     if(!user) {
-      throw new Error("Usuário não encontrado!");
+      throw new Error(request.t('user_notfound'));
     }
 
     //Enviando e-mail com o token de confirmação de email
     await mailer.sendMail({
       to: user.email,
-      from: 'nodeportifolio@gmail.com',
-      subject: 'Email Confirm',
+      from: process.env.EMAIL_FROM,
+      subject: request.t('email_confirmsubject'),
       template: 'confirm_email',
       context: {
         userName: user.username,
@@ -109,10 +109,10 @@ router.route('/send-email-token').get(authorized(), async (request, response) =>
     
     return response.json({
       'success': true,
-      'message': 'E-mail enviado!'
+      'message': request.t('user_emailsent')
     });
   } catch (error) {
-    return response.status(400).json(handleError(error));
+    return response.status(400).json(handleError(error, request));
   }
 });
 
@@ -127,7 +127,7 @@ router.route('/confirm-email').post(async (request, response) => {
     }).select('+emailConfirmToken');
 
     if (!user) {
-      throw new Error('Token inválido!');
+      throw new Error(request.t('user_invalidtoken'));
     }
 
     let token = undefined;
@@ -137,12 +137,12 @@ router.route('/confirm-email').post(async (request, response) => {
       
     return response.json({
       'success': true,
-      'message': 'Email Confirmado com sucesso!',
+      'message': request.t('user_emailconfirmed'),
       'token': token
     });
 
   } catch (error) {
-    return response.status(400).json(handleError(error));
+    return response.status(400).json(handleError(error, request));
   }
 });
 
@@ -152,7 +152,7 @@ router.route('/testAuthMiddleware')
     (request, response) => {
       response.status(200).json({
         success: true,
-        message: 'Controller acessado!'
+        message: request.t('controller_acessed')
       });
     }
   );
