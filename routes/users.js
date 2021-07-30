@@ -164,7 +164,7 @@ router.route('/:id').get(authorized([Role.User, Role.Admin]), async (request, re
 		const user = await User.findById(request.params.id);
 		
 		if (!user) {
-	        throw new Error("Usuário Não encontrado!");
+	        throw new Error(request.t('user_notfound'));
 	    }
 
 		return response.json({

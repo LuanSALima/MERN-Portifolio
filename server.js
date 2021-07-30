@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+const i18next = require('./middlewares/i18n.middleware');
+
 require('dotenv').config();
 
 const app = express();
@@ -9,6 +11,8 @@ const port = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
+
+app.use(i18next.middleware());
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
