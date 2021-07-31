@@ -6,6 +6,10 @@ export const Page = styled.div`
 	background-color: var(--color-light);
 `;
 
+export const Content = styled.div`
+	text-align: center;
+`;
+
 export const CenterContent = styled.div`
 	text-align: center;
 	padding: 25px 50px;

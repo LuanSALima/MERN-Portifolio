@@ -2,6 +2,7 @@
 	"hello_world": "Olá Mundo!",
 	"controller_acessed": "Controller acessado!",
 
+	"user_created": "Usuário cadastrado!",
 	"user_updated": "Usuário atualizado!",
 	"user_deleted": "Usuário deletado!",
 	"user_passupdated": "Senha alterada com sucesso!",
@@ -27,6 +28,10 @@
 	"error_usernotfound": "Não foi possível encontrar este usuário em nosso banco de dados",
 	"error_alreadyregistered": " já cadastrado",
 
+	"userschema_username": "Nome",
+	"userschema_createdat": "Data de Cadastro",
+	"userschema_emailIsConfirmed": "Email está Confirmado",
+	"userschema_role": "Cargo",
 	"userschema_username_required": "Nome é obrigatório",
 	"userschema_username_minlength": "Nome muito curto",
 	"userschema_username_maxlength": "Nome muito longo",

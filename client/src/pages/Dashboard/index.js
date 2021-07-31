@@ -8,9 +8,11 @@ import api from "../../services/api";
 
 import { Table } from "react-bootstrap";
 
-import { Page, CenterContent, Title, ErrorMessage, ProgressBar } from '../../styles/default';
+import { Page, Content, Title, ErrorMessage, ProgressBar } from '../../styles/default';
 
 import { withTranslation } from 'react-i18next';
+
+import { Container, Menu, MenuItem } from './style';
 
 class Dashboard extends Component {
 
@@ -31,6 +33,8 @@ class Dashboard extends Component {
 	}
 
 	handleUserList = async => {
+
+		const { t } = this.props;
 
 		this.setState({loading: true});
 
@@ -64,7 +68,7 @@ class Dashboard extends Component {
             	if(error.response.data.message) {
                     this.setState({error: error.response.data.message});
                 } else {
-                    alert("Ocorreu um erro Inesperado :(");
+                    this.setState({error: t('Error.unexpected')});
                 }
             });
 		
@@ -72,6 +76,8 @@ class Dashboard extends Component {
 	}
 
 	mountTable() {
+		const { t } = this.props;
+
 		return (
 			<Table striped bordered hover responsive>
 				<thead>
@@ -87,14 +93,14 @@ class Dashboard extends Component {
 						const removeItem = async e => {
 							e.preventDefault();
 
-							api.delete("api/" + this.state.dataType + "/" + data['_id'])
+							api.delete("api/" + this.state.dataType + "/" + data['id'])
 								.then(response => {
 									if (response.data.success) {
 										let array = this.state.tableData; //Array com todos os itens da tabela
 
 										//Procurando o índice que possui o item que foi excluido para remover da váriavel 'array'
 										for(let contentIndex=0 ; contentIndex < array.length ; contentIndex++) {
-											if (array[contentIndex]._id === data['_id']) {
+											if (array[contentIndex].id === data['id']) {
 											  array.splice(contentIndex, 1);
 
 											  this.setState({tableData: []}); //Utilizo isto para limpar o state e depois popular o state com a array atualizada
@@ -108,7 +114,7 @@ class Dashboard extends Component {
 									if(error.response.data.message) {
 					                    this.setState({error: error.response.data.message});
 					                } else {
-					                    alert("Ocorreu um erro Inesperado :(");
+					                    this.setState({error: t('Error.unexpected')});
 					                }
 								});
 						}
@@ -119,13 +125,13 @@ class Dashboard extends Component {
 									return <td key={index}>{data[column]}</td>
 								})}
 								<td>
-									<Link to={this.state.dataType + "/editar/" + data['_id']} style={{ color: "green" }}>
-						            	Editar
+									<Link to={this.state.dataType + "/editar/" + data['id']} style={{ color: "green" }}>
+						            	{t('Dashboard.tableedit')}
 						            </Link>
 								</td>
 								<td>
 									<a href="#remover" onClick={removeItem} style={{ color: "red" }}>
-						            	Remover
+						            	{t('Dashboard.tableremove')}
 						            </a>
 								</td>
 							</tr>
@@ -142,20 +148,19 @@ class Dashboard extends Component {
 		return (
 			<Page>
 			    <Navbar />
-				<CenterContent>
-					<Title>{t('Dashboard.title')}</Title>
-
-					<div className="row mt-3">
-						<div className="sidebar-sticky p-4">
+				<Content>
+					<Container>
+						<Menu>
 							<h5 className="sidebar-heading justify-content-center align-items-center">{t('Dashboard.menu_title')}</h5>
 							<ul className="nav flex-column justify-content-center align-items-center">
 								<li className="nav-item">
-									<span onClick={this.handleUserList}>{t('Dashboard.menu_item1')}</span>
+									<MenuItem onClick={this.handleUserList}>{t('Dashboard.menu_item1')}</MenuItem>
 								</li>
 							</ul>
-						</div>
+						</Menu>
 						<div className="container">
 
+							<Title>{t('Dashboard.title')}</Title>
 							{(this.state.loading === true) && 
 		                        <ProgressBar />
 		                    }
@@ -168,8 +173,8 @@ class Dashboard extends Component {
 								this.mountTable()
 							}
 						</div>
-					</div>
-				</CenterContent>
+					</Container>
+				</Content>
 			</Page>
 		);
 	}

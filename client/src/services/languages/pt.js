@@ -1,5 +1,10 @@
 export const Portuguese  = {
     translation: {
+      Error: {
+        unexpected: 'Ocorreu um erro Inesperado :(',
+        unexpectedresponse: 'Houve uma resposta inesperada do servidor',
+        sendemail: 'Ocorreu um erro ao enviar o e-mail'
+      },
       Navbar: {
         change_language: 'Trocar Idioma',
         dashboard: 'Dashboard',
@@ -41,7 +46,9 @@ export const Portuguese  = {
       Dashboard: {
       	title: 'Dashboard',
       	menu_title: 'Menu',
-      	menu_item1: 'Listar Usuários'
+      	menu_item1: 'Listar Usuários',
+        tableedit: 'Editar',
+        tableremove: 'Remover'
       },
       EditAccount: {
       	title: 'Editar Conta',
@@ -54,7 +61,8 @@ export const Portuguese  = {
       	form_label1: 'Senha Atual:',
       	form_label2: 'Nova Senha:',
       	form_label3: 'Confirmar Nova Senha:',
-      	form_submit: 'Alterar'
+      	form_submit: 'Alterar',
+        form_passerror: 'As senhas não coincidem'
       },
       EditUser: {
       	title: 'Editar Usuário',
@@ -77,14 +85,16 @@ export const Portuguese  = {
       	title: 'Login',
       	form_label1: 'Email:',
       	form_label2: 'Senha:',
-      	form_submit: 'Login'
+      	form_submit: 'Login',
+        form_empty: 'Preencha todos os dados para logar'
       },
       SignUp: {
       	title: 'Criar Conta',
       	form_label1: 'Nome:',
       	form_label2: 'Email:',
       	form_label3: 'Senha:',
-      	form_submit: 'Cadastrar'
+      	form_submit: 'Cadastrar',
+        form_empty: 'Preencha todos os dados para se cadastrar'
       },
       Unauthorized: {
       	title: 'Você não tem permissão para acessar'

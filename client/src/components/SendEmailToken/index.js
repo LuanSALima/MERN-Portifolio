@@ -35,7 +35,7 @@ function SendEmailToken() {
                     if(response.data.message) {
                 		setMessage(response.data.message);
                 	} else {
-                		setMessage('Ocorreu um erro ao enviar o e-mail');
+                		setMessage(t('Error.sendemail'));
                 	}
                 }
 			})
@@ -45,7 +45,7 @@ function SendEmailToken() {
 				if(error.response.data.message) {
                     setMessage(error.response.data.message);
                 } else {
-                    setMessage("Ocorreu um erro Inesperado :(");
+                    setMessage(t('Error.unexpected'));
                 }
 			});
 

@@ -29,7 +29,7 @@ function EditPassword(props){
         setLoading(true);
         
         if(newPassword !== confirmNewPassword) {
-            setErrorConfirmNewPassword("As senhas não coincidem");
+            setErrorConfirmNewPassword(t('EditPassword.form_passerror'));
         } else {
             api.post("/api/users/password-update", {actualPassword, newPassword})
                 .then(response => {
@@ -51,7 +51,7 @@ function EditPassword(props){
                         }
                     }
                     else{
-                        setErrorMessage("Houve uma resposta inesperada do servidor");
+                        setErrorMessage(t('Error.unexpectedresponse'));
                     }
                 });
         }

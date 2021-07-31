@@ -45,17 +45,19 @@ class SignIn extends Component {
 
 	handleSignIn = async e => {
 
+		const { t } = this.props;
+
 		e.preventDefault();
 
 		this.setState({loading: true});
 
-		const { username, email, password } = this.state;
+		const { email, password } = this.state;
 
 		if(!email || !password) {
-			this.setState({error: "Preencha todos os dados para logar"});
+			this.setState({error: t('SignIn.form_empty')});
 		} else {
 			try {
-				const response = await api.post("/api/auth/authenticate", {username, email, password});
+				const response = await api.post("/api/auth/authenticate", { email, password });
 
 				if(response.data.success) {
 					login(response.data.token, response.data.user);

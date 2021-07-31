@@ -34,7 +34,14 @@ router.route('/authenticate').post( async (request, response) => {
   try {
     const { email, password } = request.body;
 
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select({
+      _id: 1,
+      username: 1,
+      email: 1,
+      role: 1,
+      password: 1,
+      emailIsConfirmed: 1
+    });
 
     if (!user) {
       throw new Error(request.t('user_notfound'));
@@ -46,12 +53,16 @@ router.route('/authenticate').post( async (request, response) => {
 
     user.password = undefined;
 
+    let token = await jwtHelper.generateToken(user._id, user.role);
+
+    user._id = undefined;
+
     response
       .status(200)
       .json({
         success: true,
         user,
-        token: jwtHelper.generateToken(user._id, user.role)
+        token
       });
   } catch (error) {
     response
@@ -72,11 +83,9 @@ router.route('/signUp').post( async (request, response) => {
         role: Role.Guest
       });
 
-      user.password = undefined;
-
       return response.status(200).json({
         success: true,
-        user
+        message: request.t('user_created')
       });
     } catch (error) {
       return response.status(200).json(handleError(error, request));
@@ -132,7 +141,7 @@ router.route('/confirm-email').post(async (request, response) => {
 
     let token = undefined;
     if(jwtHelper.checkToken(request)) {
-      token = jwtHelper.generateToken(request.user.id, Role.User);
+      token = await jwtHelper.generateToken(request.user.id, Role.User);
     }
       
     return response.json({

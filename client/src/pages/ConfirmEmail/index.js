@@ -27,6 +27,8 @@ class ConfirmEmail extends Component {
 
 	componentDidMount() {
 
+		const { t } = this.props;
+
 		this.setState({loading: true});
 
 		api.post("/api/auth/confirm-email", {emailConfirmToken: this.state.emailToken})
@@ -52,7 +54,7 @@ class ConfirmEmail extends Component {
                     }
                 }
                 else{
-                    this.setState({error: "Houve uma resposta inesperada do servidor"});
+                    this.setState({error: t('Error.unexpectedresponse')});
                 }
             });
 

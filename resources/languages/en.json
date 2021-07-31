@@ -2,6 +2,7 @@
 	"hello_world": "Hello World!",
 	"controller_acessed": "Controller accessed!",
 
+	"user_created": "Usuário registered!",
 	"user_updated": "User Updated!",
 	"user_deleted": "User deleted!",
 	"user_passupdated": "Password changed successfully!",
@@ -27,6 +28,10 @@
 	"error_usernotfound": "We couldn't find this user in our database.",
 	"error_alreadyregistered": " already registered",
 
+	"userschema_username": "Name",
+	"userschema_createdat": "Registration Date",
+	"userschema_emailIsConfirmed": "Email is Confirmed",
+	"userschema_role": "Role",
 	"userschema_username_required": "Name is Required",
 	"userschema_username_minlength": "Name too Short",
 	"userschema_username_maxlength": "Nome too Long",

@@ -1,5 +1,10 @@
 export const English = {
 	translation: {
+      Error: {
+        unexpected: 'An Unexpected Error Occurred :(',
+        unexpectedresponse: 'There was an unexpected response from the server',
+        sendemail: 'There was an error sending the email'
+      },
       Navbar: {
         change_language: 'Change Language',
         dashboard: 'Dashboard',
@@ -41,7 +46,9 @@ export const English = {
       Dashboard: {
       	title: 'Dashboard',
       	menu_title: 'Menu',
-      	menu_item1: 'List Users'
+      	menu_item1: 'List Users',
+        tableedit: 'Edit',
+        tableremove: 'Remove'
       },
       EditAccount: {
       	title: 'Edit Account',
@@ -54,7 +61,8 @@ export const English = {
       	form_label1: 'Current Password:',
       	form_label2: 'New Password:',
       	form_label3: 'Confirm New Password:',
-      	form_submit: 'Update'
+      	form_submit: 'Update',
+        form_passerror: 'Passwords do not match'
       },
       EditUser: {
       	title: 'Edit User',
@@ -77,14 +85,16 @@ export const English = {
       	title: 'Login',
       	form_label1: 'Email:',
       	form_label2: 'Password:',
-      	form_submit: 'Login'
+      	form_submit: 'Login',
+        form_empty: 'Fill in all data to login'
       },
       SignUp: {
       	title: 'Create an account',
       	form_label1: 'Name:',
       	form_label2: 'Email:',
       	form_label3: 'Password:',
-      	form_submit: 'Register'
+      	form_submit: 'Register',
+        form_empty: 'Fill in all data to register'
       },
       Unauthorized: {
       	title: 'You do not have permission to access'

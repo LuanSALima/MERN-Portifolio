@@ -45,6 +45,8 @@ class EditUser extends Component {
 
 	componentDidMount() {
 
+		const { t } = this.props;
+
 		api.get("/api/users/"+this.state.id)
 			.then(response => {
 				if(response.data.success) {
@@ -71,13 +73,15 @@ class EditUser extends Component {
                     }
                 }
                 else{
-                    this.setState({error: "Houve uma resposta inesperada do servidor"});
+                    this.setState({error: t('Error.unexpectedresponse')});
                 }
             });
 
 	}
 
 	handleEditUser = async e => {
+
+		const { t } = this.props;
 
 		e.preventDefault();
 
@@ -106,7 +110,7 @@ class EditUser extends Component {
                     }
                 }
                 else{ 
-                    this.setState({error: "Houve uma resposta inesperada do servidor"});
+                    this.setState({error: t('Error.unexpectedresponse')});
                 }
             });
 

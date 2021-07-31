@@ -20,9 +20,16 @@ router.route('/test').get((request, response) => {
 
 router.route('/list').get(authorized([Role.User, Role.Admin]), async (request, response) => {
 	try {
-      const users = await User.find();
-
-      throw new Error(i18next.t('user_empty'));
+      const users = await User.find({}, {
+      	_id: 0,
+      	id: "$_id",
+      	[request.t('userschema_username')]: "$username",
+      	[request.t('userschema_createdat')]: {
+      		$dateToString: { format: "%d-%m-%Y %H:%M:%S", date: "$createdAt" }
+      	},
+      	[request.t('userschema_emailIsConfirmed')]: "$emailIsConfirmed",
+      	[request.t('userschema_role')]: "$role"
+      });
 
       if (users.length === 0) {
         throw new Error(request.t('user_empty'));
@@ -90,7 +97,11 @@ router.route('/password-update').post(authorized(), async (request, response) =>
 router.route('/account').get(authorized(), async (request, response) => {
 	try {
 		
-		const user = await User.findById(request.user.id);
+		const user = await User.findById(request.user.id).select({
+			_id: 0,
+			username: 1,
+			email: 1
+		});
 
 		if(!user) {
 			throw new Error(request.t('user_notfound'));
@@ -128,7 +139,7 @@ router.route('/:id').delete(authorized([Role.User, Role.Admin]), async (request,
 				throw new Error(request.t('user_userdeleteerror'));
 			}
 
-			user.remove();
+			await user.remove();
 		}
 
 		return response.json({
@@ -143,7 +154,11 @@ router.route('/:id').delete(authorized([Role.User, Role.Admin]), async (request,
 
 router.route('/:id').get(authorized([Role.User, Role.Admin]), async (request, response) => {
 	try {
-		const user = await User.findById(request.params.id);
+		const user = await User.findById(request.params.id).select({
+			_id: 0,
+			username: 1,
+			email: 1
+		});
 		
 		if (!user) {
 	        throw new Error(request.t('user_notfound'));

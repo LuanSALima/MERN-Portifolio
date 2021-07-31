@@ -132,6 +132,11 @@ class AboutProject extends Component {
 			                                		<a href="https://www.npmjs.com/package/bcryptjs" target="_blank" rel="noreferrer">{t('AboutProject.accordion2_npmjspage')}</a> - <a href="https://github.com/dcodeIO/bcrypt.js" target="_blank" rel="noreferrer">{t('AboutProject.accordion2_githubpage')}</a>
 			                                	</div>
 			                                	<br />
+			                                	<div className="container">
+			                                		<PackageTitle>i18next</PackageTitle>
+			                                		<a href="https://www.npmjs.com/package/i18next" target="_blank" rel="noreferrer">{t('AboutProject.accordion2_npmjspage')}</a> - <a href="https://www.i18next.com/" target="_blank" rel="noreferrer">{t('AboutProject.accordion2_documentation')}</a>
+			                                	</div>
+			                                	<br />
 			                                </AccordionBody>
 			                            </Accordion.Collapse>
 			                        </Card>

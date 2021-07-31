@@ -52,7 +52,7 @@ function EditAccount(props){
                     }
                 }
                 else{
-                    setErrorMessage("Houve uma resposta inesperada do servidor");
+                    setErrorMessage(t('Error.unexpectedresponse'));
                 }
             });
 
@@ -73,7 +73,7 @@ function EditAccount(props){
             	if(error.response.data.message) {
                     setErrorMessage(error.response.data.message);
                 } else {
-                    alert("Ocorreu um erro Inesperado :(");
+                    alert(t('Error.unexpected'));
                 }
             });
     }, [])

@@ -53,6 +53,8 @@ class SignUp extends Component {
 
 	handleSignUp = async e => {
 
+		const { t } = this.props;
+
 		e.preventDefault();
 
 		this.setState({loading: true});
@@ -60,7 +62,7 @@ class SignUp extends Component {
 		const { username, email, password } = this.state;
 
 		if(!username || !email || !password) {
-			this.setState({error: "Preencha todos os dados para se cadastrar"});
+			this.setState({error: t('SignUp.form_empty')});
 		} else {
 			try {
 				const response = await api.post("/api/auth/signUp", {username, email, password});
