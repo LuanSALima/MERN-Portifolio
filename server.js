@@ -34,7 +34,18 @@ const authRouter = require('./routes/auth.js');
 app.use('/api/auth', authRouter);
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
+
+	/*https://dev.to/hawacodes/deploying-a-mern-app-with-heroku-3km7*/
+    // Accessing the path module
+	const path = require("path");
+
+	// import the client build folder to the server.
+	app.use(express.static(path.resolve(__dirname, "./client/build")));
+
+	// ensure that the routes defined with React Router are working once the application has been deployed
+	app.get("*", function (request, response) {
+	  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+	});
 }
 
 app.listen(port, () => {
