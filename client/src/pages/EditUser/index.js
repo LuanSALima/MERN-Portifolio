@@ -29,6 +29,8 @@ class EditUser extends Component {
 		    errorEmail: "",
 		    loading: false
 		}
+
+		this.btnRef = React.createRef();
 	}
 
 	onChangeUsername(e) {
@@ -85,6 +87,10 @@ class EditUser extends Component {
 
 		e.preventDefault();
 
+		if(this.btnRef.current){
+			this.btnRef.current.setAttribute("disabled", "disabled");
+		}
+
 		this.setState({loading: true});
 
 		api.post("/api/users/update/"+this.state.id, {username: this.state.username, email: this.state.email})
@@ -96,11 +102,15 @@ class EditUser extends Component {
                 }
             })
             .catch(error => {
+				if(this.btnRef.current){
+					this.btnRef.current.removeAttribute("disabled");
+				}
+
                 if(error.response.data) {
                      if(error.response.data.message) {
                         this.setState({error: error.response.data.message});
                     }
-                    if (error.response.data.errors) {
+                    else if(error.response.data.errors) {
                         if(error.response.data.errors.username) {
                             this.setState({errorUsername: error.response.data.errors.username});
                         }
@@ -108,9 +118,9 @@ class EditUser extends Component {
                             this.setState({errorEmail: error.response.data.errors.email});
                         }
                     }
-                }
-                else{ 
-                    this.setState({error: t('Error.unexpectedresponse')});
+                    else{ 
+                    	this.setState({error: t('Error.unexpectedresponse')});
+                	}
                 }
             });
 
@@ -151,7 +161,7 @@ class EditUser extends Component {
 							<ErrorMessage>{this.state.errorEmail}</ErrorMessage>
 						</FormGroup>
 
-						<input type="submit" value={t('EditUser.form_submit')} />
+						<input ref={this.btnRef} type="submit" value={t('EditUser.form_submit')} />
 					</Form>
 				</CenterContent>
 			</Page>

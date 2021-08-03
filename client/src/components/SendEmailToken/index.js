@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import api from "../../services/api";
 
@@ -16,8 +16,14 @@ function SendEmailToken() {
 
 	const { t } = useTranslation();
 
+	const btnRef = useRef();
+
 	const sendEmail = async (e) => {
 		e.preventDefault();
+
+		if(btnRef.current){
+			btnRef.current.setAttribute("disabled", "disabled");
+		}
 
 		setLoading(true);
 
@@ -41,6 +47,10 @@ function SendEmailToken() {
 			})
 			.catch(error => {
 				setIsSuccess(false);
+				
+				if(btnRef.current){
+					btnRef.current.removeAttribute("disabled");
+				}
 
 				if(error.response.data.message) {
                     setMessage(error.response.data.message);
@@ -55,7 +65,7 @@ function SendEmailToken() {
 	return (
 		<Container>
 			<Text>{t('SendEmailToken.message_text')}</Text>
-			<Button onClick={sendEmail}>{t('SendEmailToken.button_text')}</Button>
+			<Button ref={btnRef} onClick={sendEmail}>{t('SendEmailToken.button_text')}</Button>
 
 			{(isSuccess === true)
 			?

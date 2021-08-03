@@ -88,6 +88,14 @@ export const Form = styled.form`
 
 		transition: all 0.2s;
 	}
+
+	input[type="submit"]:disabled, button:disabled {
+		background-color: var(--color-neutral);
+		color: var(--color-font-secondary);
+		border: 1px solid var(--color-light);
+
+		transition: all 0.2s;
+	}
 `;
 
 export const FormGroup = styled.div`

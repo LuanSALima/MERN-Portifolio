@@ -35,4 +35,12 @@ export const Button = styled.button`
 
 		transition: all 0.4s;
 	}
+
+	&:disabled {
+		background-color: var(--color-light);
+		color: var(--color-font-secondary);
+		border: 2px solid var(--color-neutral);
+
+		cursor: default;
+	}
 `;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
@@ -23,8 +23,14 @@ function EditAccount(props){
 
     const { t } = useTranslation();
 
+    const btnRef = useRef();
+
     const handleEditAccount = e => {
         e.preventDefault();
+
+        if(btnRef.current){
+            btnRef.current.setAttribute("disabled", "disabled");
+        }
 
         setLoading(true);
 
@@ -38,6 +44,11 @@ function EditAccount(props){
                 }
             })
             .catch(error => {
+
+                if(btnRef.current){
+                    btnRef.current.removeAttribute("disabled");
+                }
+
                 if(error.response.data) {
                     if(error.response.data.message) {
                         setErrorMessage(error.response.data.message);
@@ -73,7 +84,7 @@ function EditAccount(props){
             	if(error.response.data.message) {
                     setErrorMessage(error.response.data.message);
                 } else {
-                    alert(t('Error.unexpected'));
+                    setErrorMessage(t('Error.unexpected'));
                 }
             });
     }, [])
@@ -112,7 +123,7 @@ function EditAccount(props){
                         <ErrorMessage>{errorEmail}</ErrorMessage>
                     </FormGroup>
 
-                    <input type="submit" value={t('EditAccount.form_submit')}/>
+                    <input ref={btnRef} type="submit" value={t('EditAccount.form_submit')}/>
                 </Form>
 			</CenterContent>
 		</Page>

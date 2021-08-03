@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
@@ -23,12 +23,22 @@ function EditPassword(props){
 
     const { t } = useTranslation();
 
+    const btnRef = useRef();
+
     const handleEditPassword = e => {
         e.preventDefault();
+
+        if(btnRef.current){
+            btnRef.current.setAttribute("disabled", "disabled");
+        }
 
         setLoading(true);
         
         if(newPassword !== confirmNewPassword) {
+            if(btnRef.current){
+                btnRef.current.removeAttribute("disabled");
+            }
+
             setErrorConfirmNewPassword(t('EditPassword.form_passerror'));
         } else {
             api.post("/api/users/password-update", {actualPassword, newPassword})
@@ -40,18 +50,23 @@ function EditPassword(props){
                     }
                 })
                 .catch(error => {
+
+                    if(btnRef.current){
+                        btnRef.current.removeAttribute("disabled");
+                    }
+
                     if(error.response.data) {
-                         if(error.response.data.message) {
+                        if(error.response.data.message) {
                             setErrorMessage(error.response.data.message);
                         }
-                        if(error.response.data.errors) {
+                        else if(error.response.data.errors) {
                             if(error.response.data.errors.password) {
                                 setErrorNewPassword(error.response.data.errors.password);
                             }
                         }
-                    }
-                    else{
-                        setErrorMessage(t('Error.unexpectedresponse'));
+                        else{
+                            setErrorMessage(t('Error.unexpectedresponse'));
+                        }
                     }
                 });
         }
@@ -102,7 +117,7 @@ function EditPassword(props){
                         <ErrorMessage>{errorConfirmNewPassword}</ErrorMessage>
                     </FormGroup>
 
-                    <input type="submit" value={t('EditPassword.form_submit')} />
+                    <input ref={btnRef} type="submit" value={t('EditPassword.form_submit')} />
                 </Form>
 			</CenterContent>
 		</Page>

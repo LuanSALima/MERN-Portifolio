@@ -42,6 +42,14 @@ export const GlobalStyles = createGlobalStyle`
 
 		transition: all 0.4s;
 	}
+
+	button:disabled {
+		color: var(--color-font-secondary);
+		background-color: var(--color-light);
+		border: 1px solid var(--color-neutral);
+
+		cursor: default;
+	}
 }
 
 :root {

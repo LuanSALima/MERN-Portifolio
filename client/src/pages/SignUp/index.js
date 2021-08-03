@@ -31,6 +31,8 @@ class SignUp extends Component {
 		    errorPassword: "",
 		    loading: false
 		}
+
+		this.btnRef = React.createRef();
 	}
 
 	onChangeUsername(e) {
@@ -57,11 +59,20 @@ class SignUp extends Component {
 
 		e.preventDefault();
 
+		if(this.btnRef.current){
+			this.btnRef.current.setAttribute("disabled", "disabled");
+		}
+
 		this.setState({loading: true});
 
 		const { username, email, password } = this.state;
 
 		if(!username || !email || !password) {
+
+			if(this.btnRef.current){
+				this.btnRef.current.removeAttribute("disabled");
+			}
+
 			this.setState({error: t('SignUp.form_empty')});
 		} else {
 			try {
@@ -70,6 +81,10 @@ class SignUp extends Component {
 				if(response.data.success) {
 					this.props.history.push("/login");
 				} else {
+					if(this.btnRef.current){
+						this.btnRef.current.removeAttribute("disabled");
+					}
+
 					if(response.data.message) {
 						this.setState({error: response.data.message});
 					}
@@ -86,6 +101,10 @@ class SignUp extends Component {
 					}
 				}
 			} catch (err) {
+				if(this.btnRef.current){
+					this.btnRef.current.removeAttribute("disabled");
+				}
+			
 				this.setState({error: err.message});
 			}
 		}
@@ -139,7 +158,7 @@ class SignUp extends Component {
 							<ErrorMessage>{this.state.errorPassword}</ErrorMessage>
 						</FormGroup>
 
-						<input type="submit" value={t('SignUp.form_submit')} />
+						<input ref={this.btnRef} type="submit" value={t('SignUp.form_submit')} />
 					</Form>
 				</CenterContent>
 			</Page>

@@ -43,8 +43,18 @@ export const Text = styled.span`
 	text-align: left;
 `;
 
+export const TextContainer = styled.div`
+	margin-top: 20px;
+	margin-bottom: 40px;
+`;
+
 export const PackageTitle = styled.h2`
 	font-size: 22px;
 
 	color: var(--color-font-primary);
+`;
+
+export const PackageContainer = styled.div`
+	margin-top: 20px;
+	margin-bottom: 50px;
 `;
