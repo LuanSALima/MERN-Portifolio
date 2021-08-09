@@ -36,6 +36,12 @@ export const emailConfirmed = () => {
 	localStorage.setItem(USER_KEY, JSON.stringify(user));
 }
 
+export const emailNotConfirmed = () => {
+	const user = getUser();
+	user.emailIsConfirmed = "false";
+	localStorage.setItem(USER_KEY, JSON.stringify(user));
+}
+
 export const updateUser = (username, email) => {
 	const user = getUser();
 	user.username = username;

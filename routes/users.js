@@ -48,15 +48,23 @@ router.route('/account/update').post(authorized(), async (request, response) => 
 	try {
 		const { username, email } = request.body;
 
-		const user = await User.findByIdAndUpdate(request.user.id, { username, email }, {
-	        new: false,
-	        runValidators: true,
-	    }); // {new: false} Para retornar a versão antiga do bcd, {runValidators: true} Para validar os campos antes do update
+		const user = await User.findById(request.user.id);
+
+		let emailIsConfirmed = user.emailIsConfirmed;
 
 		if (!user) {
 			throw new Error(request.t('user_notfound'));
 		}
-			
+
+		if(email !== user.email && user.emailIsConfirmed === 'true') {
+			emailIsConfirmed = 'false';
+		}
+
+		await User.findByIdAndUpdate(request.user.id, { username, email, emailIsConfirmed: emailIsConfirmed }, {
+	        new: false,
+	        runValidators: true,
+	    }); // {new: false} Para retornar a versão antiga do bcd, {runValidators: true} Para validar os campos antes do update
+		
 		return response.json({
 			'success': true,
 			'message': request.t('user_updated')
@@ -156,8 +164,7 @@ router.route('/:id').get(authorized([Role.User, Role.Admin]), async (request, re
 	try {
 		const user = await User.findById(request.params.id).select({
 			_id: 0,
-			username: 1,
-			email: 1
+			username: 1
 		});
 		
 		if (!user) {
@@ -176,10 +183,10 @@ router.route('/:id').get(authorized([Role.User, Role.Admin]), async (request, re
 
 router.route('/update/:id').post(authorized([Role.User, Role.Admin]), async (request, response) => {
 	try {
-		const { username, email } = request.body;
+		const { username } = request.body;
 
 		if(request.user.role === Role.Admin) {
-			const user = await User.findByIdAndUpdate(request.params.id, { username, email }, {
+			const user = await User.findByIdAndUpdate(request.params.id, { username }, {
 		        new: false,
 		        runValidators: true,
 		    });

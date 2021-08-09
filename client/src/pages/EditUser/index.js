@@ -17,16 +17,13 @@ class EditUser extends Component {
 
 		/*Fazendo a bind para que o 'this' usado nas funções façam referencia a classe*/
 		this.onChangeUsername = this.onChangeUsername.bind(this);
-		this.onChangeEmail = this.onChangeEmail.bind(this);
 		this.handleEditUser = this.handleEditUser.bind(this);
 
 		this.state = {
 			id: props.match.params.id,
 			username: "",
-			email: "",
 			error: "",
 			errorUsername: "",
-		    errorEmail: "",
 		    loading: false
 		}
 
@@ -39,12 +36,6 @@ class EditUser extends Component {
 		})
 	}
 
-	onChangeEmail(e) {
-		this.setState({
-			email: e.target.value
-		})
-	}
-
 	componentDidMount() {
 
 		const { t } = this.props;
@@ -53,8 +44,7 @@ class EditUser extends Component {
 			.then(response => {
 				if(response.data.success) {
 					this.setState({
-						username: response.data.user.username,
-						email: response.data.user.email
+						username: response.data.user.username
 					})
 				} else {
                     this.setState({error: response.data.message});
@@ -68,9 +58,6 @@ class EditUser extends Component {
                     if (error.response.data.errors) {
                         if(error.response.data.errors.username) {
                             this.setState({errorUsername: error.response.data.errors.username});
-                        }
-                        if(error.response.data.errors.email) {
-                            this.setState({errorEmail: error.response.data.errors.email});
                         }
                     }
                 }
@@ -93,7 +80,7 @@ class EditUser extends Component {
 
 		this.setState({loading: true});
 
-		api.post("/api/users/update/"+this.state.id, {username: this.state.username, email: this.state.email})
+		api.post("/api/users/update/"+this.state.id, {username: this.state.username})
             .then(response => {
                 if(response.data.success) {
                     this.props.history.push("/dashboard");
@@ -113,9 +100,6 @@ class EditUser extends Component {
                     else if(error.response.data.errors) {
                         if(error.response.data.errors.username) {
                             this.setState({errorUsername: error.response.data.errors.username});
-                        }
-                        if(error.response.data.errors.email) {
-                            this.setState({errorEmail: error.response.data.errors.email});
                         }
                     }
                     else{ 
@@ -151,15 +135,6 @@ class EditUser extends Component {
 	                                />
 	                        <ErrorMessage>{this.state.errorUsername}</ErrorMessage>
 	                    </FormGroup>
-						<FormGroup>
-							<label>{t('EditUser.form_label2')}</label>
-							<input	type="email"
-									required
-									value={this.state.email}
-									onChange={this.onChangeEmail}
-									/>
-							<ErrorMessage>{this.state.errorEmail}</ErrorMessage>
-						</FormGroup>
 
 						<input ref={this.btnRef} type="submit" value={t('EditUser.form_submit')} />
 					</Form>

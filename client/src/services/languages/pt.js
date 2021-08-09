@@ -69,7 +69,10 @@ export const Portuguese  = {
       	title: 'Editar Conta',
       	form_label1: 'Nome:',
       	form_label2: 'Email:',
-      	form_submit: 'Alterar'
+      	form_submit: 'Alterar',
+        emailedit_text: 'Ao alterar seu e-mail, você precisará confirmá-lo novamente. Tem certeza que deseja alterar seu e-mail?',
+        emailedit_accept: 'Sim',
+        emailedit_reject: 'Não'
       },
       EditPassword: {
       	title: 'Alterar Senha',
@@ -94,7 +97,8 @@ export const Portuguese  = {
       	plan2: 'Sistema de Permissão de Usuário',
       	plan3: 'Envio de Email e Confirmação de Email',
       	plan4: 'Criação de Estilo Próprio',
-      	plan5: 'Tradução do Site para Inglês'
+      	plan5: 'Tradução do Site para Inglês',
+        plan6: 'Estilo responsivo para dispositivo móvel'
       },
       SignIn: {
       	title: 'Login',

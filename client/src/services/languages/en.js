@@ -69,7 +69,10 @@ export const English = {
       	title: 'Edit Account',
       	form_label1: 'Name:',
       	form_label2: 'Email:',
-      	form_submit: 'Update'
+      	form_submit: 'Update',
+        emailedit_text: 'When changing your email you will need to confirm the email again. Are you sure you want to change your email?',
+        emailedit_accept: 'Yes',
+        emailedit_reject: 'No'
       },
       EditPassword: {
       	title: 'Change Password',
@@ -94,7 +97,8 @@ export const English = {
       	plan2: 'User Permission System',
       	plan3: 'Email Submission and Email Confirmation',
       	plan4: 'Creating Own Style',
-      	plan5: 'Website Translation to English'
+      	plan5: 'Website Translation to English',
+        plan6: 'Responsive style for mobile device'
       },
       SignIn: {
       	title: 'Login',

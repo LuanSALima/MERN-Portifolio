@@ -5,11 +5,13 @@ import Navbar from "../../components/Navbar";
 
 import api from "../../services/api";
 
-import { updateUser } from "../../services/auth";
+import { updateUser, emailNotConfirmed } from "../../services/auth";
 
 import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
 import { useTranslation } from 'react-i18next';
+
+import { ConfirmContainer, AcceptButton, RejectButton } from './style';
 
 function EditAccount(props){
 
@@ -18,6 +20,8 @@ function EditAccount(props){
     const [errorMessage, setErrorMessage] = useState("");
     const [errorUsername, setErrorUsername] = useState("");
     const [errorEmail, setErrorEmail] = useState("");
+    const [bcdEmail, setBCDEmail] = useState("");
+    const [changeEmail, setChangeEmail] = useState(false);
 
     const [loading, setLoading] = useState(false);
 
@@ -34,40 +38,60 @@ function EditAccount(props){
 
         setLoading(true);
 
-        api.post("/api/users/account/update", {username, email})
-            .then(response => {
-                if(response.data.success) {
-                    updateUser(username, email);
-                    props.history.push("/dashboard");
-                } else {
-                    setErrorMessage(response.data.message);
-                }
-            })
-            .catch(error => {
+        if(email !== bcdEmail && changeEmail !== true) {
+            setChangeEmail(true);
+        } else {
+            api.post("/api/users/account/update", {username, email})
+                .then(response => {
+                    if(response.data.success) {
+                        updateUser(username, email);
 
-                if(btnRef.current){
-                    btnRef.current.removeAttribute("disabled");
-                }
+                        if(changeEmail === true) {
+                            emailNotConfirmed();
+                        }
 
-                if(error.response.data) {
-                    if(error.response.data.message) {
-                        setErrorMessage(error.response.data.message);
+                        props.history.push("/dashboard");
+                    } else {
+                        setErrorMessage(response.data.message);
                     }
-                    if (error.response.data.errors) {
-                        if(error.response.data.errors.username) {
-                            setErrorUsername(error.response.data.errors.username)
+                })
+                .catch(error => {
+                    if(error.response.data) {
+                        if(error.response.data.message) {
+                            setErrorMessage(error.response.data.message);
                         }
-                        if(error.response.data.errors.email) {
-                            setErrorEmail(error.response.data.errors.email);
+                        if (error.response.data.errors) {
+                            if(error.response.data.errors.username) {
+                                setErrorUsername(error.response.data.errors.username)
+                            }
+                            if(error.response.data.errors.email) {
+                                setErrorEmail(error.response.data.errors.email);
+                            }
                         }
                     }
-                }
-                else{
-                    setErrorMessage(t('Error.unexpectedresponse'));
-                }
-            });
+                    else{
+                        setErrorMessage(t('Error.unexpectedresponse'));
+                    }
+                });
+        }
+
+        if(btnRef.current){
+            btnRef.current.removeAttribute("disabled");
+        }
 
         setLoading(false);
+    }
+
+    const confirmChangeEmail = e => {
+        setChangeEmail(true);
+        handleEditAccount(e);
+    }
+
+    const resetChangeEmail = e => {
+        e.preventDefault();
+
+        setEmail(bcdEmail);
+        setChangeEmail(false);
     }
 
 	useEffect(() => {
@@ -76,6 +100,7 @@ function EditAccount(props){
                 if (response.data.success) {
                     setUsername(response.data.user.username);
                     setEmail(response.data.user.email);
+                    setBCDEmail(response.data.user.email);
                 } else {
                     setErrorMessage(response.data.message);
                 }
@@ -123,7 +148,17 @@ function EditAccount(props){
                         <ErrorMessage>{errorEmail}</ErrorMessage>
                     </FormGroup>
 
-                    <input ref={btnRef} type="submit" value={t('EditAccount.form_submit')}/>
+                    {(changeEmail === true)
+                        ?
+                        <ConfirmContainer>
+                            <label>{t('EditAccount.emailedit_text')}</label>
+                            <AcceptButton onClick={confirmChangeEmail}>{t('EditAccount.emailedit_accept')}</AcceptButton>
+                            <RejectButton onClick={resetChangeEmail}>{t('EditAccount.emailedit_reject')}</RejectButton>
+                        </ConfirmContainer>
+                        :
+                        <input ref={btnRef} type="submit" value={t('EditAccount.form_submit')}/>
+                    }
+                    
                 </Form>
 			</CenterContent>
 		</Page>
