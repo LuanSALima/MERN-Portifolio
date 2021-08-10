@@ -9,6 +9,8 @@ import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar 
 
 import { useTranslation } from 'react-i18next';
 
+import PasswordInput from '../../components/PasswordInput';
+
 function EditPassword(props){
 
     const [actualPassword, setActualPassword] = useState("");
@@ -90,30 +92,18 @@ function EditPassword(props){
 
                     <FormGroup>
                         <label>{t('EditPassword.form_label1')}</label>
-                        <input  type="password"
-                                required
-                                value={actualPassword}
-                                onChange={e => setActualPassword(e.target.value)}
-                                />
+                        <PasswordInput value={actualPassword} onChange={e => setActualPassword(e.target.value)}/>
                     </FormGroup>
 
                     <FormGroup>
                         <label>{t('EditPassword.form_label2')}</label>
-                        <input  type="password"
-                                required
-                                value={newPassword}
-                                onChange={e => setNewPassword(e.target.value)}
-                                />
+                        <PasswordInput value={newPassword} onChange={e => setNewPassword(e.target.value)}/>
                         <ErrorMessage>{errorNewPassword}</ErrorMessage>
                     </FormGroup>
 
                     <FormGroup>
                         <label>{t('EditPassword.form_label3')}</label>
-                        <input  type="password"
-                                required
-                                value={confirmNewPassword}
-                                onChange={e => setConfirmNewPassword(e.target.value)}
-                                />
+                        <PasswordInput value={confirmNewPassword} onChange={e => setConfirmNewPassword(e.target.value)}/>
                         <ErrorMessage>{errorConfirmNewPassword}</ErrorMessage>
                     </FormGroup>
 

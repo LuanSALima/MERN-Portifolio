@@ -12,7 +12,7 @@ import { Page, Content, Title, ErrorMessage, ProgressBar } from '../../styles/de
 
 import { withTranslation } from 'react-i18next';
 
-import { Container, Menu, MenuItem } from './style';
+import { Container, Menu, MenuItem, MenuCollapse, MenuToggle, TableContainer } from './style';
 
 class Dashboard extends Component {
 
@@ -22,13 +22,15 @@ class Dashboard extends Component {
 		/*Fazendo a bind para que o 'this' usado nas funções façam referencia a classe*/
 		this.handleUserList = this.handleUserList.bind(this);
 		this.mountTable = this.mountTable.bind(this);
+		this.showSideBar = this.showSideBar.bind(this);
 
 		this.state = {
 			error: "",
 			dataType: "",
 			tableColumns: [],
 			tableData: [],
-			loading: false
+			loading: false,
+			showSideBar: false
 		}
 	}
 
@@ -36,7 +38,7 @@ class Dashboard extends Component {
 
 		const { t } = this.props;
 
-		this.setState({loading: true});
+		this.setState({loading: true, showSideBar: false});
 
 		api.get("/api/users/list")
             .then(response => {
@@ -142,6 +144,10 @@ class Dashboard extends Component {
 		)
 	}
 
+	showSideBar() {
+		this.setState({showSideBar: !this.state.showSideBar});
+	}
+
 	render() {
 		const { t } = this.props;
 
@@ -150,16 +156,22 @@ class Dashboard extends Component {
 			    <Navbar />
 				<Content>
 					<Container>
-						<Menu>
-							<h5 className="sidebar-heading justify-content-center align-items-center">{t('Dashboard.menu_title')}</h5>
-							<ul className="nav flex-column justify-content-center align-items-center">
-								<li className="nav-item">
-									<MenuItem onClick={this.handleUserList}>{t('Dashboard.menu_item1')}</MenuItem>
-								</li>
-							</ul>
+						<Menu show={this.state.showSideBar}>
+							<MenuToggle onClick={this.showSideBar}>
+								<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+								  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+								</svg>
+							</MenuToggle>
+							<MenuCollapse show={this.state.showSideBar}>
+								<h5 className="sidebar-heading justify-content-center align-items-center">{t('Dashboard.menu_title')}</h5>
+								<ul className="nav flex-column justify-content-center align-items-center">
+									<li className="nav-item">
+										<MenuItem onClick={this.handleUserList}>{t('Dashboard.menu_item1')}</MenuItem>
+									</li>
+								</ul>
+							</MenuCollapse>
 						</Menu>
-						<div className="container">
-
+						<TableContainer>
 							<Title>{t('Dashboard.title')}</Title>
 							{(this.state.loading === true) && 
 		                        <ProgressBar />
@@ -172,7 +184,7 @@ class Dashboard extends Component {
 							{(this.state.tableColumns && this.state.tableData) && 
 								this.mountTable()
 							}
-						</div>
+						</TableContainer>
 					</Container>
 				</Content>
 			</Page>

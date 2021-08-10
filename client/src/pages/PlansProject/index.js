@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar";
 
 import { Card } from 'react-bootstrap';
 
-import { Page, CenterContent, Title, SucessMessage, ErrorMessage } from '../../styles/default';
+import { Page, CenterContent, Title, SucessMessage, /*ErrorMessage*/ } from '../../styles/default';
 
 import { withTranslation } from 'react-i18next';
 
@@ -16,7 +16,7 @@ const OkCheckMark = () => {
 		</svg>
 	);
 }
-
+/*
 const FalseCheckMark = () => {
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
@@ -24,7 +24,7 @@ const FalseCheckMark = () => {
 		</svg>
 	);
 }
-
+*/
 class PlansProject extends Component {
 
 	render() {
@@ -58,9 +58,9 @@ class PlansProject extends Component {
 								<h4><OkCheckMark /> {t('PlansProject.plan5')}</h4>
 							</SucessMessage>
 							<br />
-							<ErrorMessage>
-								<h4><FalseCheckMark /> {t('PlansProject.plan6')}</h4>
-							</ErrorMessage>
+							<SucessMessage>
+								<h4><OkCheckMark /> {t('PlansProject.plan6')}</h4>
+							</SucessMessage>
 						</Card.Body>
 					</Card>
 				</CenterContent>

@@ -13,6 +13,11 @@ export const Content = styled.div`
 export const CenterContent = styled.div`
 	text-align: center;
 	padding: 25px 50px;
+
+	@media(max-width: 995px) {
+		width: 100%;
+		padding: 0;
+	}
 `;
 
 export const Title = styled.h1`
@@ -21,6 +26,10 @@ export const Title = styled.h1`
 	color: var(--color-font-primary);
 	cursor: default;
 	padding: 20px 0;
+
+	@media(max-width: 995px) {
+		font-size: 2rem;
+	}
 `;
 
 export const SucessMessage = styled.h2`
@@ -65,7 +74,6 @@ export const Form = styled.form`
 		font-size: 22px;
 		font-weight: 600;
 	}
-}
 
 	input[type="submit"], button {
 		width: 60%;
@@ -95,6 +103,18 @@ export const Form = styled.form`
 		border: 1px solid var(--color-light);
 
 		transition: all 0.2s;
+	}
+
+	@media(max-width: 995px) {
+		width: 100%;
+		padding: 0 1rem;
+		border: 0;
+		box-shadow: none;
+
+		input[type="submit"], button {
+			width: 100%;
+			height: 3rem;
+		}
 	}
 `;
 

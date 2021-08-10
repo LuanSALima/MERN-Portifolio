@@ -11,6 +11,8 @@ import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar 
 
 import { withTranslation } from 'react-i18next';
 
+import PasswordInput from '../../components/PasswordInput';
+
 class SignIn extends Component {
 
 	constructor(props) {
@@ -128,11 +130,7 @@ class SignIn extends Component {
 						</FormGroup>
 						<FormGroup>
 							<label>{t('SignIn.form_label2')}</label>
-							<input	type="password"
-									required
-									value={this.state.password}
-									onChange={this.onChangePassword}
-									/>
+							<PasswordInput value={this.state.password} onChange={this.onChangePassword}/>
 							<ErrorMessage>{this.state.errorPassword}</ErrorMessage>
 						</FormGroup>
 
