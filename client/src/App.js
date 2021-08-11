@@ -1,6 +1,6 @@
 import './App.css';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,6 +8,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { GlobalStyles } from "./styles/global";
 
 import jwt from "./services/auth";
+import axios from "axios";
+
+import LoadingImage from "./assets/loading.svg";
 
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -49,6 +52,41 @@ const AuthorizedRoute = ({ component: Component, ...rest }) => (
 );
 
 function App() {
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    //Check if have a refresh token in LocalStorage
+    if(jwt.getRefreshToken()) {
+      axios.post('/api/auth/refresh-token', {
+        refreshToken: jwt.getRefreshToken()
+      })
+        .then(response => {
+          //Refresh Token Valid
+          if(response.data.success) {
+            jwt.setAccessToken(response.data.accessToken);
+            jwt.setUser(response.data.user);
+          }
+        })
+        .catch(error => {
+          //Refresh Token Invalid/Expired
+          jwt.removeRefreshToken();
+        })
+        .finally(() => {
+          setLoading(false);
+        })
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  if (loading) {
+    return(
+      <div style={{width: '100vh', height: '100vh', display: 'flex', margin: '0 auto'}}>
+        <img src={LoadingImage} />;
+      </div>
+    );
+  }
 
   return (
     <>

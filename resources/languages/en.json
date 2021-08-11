@@ -24,6 +24,9 @@
 	"auth_error": "Middleware error: ",
 	"auth_haventpermission": "You do not have permission to access this function",
 	"auth_notloggedin": "You must be logged in to access this function",
+	"auth_refreshtokenrequired": "Update token required!",
+	"auth_refreshtokennotexist": "Update token does not exist!",
+	"auth_refreshtokenexpired": "The update token has expired. Please log in again!",
 
 	"error_usernotfound": "We couldn't find this user in our database.",
 	"error_alreadyregistered": " already registered",

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken"); /*Método para geração do token de autent
 //Método para gerar o token jwt, necessário passar o id
 module.exports.generateToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_HASH, {
-    expiresIn: 3600, /*(1 hora)Tempo em segundo para o expiramento do token*/
+    expiresIn: 300, /*(5 minutos)Tempo em segundo para o expiramento do token*/
   });
 }
 

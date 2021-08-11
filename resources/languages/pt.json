@@ -24,6 +24,9 @@
 	"auth_error": "Erro de middleware: ",
 	"auth_haventpermission": "Não possui permissão para acessar esta função",
 	"auth_notloggedin": "É necessário estar logado para acessar esta função",
+	"auth_refreshtokenrequired": "Token de atualização necessário!",
+	"auth_refreshtokennotexist": "O token de atualização não existe!",
+	"auth_refreshtokenexpired": "O token de atualização expirou. Por favor faça login novamente!",
 
 	"error_usernotfound": "Não foi possível encontrar este usuário em nosso banco de dados",
 	"error_alreadyregistered": " já cadastrado",

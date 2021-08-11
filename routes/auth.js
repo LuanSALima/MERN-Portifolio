@@ -1,5 +1,7 @@
 const router = require('express').Router();
+
 let User = require('../schemas/user.schema.js');
+let RefreshToken = require('../schemas/refreshToken.schema.js');
 
 const bcrypt = require("bcryptjs"); /*Método de encriptamento da senha*/
 const jwtHelper = require("../helpers/jwt"); /*Método para geração do token de autenticação*/
@@ -14,8 +16,6 @@ const mailer = require('../modules/mailer'); /*Modulo criado que possui toda a b
 const handleError = require('../helpers/validation');
 
 const Role = require('../helpers/roles');
-
-let RefreshToken = require('../schemas/refreshToken.schema.js');
 
 //Função Async pois é necessário esperar a pesquisa no BCD retornar.
 async function generateEmailToken() {
@@ -56,7 +56,20 @@ router.route('/authenticate').post( async (request, response) => {
     user.password = undefined;
 
     let accessToken = await jwtHelper.generateToken(user._id, user.role);
-    let refreshToken = await RefreshToken.createToken(user);
+    let refreshToken = await RefreshToken.findOne({user: user._id});
+
+    //User have a Refresh Token in BCD
+    if(refreshToken) {
+      //Refresh Token is expired
+      if(await RefreshToken.verifyExpiration(refreshToken)) {
+        await RefreshToken.findByIdAndRemove(refreshToken._id);
+        refreshToken = await RefreshToken.createToken(user);
+      } else {
+        refreshToken = refreshToken.token;
+      }
+    } else {
+      refreshToken = await RefreshToken.createToken(user);
+    }
 
     user._id = undefined;
 
@@ -164,23 +177,25 @@ router.route('/refresh-token').post(async (request, response) => {
     const { refreshToken: requestToken } = request.body;
 
     if(requestToken === null) {
-      throw new Error('Refresh Token Requerido!');
+      throw new Error(request.t('auth_refreshtokenrequired'));
     }
 
     let refreshToken = await RefreshToken.findOne({ token: requestToken }).populate({ path: 'user'});
 
     if(!refreshToken) {
-      throw new Error('Refresh Token não existe no banco de dados!');
+      throw new Error(request.t('auth_refreshtokennotexist'));
     }
 
     if(await RefreshToken.verifyExpiration(refreshToken)) {
       RefreshToken.findByIdAndRemove(refreshToken._id);
 
-      throw new Error('Refresh token Expirou. Por favor realize o login novamente!');
+      throw new Error(request.t('auth_refreshtokenexpired'));
     }
 
     if(!refreshToken.user) {
-      throw new Error('Usuário não encontrado');
+      RefreshToken.findByIdAndRemove(refreshToken._id);
+
+      throw new Error(request.t('user_notfound'));
     }
 
     const newAcessToken = await jwtHelper.generateToken(refreshToken.user._id, refreshToken.user.role);

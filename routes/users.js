@@ -1,5 +1,7 @@
 const router = require('express').Router();
+
 let User = require('../schemas/user.schema');
+let RefreshToken = require('../schemas/refreshToken.schema.js');
 
 const bcrypt = require("bcryptjs"); /*Método de encriptamento da senha*/
 
@@ -149,6 +151,8 @@ router.route('/:id').delete(authorized([Role.User, Role.Admin]), async (request,
 
 			await user.remove();
 		}
+		
+		await RefreshToken.findOneAndDelete({user: request.params.id});
 
 		return response.json({
 			'success': true,

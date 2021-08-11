@@ -26,7 +26,6 @@ api.interceptors.request.use(
 api.interceptors.response.use((response) => {
   return response
 }, async function (error) {
-  console.log(error);
   const originalRequest = error.config;
   if (error.response.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true;
@@ -44,7 +43,6 @@ api.interceptors.response.use((response) => {
     } catch (_error) {
       return Promise.reject(_error);
     }
-
   }
   return Promise.reject(error);
 });
