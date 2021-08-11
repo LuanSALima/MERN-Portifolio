@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 
-import { emailConfirmed, isAuthenticated, updateRole } from "../../services/auth";
+import jwt from "../../services/auth";
 
 import { Page, CenterContent, Title, ErrorMessage, ProgressBar } from '../../styles/default';
 
@@ -38,9 +38,11 @@ class ConfirmEmail extends Component {
 						message: response.data.message
 					});
 
-					if(isAuthenticated()) {
-						emailConfirmed();
-						updateRole(response.data.token);
+					if(jwt.isAuthenticated()) {
+						let user = jwt.getUser();
+						user.emailIsConfirmed = true;
+						jwt.setUser(user);
+						jwt.setAccessToken(response.data.token);
 					}
 					
 				} else {

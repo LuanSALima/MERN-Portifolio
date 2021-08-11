@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import api from "../../services/api";
-import { login } from "../../services/auth";
+import jwt from "../../services/auth";
 
 import { withRouter } from "react-router-dom";
 
@@ -73,7 +73,9 @@ class SignIn extends Component {
 				const response = await api.post("/api/auth/authenticate", { email, password });
 
 				if(response.data.success) {
-					login(response.data.token, response.data.user);
+					jwt.setUser(response.data.user);
+					jwt.setAccessToken(response.data.accessToken);
+					jwt.setRefreshToken(response.data.refreshToken);
 					this.props.history.push("/");
 				} else {
 					if(this.btnRef.current){

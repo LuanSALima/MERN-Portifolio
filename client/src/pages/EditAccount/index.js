@@ -5,7 +5,7 @@ import Navbar from "../../components/Navbar";
 
 import api from "../../services/api";
 
-import { updateUser, emailNotConfirmed } from "../../services/auth";
+import jwt from "../../services/auth";
 
 import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
@@ -44,11 +44,15 @@ function EditAccount(props){
             api.post("/api/users/account/update", {username, email})
                 .then(response => {
                     if(response.data.success) {
-                        updateUser(username, email);
-
+                        let user = jwt.getUser();
+                        user.username = username;
+                        user.email = email;
+                        
                         if(changeEmail === true) {
-                            emailNotConfirmed();
+                            user.emailIsConfirmed = false;
                         }
+
+                        jwt.setUser(user);
 
                         props.history.push("/dashboard");
                     } else {

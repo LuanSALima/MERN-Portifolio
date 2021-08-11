@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { GlobalStyles } from "./styles/global";
 
-import { isAuthenticated, isAuthorized, logout } from "./services/auth";
+import jwt from "./services/auth";
 
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -26,7 +26,7 @@ const AuthenticatedRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isAuthenticated() ? (
+      jwt.isAuthenticated() ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
@@ -39,7 +39,7 @@ const AuthorizedRoute = ({ component: Component, ...rest }) => (
   <Route
     {... rest}
     render={props =>
-      isAuthorized() ? (
+      jwt.isAuthorized() ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/unauthorized", state: { from: props.location } }} />
@@ -47,20 +47,7 @@ const AuthorizedRoute = ({ component: Component, ...rest }) => (
     }
   />
 );
-/*
-const AdminRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {... rest}
-    render={props =>
-      isAdmin() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/unauthorized", state: { from: props.location } }} />
-      )
-    }
-  />
-);
-*/
+
 function App() {
 
   return (
@@ -72,7 +59,9 @@ function App() {
           <Route path="/login" exact component={SignIn} />
           <Route path="/registrar" exact component={SignUp} />
           <Route path="/logout" exact render={props => {
-            logout(); 
+            jwt.removeUser();
+            jwt.removeAccessToken();
+            jwt.removeRefreshToken();
             return <Redirect to={{ pathname: "/", state: { from: props.location } }} />
           }} 
           />

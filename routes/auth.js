@@ -15,6 +15,8 @@ const handleError = require('../helpers/validation');
 
 const Role = require('../helpers/roles');
 
+let RefreshToken = require('../schemas/refreshToken.schema.js');
+
 //Função Async pois é necessário esperar a pesquisa no BCD retornar.
 async function generateEmailToken() {
 
@@ -53,7 +55,8 @@ router.route('/authenticate').post( async (request, response) => {
 
     user.password = undefined;
 
-    let token = await jwtHelper.generateToken(user._id, user.role);
+    let accessToken = await jwtHelper.generateToken(user._id, user.role);
+    let refreshToken = await RefreshToken.createToken(user);
 
     user._id = undefined;
 
@@ -62,7 +65,8 @@ router.route('/authenticate').post( async (request, response) => {
       .json({
         success: true,
         user,
-        token
+        accessToken,
+        refreshToken
       });
   } catch (error) {
     response
@@ -154,6 +158,44 @@ router.route('/confirm-email').post(async (request, response) => {
     return response.status(400).json(handleError(error, request));
   }
 });
+
+router.route('/refresh-token').post(async (request, response) => {
+  try {
+    const { refreshToken: requestToken } = request.body;
+
+    if(requestToken === null) {
+      throw new Error('Refresh Token Requerido!');
+    }
+
+    let refreshToken = await RefreshToken.findOne({ token: requestToken }).populate({ path: 'user'});
+
+    if(!refreshToken) {
+      throw new Error('Refresh Token não existe no banco de dados!');
+    }
+
+    if(await RefreshToken.verifyExpiration(refreshToken)) {
+      RefreshToken.findByIdAndRemove(refreshToken._id);
+
+      throw new Error('Refresh token Expirou. Por favor realize o login novamente!');
+    }
+
+    if(!refreshToken.user) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    const newAcessToken = await jwtHelper.generateToken(refreshToken.user._id, refreshToken.user.role);
+
+    return response.json({
+      'success': true,
+      accessToken: newAcessToken,
+      refreshToken: refreshToken.token,
+      user: refreshToken.user
+    })
+
+  } catch (error) {
+    return response.status(400).json(handleError(error, request));
+  }
+})
 
 router.route('/testAuthMiddleware')
   .get(

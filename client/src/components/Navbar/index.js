@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { Navbar, NavDropdown } from "react-bootstrap";
 
-import { isAuthenticated, getUser, isEmailConfirmed, isAuthorized } from "../../services/auth";
+import jwt from "../../services/auth";
 
 import SendEmailToken from '../SendEmailToken';
 
@@ -25,20 +25,20 @@ class Header extends Component {
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<div className="barra-navegacao-items barra-navegacao-items-left">
-						{isAuthorized() &&
+						{jwt.isAuthorized() &&
 						<Link to="/dashboard">{t('Navbar.dashboard')}</Link>
 						}
 						<Link to="/sobre-projeto">{t('Navbar.about_project')}</Link>
 						<Link to="/planos-projeto">{t('Navbar.plans_project')}</Link>
 					</div>
-					{isAuthenticated() 
+					{jwt.isAuthenticated() 
 					?
 						<div className="barra-navegacao-items">
 							<NavDropdown alignRight title={t('Navbar.change_language')}>
 								<span onClick={ (e) => {e.preventDefault();i18n.changeLanguage('en');} }>English</span>
 								<span onClick={ (e) => {e.preventDefault();i18n.changeLanguage('pt');} }>Português</span>
 							</NavDropdown>
-							<NavDropdown alignRight title={getUser() ? getUser().username : t('Navbar.account')} id="collasible-nav-dropdown">
+							<NavDropdown alignRight title={jwt.getUser() ? jwt.getUser().username : t('Navbar.account')} id="collasible-nav-dropdown">
 								<Link to="/editar-conta" className="barra-dropdown-item">{t('Navbar.edit_account')}</Link>
 								<Link to="/alterar-senha" className="barra-dropdown-item">{t('Navbar.change_password')}</Link>
 							</NavDropdown>
@@ -56,7 +56,7 @@ class Header extends Component {
 					}
 				</Navbar.Collapse>
 			</Navbar>
-			{(isAuthenticated() && !isEmailConfirmed()) && <SendEmailToken />}
+			{(jwt.isAuthenticated() && !jwt.isEmailConfirmed()) && <SendEmailToken />}
 			</>
 		);
 	}

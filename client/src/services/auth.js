@@ -1,66 +1,83 @@
-export const TOKEN_KEY = "@nodePortifolio-Token";
-export const USER_KEY = "@nodePortifolio-User";
-export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
-export const getToken = () => localStorage.getItem(TOKEN_KEY);
-export const getUser = () => JSON.parse(localStorage.getItem(USER_KEY));
-/*
-export const isAdmin = () => {
-	if(getUser()) {
-		if(getUser().role === "Admin") {
-			return true;
-		}
-	}
-}
-*/
-export const isAuthorized = () => {
-	if(getUser()) {
-		if(getUser().role === "User" || getUser().role === "Admin") {
-			return true;
-		}
-	}
-}
+const REFRESH_TOKEN_KEY = "@nodePortifolio-Token";
 
-export const isEmailConfirmed = () => {
-	if(getUser()) {
-		if(getUser().emailIsConfirmed === "true") {
+const inMemoryJWTManager = () => {
+	let inMemoryJWT = null;
+	let inMemoryUser = null;
+
+	const getAccessToken = () => { return inMemoryJWT; }
+
+	const setAccessToken = (token) => {
+		inMemoryJWT = token;
+		return true;
+	}
+
+	const removeAccessToken = () => {
+		inMemoryJWT = null;
+		return true;
+	}
+
+	const getRefreshToken = () => { return localStorage.getItem(REFRESH_TOKEN_KEY); }
+
+	const setRefreshToken = (refreshToken) => {
+		localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+		return true;
+	}
+
+	const removeRefreshToken = () => {
+		localStorage.removeItem(REFRESH_TOKEN_KEY);
+		return true;
+	}
+
+	const isAuthenticated = () => {
+		if(inMemoryJWT !== null) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
+	const getUser = () => { return inMemoryUser; }
+
+	const setUser = (user) => {
+		inMemoryUser = user;
+	}
+
+	const removeUser = () => {
+		inMemoryUser = null;
+		return true;
+	}
+
+	const isEmailConfirmed = () => {
+		if(inMemoryUser.emailIsConfirmed === 'true') {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	const isAuthorized = () => {
+		if(inMemoryUser && inMemoryUser.role) {
+			if(inMemoryUser.role === "User" || inMemoryUser.role === "Admin") {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	return {
+		getAccessToken,
+		setAccessToken,
+		removeAccessToken,
+		getRefreshToken,
+		setRefreshToken,
+		removeRefreshToken,
+		isAuthenticated,
+		getUser,
+		setUser,
+		removeUser,
+		isEmailConfirmed,
+		isAuthorized
+	}
 }
 
-export const emailConfirmed = () => {
-	const user = getUser();
-	user.emailIsConfirmed = "true";
-	localStorage.setItem(USER_KEY, JSON.stringify(user));
-}
-
-export const emailNotConfirmed = () => {
-	const user = getUser();
-	user.emailIsConfirmed = "false";
-	localStorage.setItem(USER_KEY, JSON.stringify(user));
-}
-
-export const updateUser = (username, email) => {
-	const user = getUser();
-	user.username = username;
-	user.email = email;
-	localStorage.setItem(USER_KEY, JSON.stringify(user));
-}
-
-export const login = (token, user) => {
-  localStorage.setItem(TOKEN_KEY, token);
-  localStorage.setItem(USER_KEY, JSON.stringify(user));
-};
-export const logout = () => {
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem(USER_KEY);
-};
-
-export const updateRole = (token) => {
-  const user = getUser();
-  user.role = 'User';
-  localStorage.setItem(USER_KEY, JSON.stringify(user));
-  localStorage.setItem(TOKEN_KEY, token);
-};
+export default inMemoryJWTManager();
