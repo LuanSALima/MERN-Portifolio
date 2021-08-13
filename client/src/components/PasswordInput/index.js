@@ -13,9 +13,10 @@ function PasswordInput(props) {
 		<Container>
 			<input
 				type={ (showPassword) ? 'text' : 'password' }
-				required
+				name={props.name}
 				value={props.value}
 				onChange={props.onChange}
+				onBlur={props.onBlur}
 			/>
 			{(showPassword)
 			?

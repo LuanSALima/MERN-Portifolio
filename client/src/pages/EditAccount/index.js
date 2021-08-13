@@ -13,13 +13,12 @@ import { useTranslation } from 'react-i18next';
 
 import { ConfirmContainer, AcceptButton, RejectButton } from './style';
 
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
 function EditAccount(props){
 
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [errorUsername, setErrorUsername] = useState("");
-    const [errorEmail, setErrorEmail] = useState("");
     const [bcdEmail, setBCDEmail] = useState("");
     const [changeEmail, setChangeEmail] = useState(false);
 
@@ -29,72 +28,87 @@ function EditAccount(props){
 
     const btnRef = useRef();
 
-    const handleEditAccount = e => {
-        e.preventDefault();
+    const {
+        handleSubmit,
+        handleChange,
+        handleBlur,
+        errors,
+        touched,
+        values
+    } = useFormik({
+        initialValues: {
+            username: '',
+            email: ''
+        },
+        onSubmit: (values) => {
+            if(btnRef.current){
+                btnRef.current.setAttribute("disabled", "disabled");
+            }
 
-        if(btnRef.current){
-            btnRef.current.setAttribute("disabled", "disabled");
-        }
+            setLoading(true);
 
-        setLoading(true);
-
-        if(email !== bcdEmail && changeEmail !== true) {
-            setChangeEmail(true);
-        } else {
-            api.post("/api/users/account/update", {username, email})
-                .then(response => {
-                    if(response.data.success) {
-                        let user = jwt.getUser();
-                        user.username = username;
-                        user.email = email;
-                        
-                        if(changeEmail === true) {
-                            user.emailIsConfirmed = false;
-                        }
-
-                        jwt.setUser(user);
-
-                        props.history.push("/dashboard");
-                    } else {
-                        setErrorMessage(response.data.message);
-                    }
-                })
-                .catch(error => {
-                    if(error.response.data) {
-                        if(error.response.data.message) {
-                            setErrorMessage(error.response.data.message);
-                        }
-                        if (error.response.data.errors) {
-                            if(error.response.data.errors.username) {
-                                setErrorUsername(error.response.data.errors.username)
+            if(values.email !== bcdEmail && changeEmail !== true) {
+                setChangeEmail(true);
+            } else {
+                api.post("/api/users/account/update", {username: values.username, email: values.email})
+                    .then(response => {
+                        if(response.data.success) {
+                            let user = jwt.getUser();
+                            user.username = values.username;
+                            user.email = values.email;
+                            
+                            if(changeEmail === true) {
+                                user.emailIsConfirmed = false;
                             }
-                            if(error.response.data.errors.email) {
-                                setErrorEmail(error.response.data.errors.email);
+
+                            jwt.setUser(user);
+
+                            props.history.push("/dashboard");
+                        } else {
+                            setErrorMessage(response.data.message);
+                        }
+                    })
+                    .catch(error => {
+                        if(error.response.data) {
+                            if(error.response.data.message) {
+                                setErrorMessage(error.response.data.message);
+                            }
+                            if (error.response.data.errors) {
+                                if(error.response.data.errors.username) {
+                                    errors.username = error.response.data.errors.username;
+                                }
+                                if(error.response.data.errors.email) {
+                                    errors.email = error.response.data.errors.email;
+                                }
                             }
                         }
-                    }
-                    else{
-                        setErrorMessage(t('Error.unexpectedresponse'));
-                    }
-                });
-        }
+                        else{
+                            setErrorMessage(t('Error.unexpectedresponse'));
+                        }
+                    });
+            }
 
-        if(btnRef.current){
-            btnRef.current.removeAttribute("disabled");
-        }
+            if(btnRef.current){
+                btnRef.current.removeAttribute("disabled");
+            }
 
-        setLoading(false);
-    }
+            setLoading(false);
+        },
+        validationSchema: Yup.object({
+            username: Yup.string().required(t('Validations.User.username_required')).min(3, t('Validations.User.username_min')).max(35, t('Validations.User.username_max')),
+            email: Yup.string().required(t('Validations.User.email_required')).email(t('Validations.User.email_invalid'))
+        })
+    });
 
     const confirmChangeEmail = e => {
         setChangeEmail(true);
-        handleEditAccount(e);
+        handleSubmit(values);
     }
 
     const resetChangeEmail = e => {
         e.preventDefault();
 
-        setEmail(bcdEmail);
+        values.email = bcdEmail;
         setChangeEmail(false);
     }
 
@@ -102,8 +116,8 @@ function EditAccount(props){
         api.get("/api/users/account")
             .then(response => {
                 if (response.data.success) {
-                    setUsername(response.data.user.username);
-                    setEmail(response.data.user.email);
+                    values.username = response.data.user.username;
+                    values.email = response.data.user.email;
                     setBCDEmail(response.data.user.email);
                 } else {
                     setErrorMessage(response.data.message);
@@ -126,7 +140,7 @@ function EditAccount(props){
 
 				<ErrorMessage>{errorMessage}</ErrorMessage>
 
-                <Form onSubmit={handleEditAccount}>
+                <Form onSubmit={handleSubmit}>
 
                     {(loading === true) && 
                         <ProgressBar />
@@ -135,21 +149,27 @@ function EditAccount(props){
                     <FormGroup>
                         <label>{t('EditAccount.form_label1')}</label>
                         <input  type="text"
-                                required
-                                value={username}
-                                onChange={e => setUsername(e.target.value)}
+                                name="username"
+                                value={values.username}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
                                 />
-                        <ErrorMessage>{errorUsername}</ErrorMessage>
+                        {touched.username && errors.username ? 
+                            <ErrorMessage>{errors.username}</ErrorMessage>
+                            : null}
                     </FormGroup>
 
                     <FormGroup>
                         <label>{t('EditAccount.form_label2')}</label>
-                        <input  type="email"
-                                required
-                                value={email}
-                                onChange={e => setEmail(e.target.value)}
+                        <input  type="text"
+                                name="email"
+                                value={values.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
                                 />
-                        <ErrorMessage>{errorEmail}</ErrorMessage>
+                        {touched.email && errors.email ? 
+                            <ErrorMessage>{errors.email}</ErrorMessage>
+                            : null}
                     </FormGroup>
 
                     {(changeEmail === true)

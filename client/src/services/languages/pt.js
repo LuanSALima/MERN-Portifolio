@@ -117,6 +117,18 @@ export const Portuguese  = {
       },
       Unauthorized: {
       	title: 'Você não tem permissão para acessar'
+      },
+      Validations: {
+        User: {
+          username_required: 'Nome está vazio',
+          username_min: 'Nome tem menos de 3 caracteres',
+          username_max: 'Nome tem mais de 35 caracteres',
+          email_required: 'Email está vazio',
+          email_invalid: 'Email inválido',
+          password_required: 'Senha está vazia',
+          password_min: 'Senha tem menos de 8 caracteres',
+          password_max: 'Senha tem mais de 40 caracteres'
+        }
       }
     }
 }

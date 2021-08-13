@@ -11,15 +11,12 @@ import { useTranslation } from 'react-i18next';
 
 import PasswordInput from '../../components/PasswordInput';
 
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
 function EditPassword(props){
 
-    const [actualPassword, setActualPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmNewPassword, setConfirmNewPassword] = useState("");
-
     const [errorMessage, setErrorMessage] = useState("");
-    const [errorNewPassword, setErrorNewPassword] = useState("");
-    const [errorConfirmNewPassword, setErrorConfirmNewPassword] = useState("");
 
     const [loading, setLoading] = useState(false);
 
@@ -27,54 +24,71 @@ function EditPassword(props){
 
     const btnRef = useRef();
 
-    const handleEditPassword = e => {
-        e.preventDefault();
-
-        if(btnRef.current){
-            btnRef.current.setAttribute("disabled", "disabled");
-        }
-
-        setLoading(true);
-        
-        if(newPassword !== confirmNewPassword) {
+    const {
+        handleSubmit,
+        handleChange,
+        handleBlur,
+        errors,
+        touched,
+        values
+    } = useFormik({
+        initialValues: {
+            actualPassword: '',
+            newPassword: '',
+            confirmNewPassword: ''
+        },
+        onSubmit: (values) => {
             if(btnRef.current){
-                btnRef.current.removeAttribute("disabled");
+                btnRef.current.setAttribute("disabled", "disabled");
             }
 
-            setErrorConfirmNewPassword(t('EditPassword.form_passerror'));
-        } else {
-            api.post("/api/users/password-update", {actualPassword, newPassword})
-                .then(response => {
-                    if(response.data.success) {
-                        props.history.push("/dashboard");
-                    } else {
-                        setErrorMessage(response.data.message);
-                    }
-                })
-                .catch(error => {
+            setLoading(true);
+            
+            if(values.newPassword !== values.confirmNewPassword) {
+                if(btnRef.current){
+                    btnRef.current.removeAttribute("disabled");
+                }
 
-                    if(btnRef.current){
-                        btnRef.current.removeAttribute("disabled");
-                    }
-
-                    if(error.response.data) {
-                        if(error.response.data.message) {
-                            setErrorMessage(error.response.data.message);
+                errors.confirmNewPassword = t('EditPassword.form_passerror');
+            } else {
+                api.post("/api/users/password-update", {actualPassword: values.actualPassword, newPassword: values.newPassword})
+                    .then(response => {
+                        if(response.data.success) {
+                            props.history.push("/dashboard");
+                        } else {
+                            setErrorMessage(response.data.message);
                         }
-                        else if(error.response.data.errors) {
-                            if(error.response.data.errors.password) {
-                                setErrorNewPassword(error.response.data.errors.password);
+                    })
+                    .catch(error => {
+
+                        if(btnRef.current){
+                            btnRef.current.removeAttribute("disabled");
+                        }
+
+                        if(error.response.data) {
+                            if(error.response.data.message) {
+                                setErrorMessage(error.response.data.message);
+                            }
+                            else if(error.response.data.errors) {
+                                if(error.response.data.errors.password) {
+                                    errors.newPassword = error.response.data.errors.password;
+                                }
+                            }
+                            else{
+                                setErrorMessage(t('Error.unexpectedresponse'));
                             }
                         }
-                        else{
-                            setErrorMessage(t('Error.unexpectedresponse'));
-                        }
-                    }
-                });
-        }
+                    });
+            }
 
-        setLoading(false);
-    }
+            setLoading(false);
+        },
+        validationSchema: Yup.object({
+            actualPassword: Yup.string().required(t('Validations.User.password_required')).min(8, t('Validations.User.password_min')).max(40, t('Validations.User.password_max')),
+            newPassword: Yup.string().required(t('Validations.User.password_required')).min(8, t('Validations.User.password_min')).max(40, t('Validations.User.password_max')),
+            confirmNewPassword: Yup.string().required(t('Validations.User.password_required')).min(8, t('Validations.User.password_min')).max(40, t('Validations.User.password_max')),
+        })
+    });
 
 	return (
 		<Page>
@@ -84,7 +98,7 @@ function EditPassword(props){
 
 				<ErrorMessage>{errorMessage}</ErrorMessage>
 
-                <Form onSubmit={handleEditPassword}>
+                <Form onSubmit={handleSubmit}>
 
                     {(loading === true) && 
                         <ProgressBar />
@@ -92,19 +106,38 @@ function EditPassword(props){
 
                     <FormGroup>
                         <label>{t('EditPassword.form_label1')}</label>
-                        <PasswordInput value={actualPassword} onChange={e => setActualPassword(e.target.value)}/>
+                        <PasswordInput
+                            name="actualPassword"
+                            value={values.actualPassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur} />
+                        {touched.actualPassword && errors.actualPassword ? 
+                            <ErrorMessage>{errors.actualPassword}</ErrorMessage>
+                            : null}
                     </FormGroup>
 
                     <FormGroup>
                         <label>{t('EditPassword.form_label2')}</label>
-                        <PasswordInput value={newPassword} onChange={e => setNewPassword(e.target.value)}/>
-                        <ErrorMessage>{errorNewPassword}</ErrorMessage>
+                        <PasswordInput
+                            name="newPassword"
+                            value={values.newPassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur} />
+                        {touched.newPassword && errors.newPassword ? 
+                            <ErrorMessage>{errors.newPassword}</ErrorMessage>
+                            : null}
                     </FormGroup>
 
                     <FormGroup>
                         <label>{t('EditPassword.form_label3')}</label>
-                        <PasswordInput value={confirmNewPassword} onChange={e => setConfirmNewPassword(e.target.value)}/>
-                        <ErrorMessage>{errorConfirmNewPassword}</ErrorMessage>
+                        <PasswordInput
+                            name="confirmNewPassword"
+                            value={values.confirmNewPassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur}/>
+                        {touched.confirmNewPassword && errors.confirmNewPassword ? 
+                            <ErrorMessage>{errors.confirmNewPassword}</ErrorMessage>
+                            : null}
                     </FormGroup>
 
                     <input ref={btnRef} type="submit" value={t('EditPassword.form_submit')} />

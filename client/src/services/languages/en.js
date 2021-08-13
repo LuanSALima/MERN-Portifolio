@@ -117,6 +117,18 @@ export const English = {
       },
       Unauthorized: {
       	title: 'You do not have permission to access'
+      },
+      Validations: {
+        User: {
+          username_required: 'Name is empty',
+          username_min: 'Name has less than 3 characters',
+          username_max: 'Name has more than 35 characters',
+          email_required: 'Email is empty',
+          email_invalid: 'Invalid email',
+          password_required: 'Password is empty',
+          password_min: 'Password has less than 8 characters',
+          password_max: 'Password has more than 40 characters'
+        }
       }
     }
 }
