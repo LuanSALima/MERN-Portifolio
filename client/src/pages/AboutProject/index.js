@@ -134,6 +134,16 @@ class AboutProject extends Component {
 			                                		<PackageTitle>React i18next</PackageTitle>
 			                                		<a href="https://www.npmjs.com/package/react-i18next" target="_blank" rel="noreferrer">{t('AboutProject.accordion3_npmjspage')}</a> - <a href="https://react.i18next.com/" target="_blank" rel="noreferrer">{t('AboutProject.accordion3_documentation')}</a>
 			                                	</PackageContainer>
+
+			                                	<PackageContainer>
+			                                		<PackageTitle>Formik</PackageTitle>
+			                                		<a href="https://www.npmjs.com/package/formik" target="_blank" rel="noreferrer">{t('AboutProject.accordion3_npmjspage')}</a> - <a href="https://formik.org/docs/overview" target="_blank" rel="noreferrer">{t('AboutProject.accordion3_documentation')}</a>
+			                                	</PackageContainer>
+
+			                                	<PackageContainer>
+			                                		<PackageTitle>Yup</PackageTitle>
+			                                		<a href="https://www.npmjs.com/package/yup" target="_blank" rel="noreferrer">{t('AboutProject.accordion3_npmjspage')}</a> - <a href="https://github.com/jquense/yup" target="_blank" rel="noreferrer">{t('AboutProject.accordion3_githubpage')}</a>
+			                                	</PackageContainer>
 			                                </AccordionBody>
 			                            </Accordion.Collapse>
 			                        </Card>

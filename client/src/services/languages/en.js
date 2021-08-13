@@ -79,8 +79,7 @@ export const English = {
       	form_label1: 'Current Password:',
       	form_label2: 'New Password:',
       	form_label3: 'Confirm New Password:',
-      	form_submit: 'Update',
-        form_passerror: 'Passwords do not match'
+      	form_submit: 'Update'
       },
       EditUser: {
       	title: 'Edit User',
@@ -127,7 +126,8 @@ export const English = {
           email_invalid: 'Invalid email',
           password_required: 'Password is empty',
           password_min: 'Password has less than 8 characters',
-          password_max: 'Password has more than 40 characters'
+          password_max: 'Password has more than 40 characters',
+          passwords_notmatch: 'Passwords do not match'
         }
       }
     }

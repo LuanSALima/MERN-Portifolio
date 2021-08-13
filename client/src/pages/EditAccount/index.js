@@ -40,7 +40,7 @@ function EditAccount(props){
             username: '',
             email: ''
         },
-        onSubmit: (values) => {
+        onSubmit: (values, { setErrors }) => {
             if(btnRef.current){
                 btnRef.current.setAttribute("disabled", "disabled");
             }
@@ -74,12 +74,10 @@ function EditAccount(props){
                                 setErrorMessage(error.response.data.message);
                             }
                             if (error.response.data.errors) {
-                                if(error.response.data.errors.username) {
-                                    errors.username = error.response.data.errors.username;
-                                }
-                                if(error.response.data.errors.email) {
-                                    errors.email = error.response.data.errors.email;
-                                }
+                                setErrors({
+                                    username: error.response.data.errors.username,
+                                    email: error.response.data.errors.email
+                                });
                             }
                         }
                         else{

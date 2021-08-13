@@ -79,8 +79,7 @@ export const Portuguese  = {
       	form_label1: 'Senha Atual:',
       	form_label2: 'Nova Senha:',
       	form_label3: 'Confirmar Nova Senha:',
-      	form_submit: 'Alterar',
-        form_passerror: 'As senhas não coincidem'
+      	form_submit: 'Alterar'
       },
       EditUser: {
       	title: 'Editar Usuário',
@@ -127,7 +126,8 @@ export const Portuguese  = {
           email_invalid: 'Email inválido',
           password_required: 'Senha está vazia',
           password_min: 'Senha tem menos de 8 caracteres',
-          password_max: 'Senha tem mais de 40 caracteres'
+          password_max: 'Senha tem mais de 40 caracteres',
+          passwords_notmatch: 'As senhas não coincidem'
         }
       }
     }

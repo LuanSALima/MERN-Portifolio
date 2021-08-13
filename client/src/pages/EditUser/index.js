@@ -10,30 +10,22 @@ import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar 
 
 import { withTranslation } from 'react-i18next';
 
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
 class EditUser extends Component {
 
 	constructor(props) {
 		super(props);
 
-		/*Fazendo a bind para que o 'this' usado nas funções façam referencia a classe*/
-		this.onChangeUsername = this.onChangeUsername.bind(this);
-		this.handleEditUser = this.handleEditUser.bind(this);
-
 		this.state = {
 			id: props.match.params.id,
 			username: "",
 			error: "",
-			errorUsername: "",
 		    loading: false
 		}
 
 		this.btnRef = React.createRef();
-	}
-
-	onChangeUsername(e) {
-		this.setState({
-			username: e.target.value
-		})
 	}
 
 	componentDidMount() {
@@ -52,13 +44,8 @@ class EditUser extends Component {
 			})
 			.catch(error => {
                 if(error.response.data) {
-                     if(error.response.data.message) {
+                    if(error.response.data.message) {
                         this.setState({error: error.response.data.message});
-                    }
-                    if (error.response.data.errors) {
-                        if(error.response.data.errors.username) {
-                            this.setState({errorUsername: error.response.data.errors.username});
-                        }
                     }
                 }
                 else{
@@ -66,49 +53,6 @@ class EditUser extends Component {
                 }
             });
 
-	}
-
-	handleEditUser = async e => {
-
-		const { t } = this.props;
-
-		e.preventDefault();
-
-		if(this.btnRef.current){
-			this.btnRef.current.setAttribute("disabled", "disabled");
-		}
-
-		this.setState({loading: true});
-
-		api.post("/api/users/update/"+this.state.id, {username: this.state.username})
-            .then(response => {
-                if(response.data.success) {
-                    this.props.history.push("/dashboard");
-                } else {
-                    this.setState({error: response.data.message});
-                }
-            })
-            .catch(error => {
-				if(this.btnRef.current){
-					this.btnRef.current.removeAttribute("disabled");
-				}
-
-                if(error.response.data) {
-                     if(error.response.data.message) {
-                        this.setState({error: error.response.data.message});
-                    }
-                    else if(error.response.data.errors) {
-                        if(error.response.data.errors.username) {
-                            this.setState({errorUsername: error.response.data.errors.username});
-                        }
-                    }
-                    else{ 
-                    	this.setState({error: t('Error.unexpectedresponse')});
-                	}
-                }
-            });
-
-        this.setState({loading: false});
 	}
 
 	render() {
@@ -120,24 +64,77 @@ class EditUser extends Component {
 				<CenterContent>
 					<Title>{t('EditUser.title')}</Title>
 					<ErrorMessage>{this.state.error}</ErrorMessage>
-					<Form onSubmit={this.handleEditUser}>
+					<Formik
+						enableReinitialize={true}
 
-						{(this.state.loading === true) && 
-	                        <ProgressBar />
-	                    }
+						initialValues={{
+				            username: this.state.username
+				        }}
 
-						<FormGroup>
-	                        <label>{t('EditUser.form_label1')}</label>
-	                        <input  type="text"
-	                                required
-	                                value={this.state.username}
-	                                onChange={this.onChangeUsername}
-	                                />
-	                        <ErrorMessage>{this.state.errorUsername}</ErrorMessage>
-	                    </FormGroup>
+				        onSubmit={async (values, { setErrors }) => {
+							if(this.btnRef.current){
+								this.btnRef.current.setAttribute("disabled", "disabled");
+							}
 
-						<input ref={this.btnRef} type="submit" value={t('EditUser.form_submit')} />
-					</Form>
+							this.setState({loading: true});
+
+							api.post("/api/users/update/"+this.state.id, {username: values.username})
+					            .then(response => {
+					                if(response.data.success) {
+					                    this.props.history.push("/dashboard");
+					                } else {
+					                    this.setState({error: response.data.message});
+					                }
+					            })
+					            .catch(error => {
+					                if(error.response.data) {
+					                     if(error.response.data.message) {
+					                        this.setState({error: error.response.data.message});
+					                    }
+					                    else if(error.response.data.errors) {
+					                        setErrors({username: error.response.data.errors.username})
+					                    }
+					                    else{ 
+					                    	this.setState({error: t('Error.unexpectedresponse')});
+					                	}
+					                }
+					            });
+
+					        if(this.btnRef.current){
+								this.btnRef.current.removeAttribute("disabled");
+							}
+
+					        this.setState({loading: false});
+				        }}
+
+				        validationSchema={Yup.object({
+				        	username: Yup.string().required(t('Validations.User.username_required')).min(3, t('Validations.User.username_min')).max(35, t('Validations.User.username_max'))
+				        })}
+					>
+						{props => (
+							<Form onSubmit={props.handleSubmit}>
+
+								{(this.state.loading === true) && 
+			                        <ProgressBar />
+			                    }
+
+								<FormGroup>
+			                        <label>{t('EditUser.form_label1')}</label>
+			                        <input  type="text"
+			                                name="username"
+											value={props.values.username}
+											onChange={props.handleChange}
+											onBlur={props.handleBlur}
+			                                />
+			                        {props.touched.username && props.errors.username ? 
+			                            <ErrorMessage>{props.errors.username}</ErrorMessage>
+			                            : null}
+			                    </FormGroup>
+
+								<input ref={this.btnRef} type="submit" value={t('EditUser.form_submit')} />
+							</Form>
+						)}
+					</Formik>
 				</CenterContent>
 			</Page>
 		);

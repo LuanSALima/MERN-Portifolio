@@ -13,97 +13,20 @@ import { withTranslation } from 'react-i18next';
 
 import PasswordInput from '../../components/PasswordInput';
 
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
 class SignIn extends Component {
 
 	constructor(props) {
 		super(props);
 
-		/*Fazendo a bind para que o 'this' usado nas funções façam referencia a classe*/
-		this.onChangeEmail = this.onChangeEmail.bind(this);
-		this.onChangePassword = this.onChangePassword.bind(this);
-		this.handleSignIn = this.handleSignIn.bind(this);
-
 		this.state = {
-			email: "",
-			password: "",
 			error: "",
-		    errorEmail: "",
-		    errorPassword: "",
 		    loading: false
 		}
 
 		this.btnRef = React.createRef();
-	}
-
-	onChangeEmail(e) {
-		this.setState({
-			email: e.target.value
-		})
-	}
-
-	onChangePassword(e) {
-		this.setState({
-			password: e.target.value
-		})
-	}
-
-	handleSignIn = async e => {
-
-		const { t } = this.props;
-
-		e.preventDefault();
-
-		if(this.btnRef.current){
-			this.btnRef.current.setAttribute("disabled", "disabled");
-		}
-
-		this.setState({loading: true});
-
-		const { email, password } = this.state;
-
-		if(!email || !password) {
-
-			if(this.btnRef.current){
-				this.btnRef.current.removeAttribute("disabled");
-			}
-
-			this.setState({error: t('SignIn.form_empty')});
-		} else {
-			try {
-				const response = await api.post("/api/auth/authenticate", { email, password });
-
-				if(response.data.success) {
-					jwt.setUser(response.data.user);
-					jwt.setAccessToken(response.data.accessToken);
-					jwt.setRefreshToken(response.data.refreshToken);
-					this.props.history.push("/");
-				} else {
-					if(this.btnRef.current){
-						this.btnRef.current.removeAttribute("disabled");
-					}
-
-					if(response.data.message) {
-						this.setState({error: response.data.message});
-					}
-					if (response.data.errors) {
-						if(response.data.errors.email) {
-							this.setState({errorEmail: response.data.errors.email});
-						}
-						if(response.data.errors.password) {
-							this.setState({errorPassword: response.data.errors.password});
-						}
-					}
-				}
-			} catch (err) {
-				if(this.btnRef.current){
-					this.btnRef.current.removeAttribute("disabled");
-				}
-
-				this.setState({error: err.message});
-			}
-		}
-
-		this.setState({loading: false});
 	}
 
 	render() {
@@ -115,29 +38,89 @@ class SignIn extends Component {
 				<CenterContent>
 					<Title>{t('SignIn.title')}</Title>
 					<ErrorMessage>{this.state.error}</ErrorMessage>
-					<Form onSubmit={this.handleSignIn}>
+					<Formik
+						initialValues={{
+				            email: '',
+				            password: ''
+				        }}
 
-						{(this.state.loading === true) && 
-	                        <ProgressBar />
-	                    }
+				        onSubmit={async (values, { setErrors }) => {
+							if(this.btnRef.current){
+								this.btnRef.current.setAttribute("disabled", "disabled");
+							}
 
-						<FormGroup>
-							<label>{t('SignIn.form_label1')}</label>
-							<input	type="email"
-									required
-									value={this.state.email}
-									onChange={this.onChangeEmail}
-									/>
-							<ErrorMessage>{this.state.errorEmail}</ErrorMessage>
-						</FormGroup>
-						<FormGroup>
-							<label>{t('SignIn.form_label2')}</label>
-							<PasswordInput value={this.state.password} onChange={this.onChangePassword}/>
-							<ErrorMessage>{this.state.errorPassword}</ErrorMessage>
-						</FormGroup>
+							this.setState({loading: true});
 
-						<input ref={this.btnRef} type="submit" value={t('SignIn.form_submit')} />
-					</Form>
+							try {
+								const response = await api.post("/api/auth/authenticate", { email: values.email, password: values.password });
+
+								if(response.data.success) {
+									jwt.setUser(response.data.user);
+									jwt.setAccessToken(response.data.accessToken);
+									jwt.setRefreshToken(response.data.refreshToken);
+									this.props.history.push("/");
+								} else {
+									if(response.data.message) {
+										this.setState({error: response.data.message});
+									}
+									if (response.data.errors) {
+										setErrors({
+		                                    email: response.data.errors.email,
+		                                    password: response.data.errors.password
+		                                });
+									}
+								}
+							} catch (err) {
+								this.setState({error: err.message});
+							}
+
+							if(this.btnRef.current){
+								this.btnRef.current.removeAttribute("disabled");
+							}
+
+							this.setState({loading: false});
+				        }}
+
+				        validationSchema={Yup.object({
+				        	email: Yup.string().required(t('Validations.User.email_required')).email(t('Validations.User.email_invalid')),
+				            password: Yup.string().required(t('Validations.User.password_required')).min(8, t('Validations.User.password_min')).max(40, t('Validations.User.password_max')),
+				        })}
+					>
+						{props => (
+							<Form onSubmit={props.handleSubmit}>
+								{(this.state.loading === true) && 
+			                        <ProgressBar />
+			                    }
+
+								<FormGroup>
+									<label>{t('SignIn.form_label1')}</label>
+									<input	type="text"
+											name="email"
+											value={props.values.email}
+											onChange={props.handleChange}
+											onBlur={props.handleBlur}
+											/>
+									{props.touched.email && props.errors.email ? 
+			                            <ErrorMessage>{props.errors.email}</ErrorMessage>
+			                            : null}
+								</FormGroup>
+								<FormGroup>
+									<label>{t('SignIn.form_label2')}</label>
+									<PasswordInput
+										name="password"
+										value={props.values.password}
+										onChange={props.handleChange}
+										onBlur={props.handleBlur}
+										/>
+									{props.touched.password && props.errors.password ? 
+			                            <ErrorMessage>{props.errors.password}</ErrorMessage>
+			                            : null}
+								</FormGroup>
+
+								<input ref={this.btnRef} type="submit" value={t('SignIn.form_submit')} />
+							</Form>
+						)}
+					</Formik>
 				</CenterContent>
 			</Page>
 		);

@@ -37,48 +37,39 @@ function EditPassword(props){
             newPassword: '',
             confirmNewPassword: ''
         },
-        onSubmit: (values) => {
+        onSubmit: (values, { setErrors }) => {
             if(btnRef.current){
                 btnRef.current.setAttribute("disabled", "disabled");
             }
 
             setLoading(true);
             
-            if(values.newPassword !== values.confirmNewPassword) {
-                if(btnRef.current){
-                    btnRef.current.removeAttribute("disabled");
-                }
-
-                errors.confirmNewPassword = t('EditPassword.form_passerror');
-            } else {
-                api.post("/api/users/password-update", {actualPassword: values.actualPassword, newPassword: values.newPassword})
-                    .then(response => {
-                        if(response.data.success) {
-                            props.history.push("/dashboard");
-                        } else {
-                            setErrorMessage(response.data.message);
+            api.post("/api/users/password-update", {actualPassword: values.actualPassword, newPassword: values.newPassword})
+                .then(response => {
+                    if(response.data.success) {
+                        props.history.push("/dashboard");
+                    } else {
+                        setErrorMessage(response.data.message);
+                    }
+                })
+                .catch(error => {
+                    if(error.response.data) {
+                        if(error.response.data.message) {
+                            setErrorMessage(error.response.data.message);
                         }
-                    })
-                    .catch(error => {
-
-                        if(btnRef.current){
-                            btnRef.current.removeAttribute("disabled");
+                        else if(error.response.data.errors) {
+                            setErrors({
+                                newPassword: error.response.data.errors.password
+                            });
                         }
-
-                        if(error.response.data) {
-                            if(error.response.data.message) {
-                                setErrorMessage(error.response.data.message);
-                            }
-                            else if(error.response.data.errors) {
-                                if(error.response.data.errors.password) {
-                                    errors.newPassword = error.response.data.errors.password;
-                                }
-                            }
-                            else{
-                                setErrorMessage(t('Error.unexpectedresponse'));
-                            }
+                        else{
+                            setErrorMessage(t('Error.unexpectedresponse'));
                         }
-                    });
+                    }
+                });
+
+            if(btnRef.current){
+                btnRef.current.removeAttribute("disabled");
             }
 
             setLoading(false);
@@ -86,7 +77,7 @@ function EditPassword(props){
         validationSchema: Yup.object({
             actualPassword: Yup.string().required(t('Validations.User.password_required')).min(8, t('Validations.User.password_min')).max(40, t('Validations.User.password_max')),
             newPassword: Yup.string().required(t('Validations.User.password_required')).min(8, t('Validations.User.password_min')).max(40, t('Validations.User.password_max')),
-            confirmNewPassword: Yup.string().required(t('Validations.User.password_required')).min(8, t('Validations.User.password_min')).max(40, t('Validations.User.password_max')),
+            confirmNewPassword: Yup.string().required(t('Validations.User.password_required')).min(8, t('Validations.User.password_min')).max(40, t('Validations.User.password_max')).oneOf([Yup.ref('newPassword'), null], t('Validations.User.passwords_notmatch'))
         })
     });
 
