@@ -34,7 +34,8 @@ function EditAccount(props){
         handleBlur,
         errors,
         touched,
-        values
+        values,
+        setValues
     } = useFormik({
         initialValues: {
             username: '',
@@ -109,13 +110,15 @@ function EditAccount(props){
         values.email = bcdEmail;
         setChangeEmail(false);
     }
-
+    
 	useEffect(() => {
         api.get("/api/users/account")
             .then(response => {
                 if (response.data.success) {
-                    values.username = response.data.user.username;
-                    values.email = response.data.user.email;
+                    setValues({
+                        username: response.data.user.username,
+                        email: response.data.user.email
+                    });
                     setBCDEmail(response.data.user.email);
                 } else {
                     setErrorMessage(response.data.message);
@@ -128,7 +131,7 @@ function EditAccount(props){
                     setErrorMessage(t('Error.unexpected'));
                 }
             });
-    }, [])
+    }, [t, setValues]);
 
 	return (
 		<Page>
@@ -174,7 +177,7 @@ function EditAccount(props){
                         ?
                         <ConfirmContainer>
                             <label>{t('EditAccount.emailedit_text')}</label>
-                            <AcceptButton onClick={confirmChangeEmail}>{t('EditAccount.emailedit_accept')}</AcceptButton>
+                            <AcceptButton type="submit" onClick={confirmChangeEmail}>{t('EditAccount.emailedit_accept')}</AcceptButton>
                             <RejectButton onClick={resetChangeEmail}>{t('EditAccount.emailedit_reject')}</RejectButton>
                         </ConfirmContainer>
                         :

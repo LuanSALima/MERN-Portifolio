@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const i18next = require('./middlewares/i18n.middleware');
+const i18next = require('./backend/middlewares/i18n.middleware');
 
 require('dotenv').config();
 
@@ -27,10 +27,10 @@ connection.once('open', () => {
 	console.log("MongoDB database connection established successfully");
 });
 
-const usersRouter = require('./routes/users.js');
+const usersRouter = require('./backend/routes/users.js');
 app.use('/api/users', usersRouter);
 
-const authRouter = require('./routes/auth.js');
+const authRouter = require('./backend/routes/auth.js');
 app.use('/api/auth', authRouter);
 
 if (process.env.NODE_ENV === 'production') {
@@ -40,11 +40,11 @@ if (process.env.NODE_ENV === 'production') {
 	const path = require("path");
 
 	// import the client build folder to the server.
-	app.use(express.static(path.resolve(__dirname, "./client/build")));
+	app.use(express.static(path.resolve(__dirname, "./frontend/build")));
 
 	// ensure that the routes defined with React Router are working once the application has been deployed
 	app.get("*", function (request, response) {
-	  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+	  response.sendFile(path.resolve(__dirname, "./frontend/build", "index.html"));
 	});
 }
 

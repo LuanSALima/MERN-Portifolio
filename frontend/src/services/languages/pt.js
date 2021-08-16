@@ -18,7 +18,16 @@ export const Portuguese  = {
         account: 'Conta'
       },
       Home: {
-      	title: 'Página Home'
+      	title: 'Página Home',
+        create_account: 'Crie uma Conta',
+        create_account_text: 'Teste nosso sistema de autenticação e criação de usuários. Se desejar, também podemos confirmar seu e-mail para que você receba permissões de Administrador em nosso sistema!',
+        create_account_link: 'Cadastre-se',
+        about_project: 'Sobre o Projeto',
+        about_project_text: 'Conheça um pouco sobre as tecnologias utilizadas no projeto. Entenda o que significa a sigla MERN, como funciona a plataforma Heroku e todas as bibliotecas utilizadas no projeto.',
+        about_project_link: 'Acesse',
+        plans_project: 'Planos do Projeto',
+        plans_project_text: 'Veja quais são os planos para o projeto, desde os que estão em andamento até os que já foram concluídos.',
+        plans_project_link: 'Acesse'
       },
       SendEmailToken: {
       	message_text: 'Confirme seu email para receber acesso as funcionalidades de Admin',

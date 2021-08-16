@@ -45,6 +45,9 @@ class SignIn extends Component {
 				        }}
 
 				        onSubmit={async (values, { setErrors }) => {
+
+				        	let isSuccess = false;
+
 							if(this.btnRef.current){
 								this.btnRef.current.setAttribute("disabled", "disabled");
 							}
@@ -58,7 +61,7 @@ class SignIn extends Component {
 									jwt.setUser(response.data.user);
 									jwt.setAccessToken(response.data.accessToken);
 									jwt.setRefreshToken(response.data.refreshToken);
-									this.props.history.push("/");
+									isSuccess = true;
 								} else {
 									if(response.data.message) {
 										this.setState({error: response.data.message});
@@ -73,12 +76,16 @@ class SignIn extends Component {
 							} catch (err) {
 								this.setState({error: err.message});
 							}
-
+							
 							if(this.btnRef.current){
 								this.btnRef.current.removeAttribute("disabled");
 							}
 
 							this.setState({loading: false});
+
+							if(isSuccess) {
+								this.props.history.push("/");
+							}
 				        }}
 
 				        validationSchema={Yup.object({

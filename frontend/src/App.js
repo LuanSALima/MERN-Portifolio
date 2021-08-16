@@ -83,7 +83,7 @@ function App() {
   if (loading) {
     return(
       <div style={{width: '100vh', height: '100vh', display: 'flex', margin: '0 auto'}}>
-        <img src={LoadingImage} />;
+        <img src={LoadingImage} alt={'Loading'}/>;
       </div>
     );
   }

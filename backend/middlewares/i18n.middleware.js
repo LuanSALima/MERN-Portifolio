@@ -9,7 +9,7 @@ i18next
     .use(i18nextMiddleware.LanguageDetector)
     .init({
         backend: {
-            loadPath: path.resolve('./resources/languages/{{lng}}.json')
+            loadPath: path.resolve('./backend/resources/languages/{{lng}}.json')
         },
         fallbackLng: 'pt',
         preload: ['pt']

@@ -18,7 +18,16 @@ export const English = {
         account: 'Account'
       },
       Home: {
-      	title: 'Home Page'
+      	title: 'Home Page',
+        create_account: 'Create an Account',
+        create_account_text: 'Test our user creation and authentication system. If you wish, we can also confirm your email so that you receive Administrator permissions on our system!',
+        create_account_link: 'Register',
+        about_project: 'About Project',
+        about_project_text: 'Learn a little about the technologies used in the project. Understand what the acronym MERN means, how the Heroku platform works and all the libraries used in the project.',
+        about_project_link: 'Access',
+        plans_project: 'Project Plans',
+        plans_project_text: 'See what the plans are for the project, from those that are underway to those that have already been completed.',
+        plans_project_link: 'Access'
       },
       SendEmailToken: {
       	message_text: 'Confirm your email to receive access to Admin functionalities',

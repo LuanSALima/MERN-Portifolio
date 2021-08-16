@@ -39,27 +39,27 @@ class PlansProject extends Component {
 					<Card>
 						<Card.Body>
 							<SucessMessage>
-								<h4><OkCheckMark /> {t('PlansProject.plan1')}</h4>
+								<OkCheckMark /> {t('PlansProject.plan1')}
 							</SucessMessage>
 							<br />
 							<SucessMessage>
-								<h4><OkCheckMark /> {t('PlansProject.plan2')}</h4>
+								<OkCheckMark /> {t('PlansProject.plan2')}
 							</SucessMessage>
 							<br />
 							<SucessMessage>
-								<h4><OkCheckMark /> {t('PlansProject.plan3')}</h4>
+								<OkCheckMark /> {t('PlansProject.plan3')}
 							</SucessMessage>
 							<br />
 							<SucessMessage>
-								<h4><OkCheckMark /> {t('PlansProject.plan4')}</h4>
+								<OkCheckMark /> {t('PlansProject.plan4')}
 							</SucessMessage>
 							<br />
 							<SucessMessage>
-								<h4><OkCheckMark /> {t('PlansProject.plan5')}</h4>
+								<OkCheckMark /> {t('PlansProject.plan5')}
 							</SucessMessage>
 							<br />
 							<SucessMessage>
-								<h4><OkCheckMark /> {t('PlansProject.plan6')}</h4>
+								<OkCheckMark /> {t('PlansProject.plan6')}
 							</SucessMessage>
 						</Card.Body>
 					</Card>

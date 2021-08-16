@@ -44,6 +44,9 @@ class SignUp extends Component {
 				        }}
 
 				        onSubmit={async (values, { setErrors }) => {
+
+				        	let isSuccess = false;
+
 							if(this.btnRef.current){
 								this.btnRef.current.setAttribute("disabled", "disabled");
 							}
@@ -54,7 +57,7 @@ class SignUp extends Component {
 								const response = await api.post("/api/auth/signUp", {username: values.username, email: values.email, password: values.password});
 								
 								if(response.data.success) {
-									this.props.history.push("/login");
+									isSuccess = true;
 								} else {
 									if(response.data.message) {
 										this.setState({error: response.data.message});
@@ -76,6 +79,10 @@ class SignUp extends Component {
 							}
 
 							this.setState({loading: false});
+
+							if(isSuccess) {
+								this.props.history.push("/login");
+							}
 				        }}
 
 				        validationSchema={Yup.object({

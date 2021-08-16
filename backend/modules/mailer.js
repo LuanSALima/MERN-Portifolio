@@ -18,7 +18,7 @@ transport.use('compile', hbs({
 		extName: '.html',
 		defaultLayout: false,
 	},
-	viewPath: path.resolve('./resources/mail/'), //Caminho aonde estão as templates/views do Email
+	viewPath: path.resolve('./backend/resources/mail/'), //Caminho aonde estão as templates/views do Email
 	extName: '.html',
 }));
 

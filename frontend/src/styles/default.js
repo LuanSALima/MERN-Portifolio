@@ -33,12 +33,12 @@ export const Title = styled.h1`
 `;
 
 export const SucessMessage = styled.h2`
-	font-size: 20px;
+	font-size: 1.5rem;
 	color: var(--color-font-success);
 `;
 
 export const ErrorMessage = styled.h2`
-	font-size: 20px;
+	font-size: 1.5rem;
 	color: var(--color-font-error);
 `;
 
