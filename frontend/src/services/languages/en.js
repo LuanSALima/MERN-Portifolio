@@ -17,6 +17,9 @@ export const English = {
         change_password: 'Change Password',
         account: 'Account'
       },
+      Footer: {
+        github: 'Link to project on GitHub'
+      },
       Home: {
       	title: 'Home Page',
         create_account: 'Create an Account',

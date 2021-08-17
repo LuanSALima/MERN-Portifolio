@@ -1,7 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
+
+import Footer from '../../components/Footer';
 
 import api from "../../services/api";
 
@@ -81,6 +83,10 @@ function EditPassword(props){
         })
     });
 
+    useEffect(() => {
+        document.title = 'MERN - ' + t('EditPassword.title');
+    }, [t]);
+
 	return (
 		<Page>
 		    <Navbar />
@@ -134,6 +140,7 @@ function EditPassword(props){
                     <input ref={btnRef} type="submit" value={t('EditPassword.form_submit')} />
                 </Form>
 			</CenterContent>
+            <Footer />
 		</Page>
 	);
 }

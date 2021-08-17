@@ -5,6 +5,8 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 
+import Footer from '../../components/Footer';
+
 import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
 import { withTranslation } from 'react-i18next';
@@ -25,6 +27,11 @@ class SignUp extends Component {
 		}
 
 		this.btnRef = React.createRef();
+	}
+
+	componentDidMount(){
+		const { t } = this.props;
+		document.title = 'MERN - ' + t('SignUp.title');
 	}
 
 	render() {
@@ -139,6 +146,7 @@ class SignUp extends Component {
 						)}
 					</Formik>
 				</CenterContent>
+				<Footer />
 			</Page>
 		);
 	}

@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 
+import Footer from '../../components/Footer';
+
 import api from "../../services/api";
 
 import jwt from "../../services/auth";
@@ -112,6 +114,8 @@ function EditAccount(props){
     }
     
 	useEffect(() => {
+        document.title = 'MERN - ' + t('EditAccount.title');
+        
         api.get("/api/users/account")
             .then(response => {
                 if (response.data.success) {
@@ -186,6 +190,7 @@ function EditAccount(props){
                     
                 </Form>
 			</CenterContent>
+            <Footer />
 		</Page>
 	);
 }

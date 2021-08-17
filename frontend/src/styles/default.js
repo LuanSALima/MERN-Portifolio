@@ -3,15 +3,19 @@ import styled from 'styled-components';
 export const Page = styled.div`
 	width: 100%;
 	min-height: 100vh;
+
+	display:flex;
+	flex-direction:column;
+
 	background-color: var(--color-light);
 `;
 
 export const Content = styled.div`
 	text-align: center;
+	flex: 1 0 auto;
 `;
 
-export const CenterContent = styled.div`
-	text-align: center;
+export const CenterContent = styled(Content)`
 	padding: 25px 50px;
 
 	@media(max-width: 995px) {

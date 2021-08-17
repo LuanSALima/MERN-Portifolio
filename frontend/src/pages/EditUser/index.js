@@ -6,6 +6,8 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 
+import Footer from '../../components/Footer';
+
 import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
 import { withTranslation } from 'react-i18next';
@@ -31,6 +33,7 @@ class EditUser extends Component {
 	componentDidMount() {
 
 		const { t } = this.props;
+		document.title = 'MERN - ' + t('EditUser.title');
 
 		api.get("/api/users/"+this.state.id)
 			.then(response => {
@@ -136,6 +139,7 @@ class EditUser extends Component {
 						)}
 					</Formik>
 				</CenterContent>
+				<Footer />
 			</Page>
 		);
 	}

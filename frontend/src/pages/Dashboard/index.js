@@ -4,6 +4,8 @@ import { withRouter, Link } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 
+import Footer from '../../components/Footer';
+
 import api from "../../services/api";
 
 import { Table } from "react-bootstrap";
@@ -32,6 +34,11 @@ class Dashboard extends Component {
 			loading: false,
 			showSideBar: false
 		}
+	}
+
+	componentDidMount(){
+		const { t } = this.props;
+		document.title = 'MERN - ' + t('Dashboard.title');
 	}
 
 	handleUserList = async => {
@@ -187,6 +194,7 @@ class Dashboard extends Component {
 						</TableContainer>
 					</Container>
 				</Content>
+				<Footer />
 			</Page>
 		);
 	}

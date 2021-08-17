@@ -17,6 +17,9 @@ export const Portuguese  = {
         change_password: 'Alterar Senha',
         account: 'Conta'
       },
+      Footer: {
+        github: 'Link para o projeto no GitHub'
+      },
       Home: {
       	title: 'Página Home',
         create_account: 'Crie uma Conta',

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import Navbar from "../../components/Navbar";
 
+import Footer from '../../components/Footer';
+
 import { Page, CenterContent, Title } from '../../styles/default';
 
 import { withTranslation } from 'react-i18next';
@@ -11,6 +13,11 @@ import { Container, Content } from './style';
 import { Link } from 'react-router-dom';
 
 class Home extends Component {
+
+	componentDidMount(){
+		const { t } = this.props;
+		document.title = 'MERN - ' + t('Home.title');
+	}
 
 	render() {
 		const { t } = this.props;
@@ -47,6 +54,7 @@ class Home extends Component {
 						</Content>
 					</Container>
 				</CenterContent>
+				<Footer />
 			</Page>
 		)
 	}

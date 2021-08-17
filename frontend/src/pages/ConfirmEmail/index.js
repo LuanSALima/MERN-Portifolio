@@ -6,6 +6,8 @@ import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 
+import Footer from '../../components/Footer';
+
 import jwt from "../../services/auth";
 
 import { Page, CenterContent, Title, ErrorMessage, ProgressBar } from '../../styles/default';
@@ -28,6 +30,7 @@ class ConfirmEmail extends Component {
 	componentDidMount() {
 
 		const { t } = this.props;
+		document.title = 'MERN - ' + t('ConfirmEmail.title');
 
 		this.setState({loading: true});
 
@@ -80,6 +83,7 @@ class ConfirmEmail extends Component {
 
 					<h2>{this.state.message}</h2>
 				</CenterContent>
+				<Footer />
 			</Page>
 		);
 	}

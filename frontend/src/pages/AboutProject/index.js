@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import Navbar from "../../components/Navbar";
 
+import Footer from '../../components/Footer';
+
 import { Accordion, Card } from 'react-bootstrap';
 
 import { Page, CenterContent, Title } from '../../styles/default';
@@ -11,6 +13,11 @@ import { Text, PackageTitle, AccordionHeader, AccordionBody, AccordionSubHeader,
 import { withTranslation } from 'react-i18next';
 
 class AboutProject extends Component {
+
+	componentDidMount(){
+		const { t } = this.props;
+		document.title = 'MERN - ' + t('AboutProject.title');
+	}
 
 	render() {
 		const { t } = this.props;
@@ -202,6 +209,7 @@ class AboutProject extends Component {
 						</Card>
                     </Accordion>
 				</CenterContent>
+				<Footer />
 			</Page>
 		)
 	}

@@ -1,5 +1,5 @@
 {
-  "name": "Node.JS-Portifolio",
+  "name": "MERN-Portifolio",
   "version": "1.0.0",
   "description": "Projeto criado utilizando MERN Stack - MongoDB Atlas, Express.JS, React.JS e Node.JS",
   "main": "server.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LuanSALima/Node.JS-Portifolio.git"
+    "url": "git+https://github.com/LuanSALima/MERN-Portifolio.git"
   },
   "keywords": [],
   "author": "LuanSALima",
