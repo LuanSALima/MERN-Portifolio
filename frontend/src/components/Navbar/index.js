@@ -14,8 +14,7 @@ import { withTranslation } from 'react-i18next';
 import api from '../../services/api';
 
 import Modal from '../Modal';
-
-import { ConfirmContainer, ConfirmContainerLabel, AcceptButton, RejectButton } from '../../styles/default';
+import ConfirmBox from '../ConfirmBox';
 
 class Header extends Component {
 
@@ -103,11 +102,11 @@ class Header extends Component {
 			{(jwt.isAuthenticated() && !jwt.isEmailConfirmed()) && <SendEmailToken />}
 			{(this.state.modalIsOpen && 
 				<Modal onClose={this.closeModal}>
-					<ConfirmContainer>
-						<ConfirmContainerLabel>{t('Navbar.modal_text')}</ConfirmContainerLabel>
-						<AcceptButton onClick={this.removeUser}>{t('Navbar.modal_yes')}</AcceptButton>
-						<RejectButton onClick={this.closeModal}>{t('Navbar.modal_no')}</RejectButton>
-					</ConfirmContainer>
+					<ConfirmBox 
+						title={t('Navbar.modal_text')}
+						onAccept={this.removeUser}
+						onRecuse={this.closeModal}
+					/>
 				</Modal>
 			)}
 			</>

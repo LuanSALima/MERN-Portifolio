@@ -17,12 +17,15 @@ export const Portuguese  = {
         delete_account: 'Deletar Conta',
         change_password: 'Alterar Senha',
         account: 'Conta',
-        modal_text: 'Tem certeza que deseja deletar sua conta?',
-        modal_yes: 'Sim',
-        modal_no: 'Não'
+        modal_text: 'Tem certeza que deseja deletar sua conta?'
       },
       Footer: {
         github: 'Link para o projeto no GitHub'
+      },
+      ConfirmBox: {
+        text: 'Título ausente',
+        accept: 'Sim',
+        recuse: 'Não'
       },
       Home: {
       	title: 'Página Home',
@@ -86,9 +89,7 @@ export const Portuguese  = {
       	form_label1: 'Nome:',
       	form_label2: 'Email:',
       	form_submit: 'Alterar',
-        emailedit_text: 'Ao alterar seu e-mail, você precisará confirmá-lo novamente. Tem certeza que deseja alterar seu e-mail?',
-        emailedit_accept: 'Sim',
-        emailedit_reject: 'Não'
+        emailedit_text: 'Ao alterar seu e-mail, você precisará confirmá-lo novamente. Tem certeza que deseja alterar seu e-mail?'
       },
       EditPassword: {
       	title: 'Alterar Senha',

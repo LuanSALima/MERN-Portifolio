@@ -2,14 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import { withRouter } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
-
 import Footer from '../../components/Footer';
+import ConfirmBox from "../../components/ConfirmBox";
 
 import api from "../../services/api";
 
 import jwt from "../../services/auth";
 
-import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar, ConfirmContainer, ConfirmContainerLabel, AcceptButton, RejectButton } from '../../styles/default';
+import { Page, CenterContent, Title, Form, FormGroup, ErrorMessage, ProgressBar } from '../../styles/default';
 
 import { useTranslation } from 'react-i18next';
 
@@ -64,7 +64,7 @@ function EditAccount(props){
 
                             jwt.setUser(user);
 
-                            props.history.push("/dashboard");
+                            props.history.push("/");
                         } else {
                             setErrorMessage(response.data.message);
                         }
@@ -177,11 +177,11 @@ function EditAccount(props){
 
                     {(changeEmail === true)
                         ?
-                        <ConfirmContainer>
-                            <ConfirmContainerLabel>{t('EditAccount.emailedit_text')}</ConfirmContainerLabel>
-                            <AcceptButton type="submit" onClick={confirmChangeEmail}>{t('EditAccount.emailedit_accept')}</AcceptButton>
-                            <RejectButton onClick={resetChangeEmail}>{t('EditAccount.emailedit_reject')}</RejectButton>
-                        </ConfirmContainer>
+                        <ConfirmBox 
+                            title={t('EditAccount.emailedit_text')}
+                            onAccept={confirmChangeEmail}
+                            onRecuse={resetChangeEmail}
+                        />
                         :
                         <input ref={btnRef} type="submit" value={t('EditAccount.form_submit')}/>
                     }

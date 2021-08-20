@@ -17,12 +17,15 @@ export const English = {
         delete_account: 'Delete Account',
         change_password: 'Change Password',
         account: 'Account',
-        modal_text: 'Are you sure you want to delete your account?',
-        modal_yes: 'Yes',
-        modal_no: 'No'
+        modal_text: 'Are you sure you want to delete your account?'
       },
       Footer: {
         github: 'Link to project on GitHub'
+      },
+      ConfirmBox: {
+        text: 'Missing Title',
+        accept: 'Yes',
+        recuse: 'No'
       },
       Home: {
       	title: 'Home Page',
@@ -86,9 +89,7 @@ export const English = {
       	form_label1: 'Name:',
       	form_label2: 'Email:',
       	form_submit: 'Update',
-        emailedit_text: 'When changing your email you will need to confirm the email again. Are you sure you want to change your email?',
-        emailedit_accept: 'Yes',
-        emailedit_reject: 'No'
+        emailedit_text: 'When changing your email you will need to confirm the email again. Are you sure you want to change your email?'
       },
       EditPassword: {
       	title: 'Change Password',

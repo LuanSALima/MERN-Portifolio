@@ -25,6 +25,9 @@ export const Content = styled.div`
 `;
 
 export const Close = styled.div`
+	position: relative;
+	top: -1.4rem;
+
 	color: #aaa;
 	float: right;
 	font-size: 28px;
