@@ -14,8 +14,12 @@ export const Portuguese  = {
         login: 'Login',
         logout: 'Sair',
         edit_account: 'Editar Conta',
+        delete_account: 'Deletar Conta',
         change_password: 'Alterar Senha',
-        account: 'Conta'
+        account: 'Conta',
+        modal_text: 'Tem certeza que deseja deletar sua conta?',
+        modal_yes: 'Sim',
+        modal_no: 'Não'
       },
       Footer: {
         github: 'Link para o projeto no GitHub'

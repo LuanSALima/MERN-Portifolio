@@ -34,6 +34,7 @@
 	padding: 0 20px;
 
 	cursor: pointer;
+	color: var(--color-font-primary);
 
 	transition: all 0.4s;
 }

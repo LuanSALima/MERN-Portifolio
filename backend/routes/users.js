@@ -77,6 +77,24 @@ router.route('/account/update').post(authorized(), async (request, response) => 
 	}
 });
 
+router.route('/account/delete').delete(authorized(), async (request, response) => {
+	try {
+		const user = await User.findByIdAndDelete(request.user.id);
+
+		if(!user) {
+			throw new Error(request.t('user_notfound'));
+		}
+
+		return response.json({
+			'success': true,
+			'message': 'Conta excluida com sucesso'
+		});
+
+	} catch (error) {
+		return response.status(400).json(handleError(error, request));
+	}
+});
+
 router.route('/password-update').post(authorized(), async (request, response) => {
 	try {
 		const { actualPassword, newPassword } = request.body;

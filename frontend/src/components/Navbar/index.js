@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import { Navbar, NavDropdown } from "react-bootstrap";
 
@@ -11,7 +11,50 @@ import './styles.css';
 
 import { withTranslation } from 'react-i18next';
 
+import api from '../../services/api';
+
+import Modal from '../Modal';
+
+import { ConfirmContainer, ConfirmContainerLabel, AcceptButton, RejectButton } from '../../styles/default';
+
 class Header extends Component {
+
+	constructor(props) {
+		super(props);
+
+		/*Fazendo a bind para que o 'this' usado nas funções façam referencia a classe*/
+		this.removeUser = this.removeUser.bind(this);
+		this.openModal = this.openModal.bind(this);
+		this.closeModal = this.closeModal.bind(this);
+
+		this.state = {
+		    modalIsOpen: false
+		}
+	}
+
+	removeUser = () => {
+		api.delete("api/users/account/delete")
+			.then(response => {
+				if(response.data.success) {
+					this.closeModal();
+					jwt.removeUser();
+		            jwt.removeAccessToken();
+		            jwt.removeRefreshToken();
+		            this.props.history.push("/");
+				}
+			})
+			.catch(error => {
+				
+			})
+	}
+
+	openModal = () => {
+		this.setState({modalIsOpen: true});
+	}
+
+	closeModal = () => {
+		this.setState({modalIsOpen: false});
+	}
 
 	render() {
 		const { t, i18n } = this.props;
@@ -41,6 +84,7 @@ class Header extends Component {
 							<NavDropdown alignRight title={jwt.getUser() ? jwt.getUser().username : t('Navbar.account')} id="collasible-nav-dropdown">
 								<Link to="/editar-conta" className="barra-dropdown-item">{t('Navbar.edit_account')}</Link>
 								<Link to="/alterar-senha" className="barra-dropdown-item">{t('Navbar.change_password')}</Link>
+								<span onClick={this.openModal}>{t('Navbar.delete_account')}</span>
 							</NavDropdown>
 							<Link to="/logout">{t('Navbar.logout')}</Link>
 						</div>
@@ -57,10 +101,19 @@ class Header extends Component {
 				</Navbar.Collapse>
 			</Navbar>
 			{(jwt.isAuthenticated() && !jwt.isEmailConfirmed()) && <SendEmailToken />}
+			{(this.state.modalIsOpen && 
+				<Modal onClose={this.closeModal}>
+					<ConfirmContainer>
+						<ConfirmContainerLabel>{t('Navbar.modal_text')}</ConfirmContainerLabel>
+						<AcceptButton onClick={this.removeUser}>{t('Navbar.modal_yes')}</AcceptButton>
+						<RejectButton onClick={this.closeModal}>{t('Navbar.modal_no')}</RejectButton>
+					</ConfirmContainer>
+				</Modal>
+			)}
 			</>
 		);
 	}
 
 }
 
-export default withTranslation()(Header);
+export default withTranslation()(withRouter(Header));

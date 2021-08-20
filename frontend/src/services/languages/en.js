@@ -14,8 +14,12 @@ export const English = {
         login: 'Login',
         logout: 'Logout',
         edit_account: 'Edit Account',
+        delete_account: 'Delete Account',
         change_password: 'Change Password',
-        account: 'Account'
+        account: 'Account',
+        modal_text: 'Are you sure you want to delete your account?',
+        modal_yes: 'Yes',
+        modal_no: 'No'
       },
       Footer: {
         github: 'Link to project on GitHub'
