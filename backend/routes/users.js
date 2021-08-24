@@ -85,6 +85,8 @@ router.route('/account/delete').delete(authorized(), async (request, response) =
 			throw new Error(request.t('user_notfound'));
 		}
 
+		await RefreshToken.findOneAndDelete({user: request.user.id});
+
 		return response.json({
 			'success': true,
 			'message': 'Conta excluida com sucesso'

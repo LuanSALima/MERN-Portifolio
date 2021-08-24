@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
 	display: flex;
 	align-content: center;
+	justify-content: center;
 
 	@media(max-width: 995px) {
 		display: block;

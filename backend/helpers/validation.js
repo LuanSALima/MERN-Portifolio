@@ -3,13 +3,6 @@ const handleError = (error, request) => {
   let errors = {};
 
   if (error.name === "CastError") {
-    /*
-
-      Validado errado!!!
-
-      console.log(error);
-
-    */
     if(error.kind === "ObjectId") {
       message = request.t('error_usernotfound');
     }
