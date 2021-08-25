@@ -4,7 +4,7 @@
   "description": "Projeto criado utilizando MERN Stack - MongoDB Atlas, Express.JS, React.JS e Node.JS",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --detectOpenHandles",
     "build": "cd frontend && npm run build",
     "install-frontend": "cd frontend && npm install",
     "heroku-postbuild": "npm run install-frontend && npm run build",
@@ -39,6 +39,8 @@
   },
   "devDependencies": {
     "concurrently": "^6.0.0",
-    "nodemon": "^2.0.7"
+    "jest": "26.6.0",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.6"
   }
 }
