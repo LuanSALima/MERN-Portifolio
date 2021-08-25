@@ -6,6 +6,7 @@
 	"user_updated": "Usuário atualizado!",
 	"user_deleted": "Usuário deletado!",
 	"user_passupdated": "Senha alterada com sucesso!",
+	"user_accountremoved": "Conta excluída com sucesso!",
 	"user_emailsent": "Email enviado!",
 	"user_emailconfirmed": "Email Confirmado com sucesso!",
 	"user_empty": "Não há Usuários Cadastrados no Banco de Dados!",

@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
 
 const i18next = require('./backend/middlewares/i18n.middleware');
 
@@ -13,18 +12,6 @@ app.use(express.json());
 
 app.use(i18next.middleware());
 
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, {
-	useNewUrlParser: true,
-	useCreateIndex: true,
-	useUnifiedTopology: true,
-	useFindAndModify: false, //Ao utilizar o método findByIdAndUpdate e findByIdAndDelete gerava um warning, isso remove o warning
-}).catch(err => console.log('Erro ao Conectar ao MongoDB: ' + err));
-
-const connection = mongoose.connection;
-connection.once('open', () => {
-	console.log("MongoDB database connection established successfully");
-});
 
 const usersRouter = require('./backend/routes/users.js');
 app.use('/api/users', usersRouter);

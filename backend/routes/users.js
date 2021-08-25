@@ -89,7 +89,7 @@ router.route('/account/delete').delete(authorized(), async (request, response) =
 
 		return response.json({
 			'success': true,
-			'message': 'Conta excluida com sucesso'
+			'message': request.t('user_accountremoved')
 		});
 
 	} catch (error) {
@@ -120,7 +120,7 @@ router.route('/password-update').post(authorized(), async (request, response) =>
 			'message': request.t('user_passupdated')
 		});
 	} catch (error) {
-		return response.status(404).json(handleError(error, request));
+		return response.status(400).json(handleError(error, request));
 	}
 });
 
@@ -142,7 +142,7 @@ router.route('/account').get(authorized(), async (request, response) => {
 			user
 		});
 	} catch (error) {
-		return response.status(404).json(handleError(error, request));
+		return response.status(400).json(handleError(error, request));
 	}
 });
 

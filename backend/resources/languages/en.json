@@ -6,6 +6,7 @@
 	"user_updated": "User Updated!",
 	"user_deleted": "User deleted!",
 	"user_passupdated": "Password changed successfully!",
+	"user_accountremoved": "Account deleted successfully!",
 	"user_emailsent": "Email sent!",
 	"user_emailconfirmed": "Email Confirmed Successfully!",
 	"user_empty": "There are no Registered Users in the Database!",
