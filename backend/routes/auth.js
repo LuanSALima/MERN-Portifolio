@@ -83,7 +83,7 @@ router.route('/authenticate').post( async (request, response) => {
       });
   } catch (error) {
     response
-      .status(200)
+      .status(400)
       .json(handleError(error, request));
   }
 });
@@ -105,7 +105,7 @@ router.route('/signUp').post( async (request, response) => {
         message: request.t('user_created')
       });
     } catch (error) {
-      return response.status(200).json(handleError(error, request));
+      return response.status(400).json(handleError(error, request));
     }
 });
 
@@ -176,7 +176,7 @@ router.route('/refresh-token').post(async (request, response) => {
   try {
     const { refreshToken: requestToken } = request.body;
 
-    if(requestToken === null) {
+    if(!requestToken) {
       throw new Error(request.t('auth_refreshtokenrequired'));
     }
 

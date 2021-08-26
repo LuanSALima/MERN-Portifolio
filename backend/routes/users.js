@@ -233,7 +233,7 @@ router.route('/update/:id').post(authorized([Role.User, Role.Admin]), async (req
 				throw new Error(request.t('user_userupdateerror'));
 			}
 
-			await User.findByIdAndUpdate(request.params.id, { username, email }, {
+			await User.findByIdAndUpdate(request.params.id, { username }, {
 		        new: false,
 		        runValidators: true,
 		    });

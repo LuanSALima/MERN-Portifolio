@@ -97,7 +97,7 @@ describe("GET /users/list", () => {
 			});
 	});
 
-	it("should return 401, success to be false and message 'Não possui permissão para acessar esta função'", () => {
+	it("Guest should not access and return 401, success to be false and message 'Não possui permissão para acessar esta função'", () => {
 		return request.get('/api/users/list')
 			.set('Authorization', guestToken)
 			.expect(401)
@@ -107,7 +107,16 @@ describe("GET /users/list", () => {
 			});
 	});
 
-	it("should return 200 and success to be true", () => {
+	it("User should access route and return 200 and success to be true", () => {
+		return request.get('/api/users/list')
+			.set('Authorization', userToken)
+			.expect(200)
+			.then(response => {
+				expect(response.body.success).toBe(true);
+			});
+	});
+
+	it("Admin should access route and return 200 and success to be true", () => {
 		return request.get('/api/users/list')
 			.set('Authorization', adminToken)
 			.expect(200)
@@ -151,7 +160,7 @@ describe("GET /users/{id}", () => {
 			});
 	});
 
-	it("should return 401, success to be false and message 'Não possui permissão para acessar esta função'", () => {
+	it("Guest should not access and return 401, success to be false and message 'Não possui permissão para acessar esta função'", () => {
 		return request.get(`/api/users/${guest._id}`)
 			.set('Authorization', guestToken)
 			.expect(401)
@@ -161,7 +170,19 @@ describe("GET /users/{id}", () => {
 			});
 	});
 
-	it("should return 200, success to be true and user object with username", () => {
+	it("User should access and return 200, success to be true and user object with username", () => {
+		return request.get(`/api/users/${guest._id}`)
+			.set('Authorization', userToken)
+			.expect(200)
+			.then(response => {
+				expect(response.body.success).toBe(true);
+				expect(response.body.user).toStrictEqual({
+					username: guest.username
+				});
+			});
+	});
+
+	it("Admin should access and return 200, success to be true and user object with username", () => {
 		return request.get(`/api/users/${guest._id}`)
 			.set('Authorization', adminToken)
 			.expect(200)
@@ -220,7 +241,7 @@ describe("POST /users/update/{id}", () => {
 			});
 	});
 
-	it("should return 401, success to be false and message 'Não possui permissão para acessar esta função'", () => {
+	it("Guest should not access and return 401, success to be false and message 'Não possui permissão para acessar esta função'", () => {
 		return request.post(`/api/users/update/${guest._id}`)
 			.set('Authorization', guestToken)
 			.expect(401)
@@ -230,7 +251,28 @@ describe("POST /users/update/{id}", () => {
 			});
 	});
 
-	it("should return 200,success to be true, return message 'Usuário atualizado!' and database value be updated", () => {
+	it("User should access and return 200,success to be true, return message 'Usuário atualizado!' and database value be updated", () => {
+		const guestBefore = {
+			username: guest.username
+		};
+
+		return request.post(`/api/users/update/${guest._id}`)
+			.set('Authorization', userToken)
+			.send({username: 'guestUpdatedByUser'})
+			.expect(200)
+			.then(response => {
+				expect(response.body.success).toBe(true);
+				expect(response.body.message).toBe("Usuário atualizado!");
+
+				User.findById(guest._id)
+					.then(userResponse => {
+						expect(userResponse.username).not.toBe(guestBefore.username);
+						guest.username = userResponse.username;
+					});
+			});
+	});
+
+	it("Admin should access and return 200,success to be true, return message 'Usuário atualizado!' and database value be updated", () => {
 		const guestBefore = {
 			username: guest.username
 		};
@@ -294,7 +336,7 @@ describe("DELETE /users/{id}", () => {
 			});
 	});
 
-	it("should return 401, success to be false and message 'Não possui permissão para acessar esta função'", () => {
+	it("Guest should not delete any User, return 401, success to be false and message 'Não possui permissão para acessar esta função'", () => {
 		return request.delete(`/api/users/${guest._id}`)
 			.set('Authorization', guestToken)
 			.expect(401)
@@ -304,7 +346,7 @@ describe("DELETE /users/{id}", () => {
 			});
 	});
 
-	it("should return 400, success to be false and message 'Não é possível excluir um usuário que possui o e-mail confirmado'", () => {
+	it("User should not delete another User, return 400, success to be false and message 'Não é possível excluir um usuário que possui o e-mail confirmado'", () => {
 		return request.delete(`/api/users/${user._id}`)
 			.set('Authorization', userToken)
 			.expect(400)
@@ -314,7 +356,7 @@ describe("DELETE /users/{id}", () => {
 			});
 	});
 
-	it("should return 400, success to be false and message 'Não é possível excluir um usuário administrador'", () => {
+	it("User should not delete one Admin, return 400, success to be false and message 'Não é possível excluir um usuário administrador'", () => {
 		return request.delete(`/api/users/${admin._id}`)
 			.set('Authorization', userToken)
 			.expect(400)
@@ -324,7 +366,7 @@ describe("DELETE /users/{id}", () => {
 			});
 	});
 
-	it("should return 200, success to be true, return message 'Usuário deletado!'", () => {
+	it("User should delete one Guest, return 200, success to be true, return message 'Usuário deletado!'", () => {
 		return request.delete(`/api/users/${guest._id}`)
 			.set('Authorization', userToken)
 			.expect(200)
