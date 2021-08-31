@@ -102,7 +102,8 @@ class Header extends Component {
 			{(jwt.isAuthenticated() && !jwt.isEmailConfirmed()) && <SendEmailToken />}
 			{(this.state.modalIsOpen && 
 				<Modal onClose={this.closeModal}>
-					<ConfirmBox 
+					<ConfirmBox
+						i18nT={t}
 						title={t('Navbar.modal_text')}
 						onAccept={this.removeUser}
 						onRecuse={this.closeModal}

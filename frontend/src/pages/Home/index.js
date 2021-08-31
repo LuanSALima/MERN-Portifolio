@@ -54,7 +54,7 @@ class Home extends Component {
 						</Content>
 					</Container>
 				</CenterContent>
-				<Footer />
+				<Footer i18nT={t}/>
 			</Page>
 		)
 	}

@@ -26,7 +26,7 @@ class NotFound extends Component {
 				<CenterContent>
 					<Title>{t('NotFound.title')}</Title>
 				</CenterContent>
-				<Footer />
+				<Footer i18nT={t}/>
 			</Page>
 		);
 	}

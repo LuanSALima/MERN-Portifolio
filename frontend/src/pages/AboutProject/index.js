@@ -209,7 +209,7 @@ class AboutProject extends Component {
 						</Card>
                     </Accordion>
 				</CenterContent>
-				<Footer />
+				<Footer i18nT={t}/>
 			</Page>
 		)
 	}

@@ -140,7 +140,7 @@ function EditPassword(props){
                     <input ref={btnRef} type="submit" value={t('EditPassword.form_submit')} />
                 </Form>
 			</CenterContent>
-            <Footer />
+            <Footer i18nT={t}/>
 		</Page>
 	);
 }

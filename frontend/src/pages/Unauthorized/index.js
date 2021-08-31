@@ -26,7 +26,7 @@ class Unauthorized extends Component {
 				<CenterContent>
 					<Title>{t('Unauthorized.title')}</Title>
 				</CenterContent>
-				<Footer />
+				<Footer i18nT={t}/>
 			</Page>
 		);
 	}

@@ -11,6 +11,7 @@ export const FooterContainer = styled.div`
 
 	span {
 		color: white;
+		margin-right: 10px;
 	}
 
 	a {

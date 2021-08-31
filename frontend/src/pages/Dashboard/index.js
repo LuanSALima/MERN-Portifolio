@@ -194,7 +194,7 @@ class Dashboard extends Component {
 						</TableContainer>
 					</Container>
 				</Content>
-				<Footer />
+				<Footer i18nT={t}/>
 			</Page>
 		);
 	}

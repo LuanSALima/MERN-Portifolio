@@ -177,7 +177,8 @@ function EditAccount(props){
 
                     {(changeEmail === true)
                         ?
-                        <ConfirmBox 
+                        <ConfirmBox
+                            i18nT={t}
                             title={t('EditAccount.emailedit_text')}
                             onAccept={confirmChangeEmail}
                             onRecuse={resetChangeEmail}

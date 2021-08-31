@@ -57,7 +57,7 @@ class PlansProject extends Component {
 						</Card.Body>
 					</Card>
 				</CenterContent>
-				<Footer />
+				<Footer i18nT={t}/>
 			</Page>
 		)
 	}

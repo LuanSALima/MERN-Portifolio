@@ -139,7 +139,7 @@ class EditUser extends Component {
 						)}
 					</Formik>
 				</CenterContent>
-				<Footer />
+				<Footer i18nT={t}/>
 			</Page>
 		);
 	}

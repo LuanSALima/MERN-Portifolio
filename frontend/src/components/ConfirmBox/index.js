@@ -1,12 +1,8 @@
 import React from 'react';
 
-import { useTranslation } from 'react-i18next';
-
 import { ConfirmContainer, ConfirmContainerLabel, AcceptButton, RejectButton } from './styles';
 
 function ConfirmBox(props) {
-
-	const { t } = useTranslation();
 
 	return (
 		<ConfirmContainer>
@@ -14,7 +10,7 @@ function ConfirmBox(props) {
 				{props.title?
 					props.title
 					:
-					t('ConfirmBox.text')
+					props.i18nT('ConfirmBox.text')
 				}
 			</ConfirmContainerLabel>
 			<AcceptButton
@@ -24,14 +20,14 @@ function ConfirmBox(props) {
 				{props.acceptText?
 					props.acceptText
 					:
-					t('ConfirmBox.accept')
+					props.i18nT('ConfirmBox.accept')
 				}
 			</AcceptButton>
 			<RejectButton onClick={props.onRecuse}>
 				{props.recuseText?
 					props.recuseText
 					:
-					t('ConfirmBox.recuse')
+					props.i18nT('ConfirmBox.recuse')
 				}
 			</RejectButton>
 		</ConfirmContainer>

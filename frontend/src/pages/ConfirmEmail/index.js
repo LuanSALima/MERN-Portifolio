@@ -83,7 +83,7 @@ class ConfirmEmail extends Component {
 
 					<h2>{this.state.message}</h2>
 				</CenterContent>
-				<Footer />
+				<Footer i18nT={t}/>
 			</Page>
 		);
 	}

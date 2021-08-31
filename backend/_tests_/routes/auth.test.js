@@ -59,7 +59,7 @@ describe("POST /auth/signUp", () => {
 	});
 });
 
-describe("GET /auth/authenticate", () => {
+describe("POST /auth/authenticate", () => {
 	it("should return 400, success to be false and message to be 'Usuário não encontrado!'", () => {
 		return request.post('/api/auth/authenticate')
 			.send({
