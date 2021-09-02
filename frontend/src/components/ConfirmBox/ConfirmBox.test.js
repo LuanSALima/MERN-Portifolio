@@ -26,7 +26,7 @@ it('should render the accept text at accept button passed by acceptText prop', (
 		/>
 	);
 
-	const acceptButton = screen.getByRole('button', { name: acceptText});
+	const acceptButton = screen.getByRole('button', { name: acceptText });
 	expect(acceptButton).toBeInTheDocument();
 });
 
@@ -40,7 +40,7 @@ it('should render the reject text at reject button passed by recuseText prop', (
 		/>
 	);
 
-	const rejectButton = screen.getByRole('button', { name: recuseText});
+	const rejectButton = screen.getByRole('button', { name: recuseText });
 	expect(rejectButton).toBeInTheDocument();
 });
 
@@ -60,8 +60,8 @@ it('should render the title, accept text and reject text passed by props', () =>
 	);
 
 	const titleElement = screen.getByText(title);
-	const acceptButton = screen.getByRole('button', { name: acceptText});
-	const rejectButton = screen.getByRole('button', { name: recuseText});
+	const acceptButton = screen.getByRole('button', { name: acceptText });
+	const rejectButton = screen.getByRole('button', { name: recuseText });
 
 	expect(titleElement && acceptButton && rejectButton).toBeInTheDocument();
 });

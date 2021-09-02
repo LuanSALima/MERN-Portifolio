@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
+import Header from "../../components/Header";
 
 import Footer from '../../components/Footer';
 
@@ -89,7 +89,7 @@ function EditPassword(props){
 
 	return (
 		<Page>
-		    <Navbar />
+		    <Header />
 			<CenterContent>
                 <Title>{t('EditPassword.title')}</Title>
 

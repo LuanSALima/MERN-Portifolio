@@ -15,6 +15,7 @@ function PasswordInput(props) {
 	return (
 		<Container>
 			<input
+				data-testid="input-element"
 				type={ (showPassword) ? 'text' : 'password' }
 				name={props.name}
 				value={props.value}
@@ -23,9 +24,9 @@ function PasswordInput(props) {
 			/>
 			{(showPassword)
 			?
-			<Visible onClick={changeShowPassword} />
+			<Visible alt={"Click to Not Show Password"} onClick={changeShowPassword} />
 			:
-			<NotVisible onClick={changeShowPassword} />
+			<NotVisible alt={"Click to Show Password"} onClick={changeShowPassword} />
 			}
 		</Container>
 	);

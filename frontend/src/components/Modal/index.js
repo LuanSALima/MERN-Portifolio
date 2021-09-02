@@ -6,8 +6,8 @@ function Modal(props) {
 
 	return (
 		<Fade>
-			<Content>
-				<Close onClick={props.onClose}>&times;</Close>
+			<Content role="dialog">
+				<Close aria-label="Close Modal" onClick={props.onClose}>&times;</Close>
 				{props.children}
 			</Content>
 		</Fade>

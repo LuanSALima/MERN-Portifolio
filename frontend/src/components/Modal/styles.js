@@ -24,19 +24,23 @@ export const Content = styled.div`
 	box-shadow: 2px 2px 8px 1px var(--color-dark);
 `;
 
-export const Close = styled.div`
+export const Close = styled.button`
+	all: initial;
+
 	position: relative;
 	top: -1.4rem;
 
 	color: #aaa;
 	float: right;
-	font-size: 28px;
+	font-size: 30px;
 	font-weight: bold;
 
 	&:hover,
 	&:focus {
-	  color: black;
-	  text-decoration: none;
-	  cursor: pointer;
+		background-color: unset;
+		border: none;
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
 	}
   `;

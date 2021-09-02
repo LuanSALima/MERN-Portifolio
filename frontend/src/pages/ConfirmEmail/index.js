@@ -4,7 +4,7 @@ import api from "../../services/api";
 
 import { withRouter } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
+import Header from "../../components/Header";
 
 import Footer from '../../components/Footer';
 
@@ -71,7 +71,7 @@ class ConfirmEmail extends Component {
 
 		return (
 			<Page>
-			    <Navbar />
+			    <Header />
 				<CenterContent>
 
 					{(this.state.loading === true) && 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { withRouter } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
+import Header from "../../components/Header";
 
 import Footer from '../../components/Footer';
 
@@ -22,7 +22,7 @@ class NotFound extends Component {
 
 		return (
 			<Page>
-			    <Navbar />
+			    <Header />
 				<CenterContent>
 					<Title>{t('NotFound.title')}</Title>
 				</CenterContent>

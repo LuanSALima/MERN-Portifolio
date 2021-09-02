@@ -6,17 +6,15 @@ import { Container, Text, Button  } from './styles';
 
 import { SucessMessage, ErrorMessage, ProgressBar } from '../../styles/default';
 
-import { useTranslation } from 'react-i18next';
-
-function SendEmailToken() {
+function SendEmailToken(props) {
 
 	const [message, setMessage] = useState("");
 	const [isSuccess, setIsSuccess] = useState(null);
 	const [loading, setLoading] = useState(false);
 
-	const { t } = useTranslation();
-
 	const btnRef = useRef();
+
+	const t = props.i18nT;
 
 	const sendEmail = async (e) => {
 		e.preventDefault();

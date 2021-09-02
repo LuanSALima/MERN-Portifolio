@@ -4,13 +4,15 @@ import { ConfirmContainer, ConfirmContainerLabel, AcceptButton, RejectButton } f
 
 function ConfirmBox(props) {
 
+	const t = props.i18nT;
+
 	return (
 		<ConfirmContainer>
 			<ConfirmContainerLabel>
 				{props.title?
 					props.title
 					:
-					props.i18nT('ConfirmBox.text')
+					t('ConfirmBox.text')
 				}
 			</ConfirmContainerLabel>
 			<AcceptButton
@@ -20,14 +22,14 @@ function ConfirmBox(props) {
 				{props.acceptText?
 					props.acceptText
 					:
-					props.i18nT('ConfirmBox.accept')
+					t('ConfirmBox.accept')
 				}
 			</AcceptButton>
 			<RejectButton onClick={props.onRecuse}>
 				{props.recuseText?
 					props.recuseText
 					:
-					props.i18nT('ConfirmBox.recuse')
+					t('ConfirmBox.recuse')
 				}
 			</RejectButton>
 		</ConfirmContainer>

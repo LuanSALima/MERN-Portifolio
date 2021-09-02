@@ -9,6 +9,6 @@ it('should render the title passed by title prop', () => {
 		<Footer i18nT={key => key} />
 	);
 
-	const githubLink = screen.getByRole('link', { name: github});
+	const githubLink = screen.getByRole('link', { name: github });
 	expect(githubLink).toBeInTheDocument();
 });

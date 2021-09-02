@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Navbar from "../../components/Navbar";
+import Header from "../../components/Header";
 
 import Footer from '../../components/Footer';
 
@@ -25,7 +25,7 @@ class PlansProject extends Component {
 
 		return (
 			<Page>
-			    <Navbar />
+			    <Header />
 				<CenterContent>
 					<Title>{t('PlansProject.title')}</Title>
 					

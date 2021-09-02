@@ -5,7 +5,7 @@ import jwt from "../../services/auth";
 
 import { withRouter } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
+import Header from "../../components/Header";
 
 import Footer from '../../components/Footer';
 
@@ -41,7 +41,7 @@ class SignIn extends Component {
 
 		return (
 			<Page>
-			    <Navbar />
+			    <Header />
 				<CenterContent>
 					<Title>{t('SignIn.title')}</Title>
 					<ErrorMessage>{this.state.error}</ErrorMessage>
