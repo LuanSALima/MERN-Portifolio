@@ -16,6 +16,7 @@ function PasswordInput(props) {
 		<Container>
 			<input
 				data-testid="input-element"
+				id={props.id}
 				type={ (showPassword) ? 'text' : 'password' }
 				name={props.name}
 				value={props.value}

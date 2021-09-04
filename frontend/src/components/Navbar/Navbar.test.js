@@ -12,10 +12,21 @@ import auth from '../../services/auth';
 const MockNavbar = (props) => {
 	return (
 		<BrowserRouter>
-			<Navbar i18n={i18n} i18nT={useTranslation().t} openModal={props.openModal}/>
+			<Navbar i18n={i18n} i18nT={useTranslation().t} openModal={props.openModal} testid={props.testid}/>
 		</BrowserRouter>
 	);
 }
+
+//Testando se atribui corretamente o data-testid recebido por prop
+it('should receive and access the data-testid received by prop', () => {
+	const testIdName = 'Teste';
+	render(
+		<MockNavbar testid={testIdName}/>
+	);
+
+	const rootElement = screen.getByTestId(testIdName);
+	expect(rootElement).toBeInTheDocument();
+})
 
 //Testando se o possui os links na barra de navegação de um usuário não autenticado
 it('should render all links to pages accessible by not authenticated user', () => {

@@ -107,8 +107,9 @@ class SignIn extends Component {
 			                    }
 
 								<FormGroup>
-									<label>{t('SignIn.form_label1')}</label>
-									<input	type="text"
+									<label htmlFor="email">{t('SignIn.form_label1')}</label>
+									<input	id="email"
+											type="text"
 											name="email"
 											value={props.values.email}
 											onChange={props.handleChange}
@@ -119,8 +120,9 @@ class SignIn extends Component {
 			                            : null}
 								</FormGroup>
 								<FormGroup>
-									<label>{t('SignIn.form_label2')}</label>
-									<PasswordInput
+									<label htmlFor="password">{t('SignIn.form_label2')}</label>
+									<PasswordInput 
+										id="password"
 										name="password"
 										value={props.values.password}
 										onChange={props.handleChange}
@@ -140,6 +142,6 @@ class SignIn extends Component {
 			</Page>
 		);
 	}
-}
+};
 
 export default withTranslation()(withRouter(SignIn));

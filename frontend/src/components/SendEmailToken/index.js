@@ -61,8 +61,8 @@ function SendEmailToken(props) {
 	}
 
 	return (
-		<Container>
-			<Text>{t('SendEmailToken.message_text')}</Text>
+		<Container data-testid={props.testid}>
+			<Text data-testid="text-element">{t('SendEmailToken.message_text')}</Text>
 			<Button ref={btnRef} onClick={sendEmail}>{t('SendEmailToken.button_text')}</Button>
 
 			{(isSuccess === true)
@@ -73,7 +73,7 @@ function SendEmailToken(props) {
 			}
 
 			{(loading === true) && 
-				<ProgressBar />
+				<ProgressBar data-testid="progressBar-element"/>
 			}
 		</Container>
 	);

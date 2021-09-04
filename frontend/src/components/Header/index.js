@@ -56,17 +56,19 @@ class Header extends Component {
 		return (
 			<header>
 				<Navbar
+					testid="navbar"
 					i18nT={t}
 					i18n={i18n}
 					openModal={this.openModal}
 				/>
 				{(jwt.isAuthenticated() && !jwt.isEmailConfirmed()) &&
 					<SendEmailToken
+						testid="sendemailtoken"
 						i18nT={t}
 					/>
 				}
 				{(this.state.modalIsOpen && 
-					<Modal onClose={this.closeModal}>
+					<Modal testid="modal" onClose={this.closeModal}>
 						<ConfirmBox
 							i18nT={t}
 							title={t('Navbar.modal_text')}

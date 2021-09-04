@@ -22,7 +22,7 @@ function Navbar(props){
 	}
 
 	return (
-		<BootstrapNavbar expand="lg" variant="dark" className="barra-navegacao">
+		<BootstrapNavbar data-testid={props.testid} expand="lg" variant="dark" className="barra-navegacao">
 			<div className="barra-navegacao-items barra-navegacao-marca">
 				<Link to="/">Home</Link>
 			</div>
@@ -35,30 +35,28 @@ function Navbar(props){
 					<Link to="/sobre-projeto">{t('Navbar.about_project')}</Link>
 					<Link to="/planos-projeto">{t('Navbar.plans_project')}</Link>
 				</div>
-				{jwt.isAuthenticated() 
-				?
-					<div className="barra-navegacao-items">
-						<NavDropdown alignRight title={t('Navbar.change_language')}>
-							<span onClick={changeLanguageEn}>English</span>
-							<span onClick={changeLanguagePt}>Português</span>
-						</NavDropdown>
-						<NavDropdown alignRight title={jwt.getUser() ? jwt.getUser().username : t('Navbar.account')} id="collasible-nav-dropdown">
-							<Link to="/editar-conta" className="barra-dropdown-item">{t('Navbar.edit_account')}</Link>
-							<Link to="/alterar-senha" className="barra-dropdown-item">{t('Navbar.change_password')}</Link>
-							<span role="button" onClick={props.openModal}>{t('Navbar.delete_account')}</span>
-						</NavDropdown>
-						<Link to="/logout">{t('Navbar.logout')}</Link>
-					</div>
-				:
-					<div className="barra-navegacao-items">
-						<NavDropdown alignRight title={t('Navbar.change_language')}>
-							<span role="button" onClick={changeLanguageEn}>English</span>
-							<span role="button" onClick={changeLanguagePt}>Português</span>
-						</NavDropdown>
-						<Link to="/registrar">{t('Navbar.register')}</Link>
-						<Link to="/login">{t('Navbar.login')}</Link>
-					</div>
-				}
+				<div className="barra-navegacao-items">
+					<NavDropdown alignRight title={t('Navbar.change_language')}>
+						<span role="button" onClick={changeLanguageEn}>English</span>
+						<span role="button" onClick={changeLanguagePt}>Português</span>
+					</NavDropdown>
+					{jwt.isAuthenticated() 
+					?
+						<>
+							<NavDropdown alignRight title={jwt.getUser() ? jwt.getUser().username : t('Navbar.account')} id="collasible-nav-dropdown">
+								<Link to="/editar-conta" className="barra-dropdown-item">{t('Navbar.edit_account')}</Link>
+								<Link to="/alterar-senha" className="barra-dropdown-item">{t('Navbar.change_password')}</Link>
+								<span role="button" onClick={props.openModal}>{t('Navbar.delete_account')}</span>
+							</NavDropdown>
+							<Link to="/logout">{t('Navbar.logout')}</Link>
+						</>
+					:
+						<>
+							<Link to="/registrar">{t('Navbar.register')}</Link>
+							<Link to="/login">{t('Navbar.login')}</Link>
+						</>
+					}
+				</div>
 			</BootstrapNavbar.Collapse>
 		</BootstrapNavbar>
 	);

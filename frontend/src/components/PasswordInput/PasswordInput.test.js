@@ -15,11 +15,13 @@ it('should have type password', () => {
 
 //Testando se o prop name e value é atribuido ao input
 it('should receive the name and value prop', () => {
+	const id="senha";
 	const inputName="senha";
 	const inputValue="Minha#Senha";
 	render(
 		<PasswordInput
 			onChange={key => key}
+			id={id}
 			name={inputName}
 			value={inputValue}
 		/>
@@ -27,6 +29,7 @@ it('should receive the name and value prop', () => {
 
 	const inputElement = screen.getByTestId('input-element');
 	expect(inputElement).toBeInTheDocument();
+	expect(inputElement).toHaveAttribute("id", id);
 	expect(inputElement).toHaveAttribute("name", inputName);
 	expect(inputElement).toHaveAttribute("value", inputValue);
 });
