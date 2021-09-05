@@ -54,7 +54,7 @@ class Header extends Component {
 		const { t, i18n } = this.props;
 
 		return (
-			<header>
+			<header data-testid="header">
 				<Navbar
 					testid="navbar"
 					i18nT={t}

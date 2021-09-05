@@ -5,7 +5,7 @@ import { FooterContainer } from './styles';
 function Footer(props) {
 
 	return (
-		<FooterContainer>
+		<FooterContainer data-testid="footer">
 			<span>
 				{props.i18nT('Footer.github')}
 			</span>

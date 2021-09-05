@@ -46,14 +46,16 @@ class EditUser extends Component {
                 }
 			})
 			.catch(error => {
-                if(error.response.data) {
-                    if(error.response.data.message) {
-                        this.setState({error: error.response.data.message});
-                    }
-                }
-                else{
-                    this.setState({error: t('Error.unexpectedresponse')});
-                }
+				if(error.response) {
+	                if(error.response.data) {
+	                    if(error.response.data.message) {
+	                        this.setState({error: error.response.data.message});
+	                    }
+	                }
+	                else{
+	                    this.setState({error: t('Error.unexpectedresponse')});
+	                }
+            	}
             });
 
 	}
@@ -122,8 +124,9 @@ class EditUser extends Component {
 			                    }
 
 								<FormGroup>
-			                        <label>{t('EditUser.form_label1')}</label>
-			                        <input  type="text"
+			                        <label htmlFor="username">{t('EditUser.form_label1')}</label>
+			                        <input  id="username"
+			                        		type="text"
 			                                name="username"
 											value={props.values.username}
 											onChange={props.handleChange}

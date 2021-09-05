@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
-import SignIn from '../SignIn';
+import SignUp from '../SignUp';
 
 //Cannot use withRouter without <Router>
-const MockSignIn = (props) => {
+const MockSignUp = (props) => {
 	return (
 		<BrowserRouter>
-			<SignIn />
+			<SignUp />
 		</BrowserRouter>
 	);
 }
@@ -15,7 +15,7 @@ const MockSignIn = (props) => {
 //Testando se a página possui o cabeçalho e rodapé
 it('should have header and footer rendered', () => {
 	render(
-		<MockSignIn />
+		<MockSignUp />
 	);
 
 	const headerElement = screen.getByTestId(/header/i);
@@ -25,11 +25,14 @@ it('should have header and footer rendered', () => {
 	expect(footerElement).toBeInTheDocument();
 });
 
-//Testando se a página possui input para email e senha e um botão para submit
-it('should have email and password input and a submit button', () => {
+//Testando se a página possui input para nome, email e senha e um botão para submit
+it('should have username, email and password input and a submit button', () => {
 	render(
-		<MockSignIn />
+		<MockSignUp />
 	);
+
+	const inputUsernameElement = screen.getByLabelText(/nome:/i);
+	expect(inputUsernameElement).toBeInTheDocument();
 
 	const inputEmailElement = screen.getByLabelText(/email:/i);
 	expect(inputEmailElement).toBeInTheDocument();
@@ -37,6 +40,6 @@ it('should have email and password input and a submit button', () => {
 	const inputPasswordElement = screen.getByLabelText(/senha:/i);
 	expect(inputPasswordElement).toBeInTheDocument();
 
-	const submitButtonElement = screen.getByRole('button', { name: /login/i });
+	const submitButtonElement = screen.getByRole('button', { name: /cadastrar/i });
 	expect(submitButtonElement).toBeInTheDocument();
 });

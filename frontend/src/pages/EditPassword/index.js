@@ -102,8 +102,9 @@ function EditPassword(props){
                     }
 
                     <FormGroup>
-                        <label>{t('EditPassword.form_label1')}</label>
+                        <label htmlFor="actualPassword">{t('EditPassword.form_label1')}</label>
                         <PasswordInput
+                            id="actualPassword"
                             name="actualPassword"
                             value={values.actualPassword}
                             onChange={handleChange}
@@ -114,8 +115,9 @@ function EditPassword(props){
                     </FormGroup>
 
                     <FormGroup>
-                        <label>{t('EditPassword.form_label2')}</label>
+                        <label htmlFor="newPassword">{t('EditPassword.form_label2')}</label>
                         <PasswordInput
+                            id="newPassword"
                             name="newPassword"
                             value={values.newPassword}
                             onChange={handleChange}
@@ -126,8 +128,9 @@ function EditPassword(props){
                     </FormGroup>
 
                     <FormGroup>
-                        <label>{t('EditPassword.form_label3')}</label>
+                        <label htmlFor="confirmNewPassword">{t('EditPassword.form_label3')}</label>
                         <PasswordInput
+                            id="confirmNewPassword"
                             name="confirmNewPassword"
                             value={values.confirmNewPassword}
                             onChange={handleChange}

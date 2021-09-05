@@ -14,8 +14,16 @@ const MockHeader = (props) => {
 	);
 }
 
-auth.removeUser();
-auth.removeAccessToken();
+//Testando se possui data-testid
+it('should receive and access the data-testid received by prop', () => {
+	const dataTestId = 'header';
+	render(
+		<MockHeader />
+	);
+
+	const rootElement = screen.getByTestId(dataTestId);
+	expect(rootElement).toBeInTheDocument();
+})
 
 //Testando se o Header apresenta os componentes corretamente para um usuário não autenticado
 it('should render only the Navbar', () => {
@@ -65,7 +73,7 @@ it('should not render the SendEmailToken to a user with email confirmed', () => 
 	expect(screen.queryByTestId('modal')).not.toBeInTheDocument();
 });
 
-//Testando se o modal é apresentado ao clicar no botão de remover usuário
+//Testando se o modal é apresentado ao clicar no botão de deletar conta
 it("should render the modal when authenticated user presses 'delete account' option", () => {
 	render(
 		<MockHeader />
@@ -77,7 +85,7 @@ it("should render the modal when authenticated user presses 'delete account' opt
 	const accountButton = screen.getByRole('button', { name: MockUser.username });
 	//Clica no botão do dropdown
 	fireEvent.click(accountButton);
-	//Clica no item deletar conta e espera que a função passada por prop tenha sido executada
+	//Clica no item deletar conta
 	const deleteAccountButton = screen.getByRole('button', { name: /Deletar Conta/i });
 	fireEvent.click(deleteAccountButton);
 	expect(screen.getByTestId('modal')).toBeInTheDocument();

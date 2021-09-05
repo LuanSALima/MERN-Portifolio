@@ -105,8 +105,9 @@ class SignUp extends Component {
 			                    }
 			                    
 								<FormGroup>
-									<label>{t('SignUp.form_label1')}</label>
-									<input	type="text"
+									<label htmlFor="username">{t('SignUp.form_label1')}</label>
+									<input	id="username"
+											type="text"
 											name="username"
 											value={props.values.username}
 											onChange={props.handleChange}
@@ -117,8 +118,9 @@ class SignUp extends Component {
 			                            : null}
 								</FormGroup>
 								<FormGroup>
-									<label>{t('SignUp.form_label2')}</label>
-									<input	type="email"
+									<label htmlFor="email">{t('SignUp.form_label2')}</label>
+									<input	id="email"
+											type="email"
 											name="email"
 											value={props.values.email}
 											onChange={props.handleChange}
@@ -129,8 +131,9 @@ class SignUp extends Component {
 			                            : null}
 								</FormGroup>
 								<FormGroup>
-									<label>{t('SignUp.form_label3')}</label>
+									<label htmlFor="password">{t('SignUp.form_label3')}</label>
 									<PasswordInput
+										id="password"
 										name="password"
 										value={props.values.password}
 										onChange={props.handleChange}
